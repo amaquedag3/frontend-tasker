@@ -7,6 +7,7 @@ import { RadioButton } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useAuth from '../../hooks/useAuth';
 import CustomModal from '../../components/CustomModal';
+import { createTask } from '../../../api';
 
 
 export default function TaskForm() {
@@ -42,41 +43,17 @@ export default function TaskForm() {
     }
 
     const saveTask = async () => {
-        const allUserTasks = await AsyncStorage.getItem('userTasks')
-        let newTask = JSON.parse(allUserTasks)
-
-
-        if(!newTask){
-            newTask = []
+        const newTask ={   
+            'title': title, 
+            'date': date,
+            'expectedDuration': expectedDuration, 
+            'idUser': idUser, 
+            'projectPhase': projectPhase,
+            'priority': priority,
+            'idUser': idUser
         }
-
-        newTask.push(
-            {   
-                'id': newTask.length,
-                'title': title, 
-                'date': date,
-                'expectedDuration': expectedDuration, 
-                'idUser': idUser, 
-                'projectPhase': projectPhase,
-                'prioriry': priority
-            
-            }
-        )
-
-        console.log(newTask)
-        try {
-            await AsyncStorage.setItem('userTasks', JSON.stringify(newTask))
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-
-    function cleanInputs(){
-        setTitle('')
-        setDate('')
-        setHours(0)
-        setMinutes(0)
+        
+        await createTask(newTask)
     }
 
     const validateInput = () => {
@@ -91,8 +68,6 @@ export default function TaskForm() {
             return false;
             //TODO: validar que no sea una fecha anterior a la actual
         }
-        console.log('DURATION', expectedDuration)
-        //TODO: Actualiza el valor a la segunda
         if(expectedDuration < 5){
             setError('Una tarea debe durar al menos 5 minutos')
             return false;

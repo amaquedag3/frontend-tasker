@@ -84,15 +84,30 @@ export const createTask = async(newTask) => {
                 'date': newTask.date,
                 'expectedDuration': newTask.expectedDuration,
                 'duration': newTask.duration || 0,
+                'priority': newTask.priority || 0,
                 'distractions': newTask.distractions || 0,
                 'idUser': newTask.idUser,
-                'idPhase': newTask.projectPhase || ''
+                'idPhase': newTask.projectPhase
             }),
         });
         return await res.json();
     } catch (error) {
         console.log(error)
     }
+}
+
+
+export const deleteTask = async(id) => {
+    console.log("ID A ELIMINAR ", stringify(id))
+    
+    await fetch(API + '/tasks', {
+        method: "DELETE",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({'id': id})
+    });
 }
 
 

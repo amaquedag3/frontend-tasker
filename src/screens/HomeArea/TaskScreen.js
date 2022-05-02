@@ -8,27 +8,35 @@ import ToDoProgress from '../../components/Tasks/ToDoProgress';
 import { getUserTasks } from '../../../api'
 import useAuth from '../../hooks/useAuth';
 import ButtonAdd from '../../components/ButtonAdd';
+import { orderBy } from "lodash";
 
 
 export default function TaskScreen() {
   const [tasks, setTasks] = useState(undefined)
+  const [range, setRange] = useState('Hoy')
+
   const { userData } = useAuth()
   const navigation = useNavigation();
   
   const loadTasks = async() => {
     const data = await getUserTasks(userData.user.id)
     if(data)
-      setTasks(data)
+      setTasks(orderBy(data,['priority'], ['desc']))
+  }
+
+  const filterTasks = () => {
+    console.log('Filtrado: ', range)
   }
 
   useEffect(()=> {
     loadTasks()
-  }, [])
+    filterTasks()
+  }, [range])
 
   return (
     <ImageBackground source={require('../../../assets/sun-flower.jpg')} style={styles.background}>
       <SafeAreaView>
-          <ToDoTaskList tasks={tasks} loadTasks={loadTasks}/> 
+          <ToDoTaskList tasks={tasks} loadTasks={loadTasks} setRange={setRange}/> 
         <ToDoProgress/>
         <ButtonAdd action={() => {navigation.navigate('Form')}}/>
         <Button title="Tareas acabadas" />

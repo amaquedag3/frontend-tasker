@@ -29,17 +29,7 @@ export default function LoginScreen() {
             console.log(error)
         }
     }
-
-    const checkStoredUserCredentials = async() => {
-        const now = new Date();
-        const weekago = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7);
-        const lastLog = new Date(JSON.parse(await AsyncStorage.getItem('lastLog')))
-        const token = await AsyncStorage.getItem('token')
-        if(lastLog && (lastLog > weekago)){
-            return {data: {lastLog, token}}
-        }
-        return false
-    }
+    
 
     function validateInput(){
         setError('');
@@ -65,7 +55,6 @@ export default function LoginScreen() {
             goHome()
         }
     }
-    
 
     function handleSubmit(){
         if(validateInput()){
@@ -74,10 +63,7 @@ export default function LoginScreen() {
     }
 
     useEffect(async() => {
-        const data = await checkStoredUserCredentials()
-        if(data){
-            console.log('DATA:', data)
-        }
+        console.log('Login - useEffect')
     }, [])
 
     return (

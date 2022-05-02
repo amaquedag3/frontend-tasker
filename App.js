@@ -1,13 +1,37 @@
 import  React, { useState }  from 'react';
 import AppLoading from 'expo-app-loading';
 import { NavigationContainer } from '@react-navigation/native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import IdentificationNavigation from './src/navigations/IdentificationNavigation';
 import useFonts from './src/hooks/useFonts';
 import { AuthProvider } from './src/context/AuthContext';
+import useAuth from './src/hooks/useAuth';
+
 
 export default function App() {
   const [IsReady, SetIsReady] = useState(false);
+
+  const { login, userData } = useAuth();
+
+
+  const checkStoredUserCredentials = async() => {
+    try{
+      const data = await AsyncStorage.getItem('token')
+      console.log('Token recibido en App.js: ')
+      if(data !== null){
+        login(data)
+      }else{
+        setStoreCredentials(null);
+      }
+    }catch(error){
+      console.log(error)
+    }
+}
+
+  const onStart = async() => {
+    loadFonts()
+    checkStoredUserCredentials()
+  }
 
   const loadFonts = async () => {
     await useFonts();
@@ -16,7 +40,7 @@ export default function App() {
   if (!IsReady) {
     return (
       <AppLoading
-        startAsync={loadFonts}
+        startAsync={onStart()}
         onFinish={() => SetIsReady(true)}
         onError={() => {}}
       />

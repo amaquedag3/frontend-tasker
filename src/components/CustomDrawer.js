@@ -1,5 +1,6 @@
 import { View, Text, ImageBackground, Image, StyleSheet} from 'react-native'
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 import { useNavigation } from "@react-navigation/native";
 import useAuth from "../hooks/useAuth";
@@ -11,8 +12,11 @@ export default function CustomDrawer(props) {
     const { logout, userData } = useAuth();
     const navigation = useNavigation();
 
-    const handleLogout = () => {
+    
+    const handleLogout = async() => {
         navigation.navigate('Login')
+        await AsyncStorage.setItem(undefined)
+        await AsyncStorage.setItem(undefined)
         logout()
     }
     

@@ -16,7 +16,7 @@ export default function ProjectCard(props) {
 
     const handleDeleteProject = () => {
         return Alert.alert(
-            "Elimnando tarea...",
+            "Elimnando pryecto...",
             "¿Estas seguro de que quieres eliminar este Proyecto?",
             [
                 {

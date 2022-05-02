@@ -1,27 +1,30 @@
 import { View, Text, TouchableHighlight, StyleSheet } from 'react-native'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 
-export default function ChangerButton() {
-
+export default function ChangerButton(props) {
     const states = ['Hoy', 'Mañana', 'Semana', 'Mes']
-    const [state, setState] = useState(states[0]);
-    const onPress = () => {
-        let index = states.indexOf(state) + 1
-        if(index == 4)
-            index = 0
-        setState(states[index])
+    const {range, setRange} = props;
+    const [selection, setSelection] = useState(0)
+
+    const changeSelection = () => {
+        if(selection === 3){
+            console.log('cambio')
+            setSelection(0)
+        }else{
+            setSelection(selection + 1)
+        }
+        console.log(selection)
+        setRange(states[selection])
     }
-
-
 
     return (
         <View>
             <TouchableHighlight
-                onPress={onPress}
+                onPress={changeSelection}
                 style={styles.btnContainer}>
             <View >
-                <Text style={styles.btnText}>{state}</Text>
+                <Text style={styles.btnText}>{states[selection]}</Text>
             </View>
             </TouchableHighlight>  
         </View>

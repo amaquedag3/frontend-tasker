@@ -4,8 +4,9 @@ import ToDoTaskCard from './ToDoTaskCard';
 import ChangerButton from './ChangerButton';
 
 export default function ToDoTaskList(props) {
-  const {tasks, loadTasks} = props;
+  const {tasks, loadTasks, range, setRange} = props;
   const [refreshing, setRefreshing] = useState(false);
+
 
   const onRefresh = React.useCallback(async() =>{
     setRefreshing(true);
@@ -16,7 +17,7 @@ export default function ToDoTaskList(props) {
 
   return (
     <View style={styles.container}>
-      <ChangerButton/>
+      <ChangerButton range={range} setRange={setRange}/>
       <FlatList
         data={tasks}
         renderItem={({ item }) => <ToDoTaskCard task={item} loadTasks={loadTasks} />}
