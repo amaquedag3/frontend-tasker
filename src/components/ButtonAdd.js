@@ -3,12 +3,14 @@ import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 export default function ButtonAdd(props) {
-    const {action} = props;
+    const {action, size} = props;
+
+    const image = {  width: size || 80, height: size || 80, alignSelf: 'center'};
 
     return (
         <TouchableWithoutFeedback onPress={action}>
             <View style={styles.container}>
-                <Image source={require('../../assets/add.png')} style={styles.image}/>
+                <Image source={require('../../assets/add.png')} style={image}/>
             </View>
         </TouchableWithoutFeedback>
     )
@@ -19,9 +21,4 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         padding: 20,
     },
-    image: {
-        width: 80, 
-        height: 80,
-        alignSelf: 'center'
-    }
 })

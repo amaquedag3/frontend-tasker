@@ -20,7 +20,7 @@ export default function ToDoTaskList(props) {
       <ChangerButton range={range} setRange={setRange}/>
       <FlatList
         data={tasks}
-        renderItem={({ item }) => <ToDoTaskCard task={item} loadTasks={loadTasks} />}
+        renderItem={({ item }) => <ToDoTaskCard task={item} loadTasks={loadTasks}/>}
         keyExtractor={(item, index) => {return index.toString()}}
         horizontal={true}
         refreshControl={

@@ -5,7 +5,7 @@ import React, {useState, useEffect} from 'react';
 import { deleteTask } from "../../../api";
 
 export default function ToDoTaskCard(props) {
-    const { task, loadTasks } = props;
+    const { task, loadTasks} = props;
     const {date} = task;
 
     const [textPriority, setTextPriority] = useState('')
@@ -27,21 +27,26 @@ export default function ToDoTaskCard(props) {
                         await deleteTask(task.id)
                         await loadTasks()
                     },
-                },
-                {
-                    text: "No",
-                },
+                },{text: "No"},
             ]
         );
     }
+
+    const handleSelection = () => {
+        //setSelectedTask(task)
+    }
     
-    const pill = { backgroundColor: colorPriority, ...styles.pill };
+    const pill = { 
+        backgroundColor: colorPriority,
+        borderRadius: 20,
+        margin: 10
+    };
     
     const setCardPriority = () => {
         switch (task.priority) {
             case 0:
                 setTextPriority('Prioridad baja')
-                setColorPriority(['green'])
+                setColorPriority('green')
                 break;
             case 1:
                 setTextPriority('Prioridad media')
@@ -59,25 +64,26 @@ export default function ToDoTaskCard(props) {
     }
 
     return (
-        <View style={styles.card}>
-            <View style={styles.spacing}>
-                <Text style={styles.hour}> {date.split('T')[1].slice(0, 5)}</Text>
-                <Text style={styles.title}>{task.title}</Text>
-                
-            </View>
-            <View style={{flexDirection: 'row'}}>
-                <View style={pill}>
-                    <Text style={styles.priority}>{textPriority}</Text>
+        <TouchableWithoutFeedback onLongPress={handleSelection}>
+            <View style={styles.card}>
+                <View style={styles.spacing}>
+                    <Text style={styles.hour}> {date.split('T')[1].slice(0, 5)}</Text>
+                    <Text style={styles.title}>{task.title}</Text>
+                    
                 </View>
-                
-                <View style={styles.iconBox} >
-                    <TouchableWithoutFeedback onPress={handleDeleteTask}>
-                        <Ionicons name="trash-outline"  size={23} style={styles.icon} /> 
-                    </TouchableWithoutFeedback>
+                <View style={{flexDirection: 'row'}}>
+                    <View style={pill}>
+                        <Text style={styles.priority}>{textPriority}</Text>
+                    </View>
+                    
+                    <View style={styles.iconBox} >
+                        <TouchableWithoutFeedback onPress={handleDeleteTask}>
+                            <Ionicons name="trash-outline"  size={23} style={styles.icon} /> 
+                        </TouchableWithoutFeedback>
+                    </View>
                 </View>
             </View>
-            
-        </View>
+        </TouchableWithoutFeedback>
     )
 }
 
@@ -103,10 +109,6 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: "bold",
         textAlign: 'center'
-    },
-    pill: {
-        borderRadius: 20,
-        margin: 10
     },
     priority: {
         fontSize: 12,

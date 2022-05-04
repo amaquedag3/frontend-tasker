@@ -10,7 +10,7 @@ export default function ProjectCard(props) {
     const navigation = useNavigation();
 
     const goToProject = () => {
-        navigation.navigate("ProjectDetails", { project: project });
+        navigation.navigate("ProjectDetails", { project });
     };
 
 

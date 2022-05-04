@@ -1,11 +1,12 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
-import ToDoProgressCard from './ToDoProgressCard';
 
-export default function ToDoProgress() {
+export default function ToDoProgress(props) {
+  
+
   return (
     <View style={style.container}>
-      <ToDoProgressCard/>
+      <Text></Text>
     </View>
   )
 }

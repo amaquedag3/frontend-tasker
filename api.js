@@ -98,8 +98,6 @@ export const createTask = async(newTask) => {
 
 
 export const deleteTask = async(id) => {
-    console.log("ID A ELIMINAR ", stringify(id))
-    
     await fetch(API + '/tasks', {
         method: "DELETE",
         headers: {
@@ -161,8 +159,6 @@ export const saveProject = async(newProject) => {
 
 
 export const deleteProject = async(id) => {
-    console.log("ID A ELIMINAR ", stringify(id))
-    
     await fetch(API + '/projects', {
         method: "DELETE",
         headers: {
@@ -172,3 +168,48 @@ export const deleteProject = async(id) => {
         body: JSON.stringify({'id': id})
     });
 }
+
+
+//FASES
+
+export const getPhasesByProjectId = async(idProject) => {
+    try {
+        const res = await fetch(API + '/phases/project', {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                'idProject': idProject
+            }),
+        });
+        return await res.json();
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export const savePhase = async(newPhase) => {
+    console.log('PHASe', newPhase)
+    try {
+        const res = await fetch(API + '/phases', {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                'title': newPhase.title,
+                'description': newPhase.description,
+                'started': newPhase.started,
+                'finished': newPhase.finished,
+                'idProject': newPhase.idProject
+            }),
+        });
+        return await res.json();
+    } catch (error) {
+        console.log(error)
+    }
+};

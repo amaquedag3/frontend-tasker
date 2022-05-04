@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import ProjectScreen from "../screens/ProjectArea/ProjectScreen";
 import ProjectDetailsScreen from "../screens/ProjectArea/ProjectDetailsScreen";
 import ProjectForm from "../screens/ProjectArea/ProjectForm";
+import PhaseForm from "../screens/ProjectArea/PhaseForm";
 
 const Stack = createStackNavigator();
 
@@ -22,6 +23,11 @@ export default function ProjectNavigation() {
             <Stack.Screen
                 name="ProjectForm"
                 component={ProjectForm}
+                options={{ title: "", headerTransparent: true }}
+            />
+            <Stack.Screen
+                name="PhaseForm"
+                component={PhaseForm}
                 options={{ title: "", headerTransparent: true }}
             />
         </Stack.Navigator>

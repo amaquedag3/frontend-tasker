@@ -4,7 +4,6 @@ import { useNavigation } from '@react-navigation/native';
 import DatePicker from '../../components/DatePicker'
 import Slider from '@react-native-community/slider';
 import { RadioButton } from 'react-native-paper';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import useAuth from '../../hooks/useAuth';
 import CustomModal from '../../components/CustomModal';
 import { createTask } from '../../../api';

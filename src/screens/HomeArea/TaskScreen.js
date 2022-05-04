@@ -36,8 +36,12 @@ export default function TaskScreen() {
   return (
     <ImageBackground source={require('../../../assets/sun-flower.jpg')} style={styles.background}>
       <SafeAreaView>
-          <ToDoTaskList tasks={tasks} loadTasks={loadTasks} setRange={setRange}/> 
-        <ToDoProgress/>
+          <ToDoTaskList 
+            tasks={tasks} 
+            loadTasks={loadTasks} 
+            range={setRange} 
+            setRange={setRange}/> 
+        <ToDoProgress />
         <ButtonAdd action={() => {navigation.navigate('Form')}}/>
         <Button title="Tareas acabadas" />
       </SafeAreaView>
