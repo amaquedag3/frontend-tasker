@@ -192,7 +192,6 @@ export const getPhasesByProjectId = async(idProject) => {
 
 
 export const savePhase = async(newPhase) => {
-    console.log('PHASe', newPhase)
     try {
         const res = await fetch(API + '/phases', {
             method: "POST",
@@ -213,3 +212,38 @@ export const savePhase = async(newPhase) => {
         console.log(error)
     }
 };
+
+export const updatePhase = async(phase) => {
+    try {
+        const res = await fetch(API + '/phases', {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                'title': phase.title,
+                'description': phase.description,
+                'started': phase.started,
+                'finished': phase.finished,
+                'id': phase.id
+            }),
+        });
+        return await res.json();
+    } catch (error) {
+        console.log(error)
+    }
+};
+
+
+export const deletePhase = async(id) => {
+    await fetch(API + '/phases', {
+        method: "DELETE",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({'id': id})
+    });
+}
+

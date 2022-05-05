@@ -1,32 +1,43 @@
 import { View, Text, StyleSheet, ImageBackground, TextInput, TouchableWithoutFeedback } from 'react-native'
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import DatePicker from '../../components/DatePicker';
 import { savePhase } from '../../../api';
+import CustomModal from '../../components/CustomModal';
 
 
 
 export default function PhaseForm(props) {
     const {route} = props;
     const {params} = route;
-    const {project} = params;
+    const {project, getPhases, phase} = params;
 
     const [error, setError] = useState('')
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState()
     const [date, setDate] = useState(undefined)
+    const [modalVisible, setModalVisible] = useState("");
+    const [modalText, setModalText] = useState("");
 
     const handleSubmit = async() => {
         if(validateInput()){
-            console.log(project)
             const newPhase = {
                 'title': title,
                 'description': description, 
                 'started': date,
                 'idProject': project.id
             }
-            const result = await savePhase(newPhase)
-            console.log(result)
+            await savePhase(newPhase)
+            cleanInputs()
+            setModalText('!Tarea guardada!')
+            setModalVisible(true)
+            await getPhases()
         }
+    }
+    
+    function cleanInputs() {
+        setTitle('')
+        setDescription('')
+        setDate('')
     }
 
     function validateInput() {
@@ -44,12 +55,29 @@ export default function PhaseForm(props) {
     }
 
 
+    useEffect(()=> {
+        if(phase){
+            console.log(phase)
+            setTitle(phase.title)
+            setDescription(phase.description)
+            setDate(phase.started)
+        }
+    }, [])
+
+
 
     return (
         <ImageBackground source={require('../../../assets/desktop.jpg')} style={styles.background}>
+            <CustomModal 
+                modalVisible={modalVisible} 
+                setModalVisible={setModalVisible} 
+                modalText={modalText}
+                setModalText={setModalText}/>
+            
             <View style={styles.container}>
                 <View style={styles.form}>
-                    <Text style={styles.title}>Nueva fase de {project.title}</Text>
+                    {phase ? <Text style={styles.title}>Edit de fase {phase.title } </Text>
+                    : <Text style={styles.title}>Nueva fase de {project.title }</Text>}
                     <TextInput
                         placeholder="Titulo"
                         style={styles.input}
@@ -96,7 +124,7 @@ const styles = StyleSheet.create({
         height: '60%'
     },
     form: {
-        marginTop: 60,
+        marginTop: -150,
         backgroundColor: 'rgba(255, 255, 255, 0.7)',
         borderRadius: 30,
         elevation: 150,

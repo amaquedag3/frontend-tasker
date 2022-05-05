@@ -17,10 +17,8 @@ export default function CustomDatePicker(props) {
     
     const onConfirm = ( date ) => {
         // You should close the modal in here
-        console.log(date.dateString)
         setDate(String(date.dateString))
         setShowDatePicker(false)
-        
         // The parameter 'date' is a Date object so that you can use any Date prototype method.
     }
 
