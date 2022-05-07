@@ -10,7 +10,7 @@ import useAuth from './src/hooks/useAuth';
 
 export default function App() {
   const [IsReady, SetIsReady] = useState(false);
-
+  const [storedCredentials, setStoredCredentials] = useState()
   const { login, userData } = useAuth();
 
 
@@ -21,7 +21,7 @@ export default function App() {
       if(data !== null){
         login(data)
       }else{
-        setStoreCredentials(null);
+        await AsyncStorage.removeItem('token')
       }
     }catch(error){
       console.log(error)
