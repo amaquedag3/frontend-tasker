@@ -1,15 +1,20 @@
 import {View, StyleSheet, Text, TouchableWithoutFeedback, Alert } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
 import React, {useState, useEffect} from 'react';
 import { deleteTask } from "../../../api";
+import CustomModal from '../CustomModal';
+import { orderBy, find, indexOf } from "lodash";
 
 export default function ToDoTaskCard(props) {
-    const { task, loadTasks, setSelectedTask} = props;
+    const {task, setTasks, tasks, loadTasks, selectedTask, setSelectedTask, isPlaying, setPlay, duration, setDuration} = props;
     const {date} = task;
 
     const [textPriority, setTextPriority] = useState('')
     const [colorPriority, setColorPriority] = useState('')
+    const [modalVisible, setModalVisible] = useState("");
+    const [modalText, setModalText] = useState("");
+
+    const pill = {backgroundColor: colorPriority, ...styles.pill };
 
     useEffect(async() => {
         setCardPriority()
@@ -32,39 +37,49 @@ export default function ToDoTaskCard(props) {
         );
     }
 
-    const handleSelection = () => {
-        console.log('selection..')
-        setSelectedTask(task)
+    const handleSelection = async() => {
+        if(selectedTask === undefined){
+            setSelectedTask(task)
+            setDuration(0)
+            setPlay(false)
+            await loadTasks(task)
+        }else{
+            setModalText('Ya hay una tarea seleccionada')
+            setModalVisible(true)
+        }
+        
     }
     
-    const pill = { 
-        backgroundColor: colorPriority,
-        borderRadius: 20,
-        margin: 10
-    };
     
     const setCardPriority = () => {
         switch (task.priority) {
             case 0:
                 setTextPriority('Prioridad baja')
-                setColorPriority('green')
+                setColorPriority('rgba(60, 179, 113, 07)')
                 break;
             case 1:
                 setTextPriority('Prioridad media')
-                setColorPriority('#24BDBD')
+                setColorPriority('rgba(47, 68, 255, 0.7)')
                 break;
             case 2:
                 setTextPriority('Prioridad alta')
-                setColorPriority('yellow')
+                setColorPriority('rgba(255, 165, 0, 0.7)')
                 break;
             case 3:
                 setTextPriority('Urgente')
-                setColorPriority('red')
+                setColorPriority('rgba(255, 34, 23, 0.7)')
                 break;
         }
     }
 
+    
     return (
+        <>
+        <CustomModal 
+                    modalVisible={modalVisible} 
+                    setModalVisible={setModalVisible} 
+                    modalText={modalText}
+                    setModalText={setModalText}/>
         <TouchableWithoutFeedback onLongPress={handleSelection}>
             <View style={styles.card}>
                 <View style={styles.spacing}>
@@ -85,6 +100,8 @@ export default function ToDoTaskCard(props) {
                 </View>
             </View>
         </TouchableWithoutFeedback>
+        </>
+    
     )
 }
 
@@ -99,11 +116,13 @@ const styles = StyleSheet.create({
         marginBottom: 8,
         marginLeft: 10,
         marginRight: 15,
-        shadowRadius: 10,
-        elevation: 10,
     },
     spacing: {
         padding: 10,
+    },
+    pill: {
+        borderRadius: 20,
+        margin: 10
     },
     title: {
         color: "black",
@@ -112,7 +131,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     priority: {
-        fontSize: 12,
+        fontSize: 13,
         paddingHorizontal: 10,
         paddingVertical: 5,
         fontWeight: 'bold',

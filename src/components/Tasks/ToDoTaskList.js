@@ -4,7 +4,7 @@ import ToDoTaskCard from './ToDoTaskCard';
 import ChangerButton from './ChangerButton';
 
 export default function ToDoTaskList(props) {
-  const {tasks, loadTasks, setSelectedTask, range, setRange} = props;
+  const {tasks, setTasks, loadTasks, duration, setDuration, selectedTask, setSelectedTask, range, setRange, isPlaying, setPlay} = props;
   const [refreshing, setRefreshing] = useState(false);
 
 
@@ -14,13 +14,24 @@ export default function ToDoTaskList(props) {
     setRefreshing(false);
   })
 
-
   return (
     <View style={styles.container}>
       <ChangerButton range={range} setRange={setRange}/>
       <FlatList
         data={tasks}
-        renderItem={({ item }) => <ToDoTaskCard task={item} loadTasks={loadTasks} setSelectedTask={setSelectedTask}/>}
+        renderItem={({ item }) => 
+        <ToDoTaskCard 
+          task={item}
+          tasks={tasks}
+          setTasks={setTasks}
+          loadTasks={loadTasks} 
+          selectedTask={selectedTask} 
+          setSelectedTask={setSelectedTask} 
+          duration={duration} 
+          setDuration={setDuration}
+          isPlaying={isPlaying}
+          setPlay={setPlay}/>}
+        
         keyExtractor={(item, index) => {return index.toString()}}
         horizontal={true}
         refreshControl={

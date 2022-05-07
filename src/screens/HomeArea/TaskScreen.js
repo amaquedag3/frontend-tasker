@@ -8,42 +8,67 @@ import ToDoProgress from '../../components/Tasks/ToDoProgress';
 import { getUserTasks } from '../../../api'
 import useAuth from '../../hooks/useAuth';
 import ButtonAdd from '../../components/ButtonAdd';
-import { orderBy } from "lodash";
+import { orderBy, remove } from "lodash";
 
 
 export default function TaskScreen() {
   const [tasks, setTasks] = useState(undefined)
   const [range, setRange] = useState('Hoy')
   const [selectedTask, setSelectedTask] = useState(undefined)
+  const [isPlaying, setPlay] = useState(false)
+  const [duration, setDuration] = useState(0)
 
   const { userData } = useAuth()
   const navigation = useNavigation();
   
-  const loadTasks = async() => {
+  const loadTasks = async(task) => {
     const data = await getUserTasks(userData.user.id)
-    if(data)
-      setTasks(orderBy(data,['priority'], ['desc']))
-  }
-
-  const filterTasks = () => {
-    console.log('Filtrado: ', range)
+    if(data){
+      if(task){
+        remove(tasks, function(item){
+          return item === task;
+        })
+        console.log('Con seleccionado quitado', tasks)
+        setTasks(orderBy(tasks,['priority'], ['desc']))
+        
+      }else{
+        console.log('No habia seleccionada')
+        setTasks(orderBy(data,['priority'], ['desc']))
+      }
+    }
+      
   }
 
   useEffect(()=> {
     loadTasks()
-    filterTasks()
-  }, [range])
+  }, [])
 
   return (
     <ImageBackground source={require('../../../assets/sun-flower.jpg')} style={styles.background}>
       <SafeAreaView>
           <ToDoTaskList 
-            tasks={tasks} 
+            tasks={tasks}
+            setTasks={setTasks}
             loadTasks={loadTasks} 
+            selectedTask={selectedTask}
             setSelectedTask={setSelectedTask}
+            duration={duration}
+            setDuration={setDuration}
             range={setRange} 
-            setRange={setRange}/> 
-        <ToDoProgress selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
+            setRange={setRange}
+            isPlaying={isPlaying}
+            setPlay={setPlay}/>
+
+        <ToDoProgress 
+          tasks={tasks}
+          setTasks={setTasks}
+          loadTasks={loadTasks}
+          selectedTask={selectedTask} 
+          setSelectedTask={setSelectedTask}
+          duration={duration}
+          setDuration={setDuration}
+          isPlaying={isPlaying}
+          setPlay={setPlay}/>
         <ButtonAdd action={() => {navigation.navigate('Form')}}/>
         <Button title="Tareas acabadas" />
       </SafeAreaView>

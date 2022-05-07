@@ -1,28 +1,32 @@
 import React, {useState, useEffect} from 'react'
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, Alert } from 'react-native'
 import * as Progress from 'react-native-progress';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
+import { orderBy } from "lodash";
+import { updateTask } from '../../../api';
 
 export default function CustomTimer(props) {
-    const {selectedTask, setSelectedTask} = props;
-    const [play, setPlay] = useState(false);
+    const {tasks, setTasks, loadTasks, selectedTask, setSelectedTask, isPlaying, setPlay, duration, setDuration} = props;
     const [seconds, setSeconds] = useState(0);
     const [minutes, setMinutes] = useState(0);
     const [hours, setHours] = useState(0);
+    const [modal, setModal] = useState();
+    const [modalText, setModalText] = useState()
 
     const timerSeconds = seconds < 10 ? `0${seconds}` : seconds;
     const timerMinutes = minutes < 10 ? `0${minutes}` : minutes;
     const timerHours = hours < 10 ? `0${hours}` : hours
 
     useEffect(() => {
-        if(play){
+        if(isPlaying){
             let interval = setInterval(() => {
-            clearInterval(interval);
+                clearInterval(interval);
+                setDuration(hours * 60 + minutes)
                 if(seconds !== 59){
-                setSeconds(seconds + 1)
+                    setSeconds(seconds + 1)
                 }else{
-                setSeconds(0)
+                    setSeconds(0)
                 if(minutes !== 59){
                     setMinutes(minutes + 1)
                 }else {
@@ -30,28 +34,66 @@ export default function CustomTimer(props) {
                     setHours(hours + 1)
                 }
                 }
-            }, 1000)
+            }, 1)
         }
-    }, [seconds, play])
+    }, [seconds, isPlaying])
 
     const handlePlay = () => {
-        setPlay(!play)
+        setPlay(true)
     }
 
+    const handleSwitch = () => {
+        setDuration(0)
+        setSeconds(0)
+        setMinutes(0)
+        setHours(0)
+        setSelectedTask(undefined)
+        loadTasks()
+    } 
+
     const handleEnd = () => {
-        
+        console.log('Fin de tarea')
+        return Alert.alert(
+            selectedTask.title,
+            "¿Dar por finalizada la tarea?",
+            [
+                {
+                    text: "Sí",
+                    onPress: async () => {
+                        //TODO: UPDATE(agregar duration, distraction, dateTime end)
+                        console.log('procesando tarea terminada')
+                        selectedTask.finished = new Date()
+                        selectedTask.duration = duration
+                        console.log(selectedTask)
+                        setPlay(false)
+                        updateTask(selectedTask)
+                        setSelectedTask(undefined)
+                        setDuration(0)
+                        setSeconds(0)
+                        setMinutes(0)
+                        setHours(0)
+                    },
+                },
+                {
+                    text: "No",
+                },
+            ]
+        );
+    }
+
+    const handlePause = () => {
+        setPlay(false)
     }
     const colors = ['#f94144', '#f3722c', '#f8961e', '#f9844a', '#f9c74f', '#f9c74f', '#90be6d', '#43aa8b', '#4d908e', '#577590', '#277da1' ]
 
 
     return (
         <>
-        
         <View style={{alignItems: 'center', justifyContent: 'center'}}>
         <Text>{selectedTask.title}</Text>
             <Text style={styles.timer}>{timerHours}:{timerMinutes}:{timerSeconds}</Text>
             <View style={{position: 'absolute'}}>
-            {play ?
+            {isPlaying ?
                 <Progress.CircleSnail
                 thickness={10}
                 duration={1200}
@@ -66,15 +108,18 @@ export default function CustomTimer(props) {
                 borderWidth={10}/>
             }
             </View>
-            {play ? 
+            {isPlaying ? 
                 <>
                 <View style={{flexDirection: 'row'}}>
-                    <TouchableWithoutFeedback onPress={handlePlay}>
+                    <TouchableWithoutFeedback onPress={handlePause}>
                         <Ionicons name='ios-pause-circle-outline' size={60} color={'#fdc500'}/>
-                    </TouchableWithoutFeedback> 
+                    </TouchableWithoutFeedback>
+                    {duration >= 5 ?
                     <TouchableWithoutFeedback onPress={handleEnd}>
                         <Ionicons name='ios-stop-circle-outline' size={60} color={'#f94144'}/>
-                    </TouchableWithoutFeedback> 
+                    </TouchableWithoutFeedback>
+                    : <Text/>
+                    } 
                 </View>
                 <View>
                     <Image style={styles.image} source={require('../../../assets/pikachu.gif')} />
@@ -86,10 +131,17 @@ export default function CustomTimer(props) {
                     <TouchableWithoutFeedback onPress={handlePlay}>
                         <Ionicons name='ios-play-circle-outline' size={60} color={'#90be6d'}/>
                     </TouchableWithoutFeedback> 
-                        <TouchableWithoutFeedback onPress={() => {setSelectedTask(undefined)}}>
-                    <Ionicons name='arrow-up-circle-outline' size={60} color={'#f94144'}/>
+                    {duration >= 5 ?
+                    <TouchableWithoutFeedback onPress={handleEnd}>
+                        <Ionicons name='ios-stop-circle-outline' size={60} color={'#f94144'}/>
                     </TouchableWithoutFeedback> 
+                    : 
+                    <TouchableWithoutFeedback onPress={handleSwitch}>
+                        <Ionicons name='arrow-up-circle-outline' size={60} color={'#f94144'}/>
+                    </TouchableWithoutFeedback> 
+                    }
                 </View>
+
                 <View>
                     <Image style={styles.image} source={require('../../../assets/pikachu.jpg')} />
                 </View>

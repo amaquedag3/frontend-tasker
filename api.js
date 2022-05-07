@@ -97,6 +97,34 @@ export const createTask = async(newTask) => {
 }
 
 
+export const updateTask = async(task) => {
+    try {
+        const res = await fetch(API + '/tasks', {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                title: task.title,
+                date: task.date,
+                finished: task.finished,
+                expectedDuration: task.expectedDuration,
+                duration: task.duration,
+                priority : task.priority,
+                distractions : task.distractions || 0,
+                idPhase: task.idPhase || '',
+                idUser: task.idUser || '',
+                id: task.id
+            }),
+        });
+        return await res.json();
+    } catch (error) {
+        console.log(error)
+    }
+};
+
+
 export const deleteTask = async(id) => {
     await fetch(API + '/tasks', {
         method: "DELETE",

@@ -1,17 +1,23 @@
 import { View, Text, StyleSheet, Image } from 'react-native'
-import React, {useState, useEffect} from 'react'
-import * as Progress from 'react-native-progress';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { Ionicons } from '@expo/vector-icons';
+import React from 'react'
 import CustomTimer from './CustomTimer';
 
 export default function ToDoProgress(props) {
-  const {selectedTask, setSelectedTask} = props
-  console.log(selectedTask)
+  const {tasks, setTasks, loadTasks, selectedTask, setSelectedTask, isPlaying, setPlay, duration, setDuration} = props
 
   return (
       <View style={styles.container}>
-          {selectedTask ? <CustomTimer selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>:
+          {selectedTask ? 
+          <CustomTimer
+            tasks={tasks}
+            loadTasks={loadTasks}
+            setTasks={setTasks}
+            selectedTask={selectedTask} 
+            setSelectedTask={setSelectedTask}z
+            isPlaying={isPlaying}
+            setPlay={setPlay}
+            duration={duration}
+            setDuration={setDuration}/>:
           <View>
             <Image style={styles.icon} source={require('../../../assets/pikachu2.png')}/>
             <Text style={styles.text}>Seleciona una tarea</Text>
