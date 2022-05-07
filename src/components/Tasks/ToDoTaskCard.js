@@ -5,7 +5,7 @@ import React, {useState, useEffect} from 'react';
 import { deleteTask } from "../../../api";
 
 export default function ToDoTaskCard(props) {
-    const { task, loadTasks} = props;
+    const { task, loadTasks, setSelectedTask} = props;
     const {date} = task;
 
     const [textPriority, setTextPriority] = useState('')
@@ -33,7 +33,8 @@ export default function ToDoTaskCard(props) {
     }
 
     const handleSelection = () => {
-        //setSelectedTask(task)
+        console.log('selection..')
+        setSelectedTask(task)
     }
     
     const pill = { 
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
     },
     title: {
         color: "black",
-        fontSize: 15,
+        fontSize: 13,
         fontWeight: "bold",
         textAlign: 'center'
     },

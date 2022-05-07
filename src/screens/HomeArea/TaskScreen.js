@@ -14,6 +14,7 @@ import { orderBy } from "lodash";
 export default function TaskScreen() {
   const [tasks, setTasks] = useState(undefined)
   const [range, setRange] = useState('Hoy')
+  const [selectedTask, setSelectedTask] = useState(undefined)
 
   const { userData } = useAuth()
   const navigation = useNavigation();
@@ -39,9 +40,10 @@ export default function TaskScreen() {
           <ToDoTaskList 
             tasks={tasks} 
             loadTasks={loadTasks} 
+            setSelectedTask={setSelectedTask}
             range={setRange} 
             setRange={setRange}/> 
-        <ToDoProgress />
+        <ToDoProgress selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
         <ButtonAdd action={() => {navigation.navigate('Form')}}/>
         <Button title="Tareas acabadas" />
       </SafeAreaView>

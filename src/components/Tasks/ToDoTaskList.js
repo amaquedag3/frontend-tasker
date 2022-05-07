@@ -4,7 +4,7 @@ import ToDoTaskCard from './ToDoTaskCard';
 import ChangerButton from './ChangerButton';
 
 export default function ToDoTaskList(props) {
-  const {tasks, loadTasks, range, setRange} = props;
+  const {tasks, loadTasks, setSelectedTask, range, setRange} = props;
   const [refreshing, setRefreshing] = useState(false);
 
 
@@ -20,7 +20,7 @@ export default function ToDoTaskList(props) {
       <ChangerButton range={range} setRange={setRange}/>
       <FlatList
         data={tasks}
-        renderItem={({ item }) => <ToDoTaskCard task={item} loadTasks={loadTasks}/>}
+        renderItem={({ item }) => <ToDoTaskCard task={item} loadTasks={loadTasks} setSelectedTask={setSelectedTask}/>}
         keyExtractor={(item, index) => {return index.toString()}}
         horizontal={true}
         refreshControl={
