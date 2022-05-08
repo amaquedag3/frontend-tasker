@@ -10,7 +10,6 @@ export default function CustomDropdownPicker(props) {
 
     useEffect(()=>{
         let auxValues = []
-        console.log(options)
         if(options){
             options.forEach(option => {
                 auxValues.push({
@@ -23,7 +22,6 @@ export default function CustomDropdownPicker(props) {
     }, [options])
 
     const handleChange = (value) => {
-        console.log(value)
         setSelection(value)
     }
 

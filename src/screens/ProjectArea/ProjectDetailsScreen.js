@@ -22,11 +22,16 @@ export default function ProjectDetailsScreen(props) {
         setRefreshing(false);
     })
 
-    function isEnded(result){
-        for (var i=0; i < result.length; i++){
-            if(result[i].finished == null){
-                return false
+    function isEnded(){
+        if(phases){
+            for (var i=0; i < phases.length; i++){
+                if(phases[i].finished == null){
+                    return false
+                }
             }
+        }else{
+            console.log(phases)
+            return false
         }
         return true
     }
@@ -34,15 +39,18 @@ export default function ProjectDetailsScreen(props) {
 
     const getPhases = async() => {
         const result = await getPhasesByProjectId(project.id)
-        if(result)
+        if(result){
             setPhases(result)
-        if(isEnded(result))
-            setEnded(true)
+        }
     }
 
-    useEffect(()=> {
-        getPhases()
+    useEffect(async()=> {
+        await getPhases()
     }, [])
+
+    useState(() => {
+        isEnded()
+    }, [phases])
     
 
     return (
@@ -51,16 +59,14 @@ export default function ProjectDetailsScreen(props) {
                 <Text style={styles.title}>{project.title}</Text>
                 <Text style={styles.subTitle}>Descripción: </Text>
                 <Text>{project.description}</Text>
-                <Text style={styles.subTitle}>Fecha de Inicio: </Text>
-                <Text>{project.started.split('T')[0]}</Text>
-                <Text style={styles.subTitle}>Estado: </Text>
-                {ended ? <Text>Acabado</Text> : <Text>En proceso</Text>}
+                <Text style={styles.subTitle}>Fecha de Inicio:  <Text style={{fontWeight: 'normal'}}>{project.started.split('T')[0]}</Text></Text>
+                <Text style={styles.subTitle}>Estado: {ended ? <Text style={{fontWeight: 'normal'}}>Acabado</Text> : <Text style={{fontWeight: 'normal'}}>En proceso</Text>}</Text>
                 <Text>{project.finished}</Text>
                 <Text style={styles.subTitle}>Fases creadas: </Text>
                 <View style={styles.list}>
                     <FlatList 
                         data={phases}
-                        renderItem={({ item }) => <PhaseItem phase={item} getPhases={getPhases}/> }
+                        renderItem={({ item }) => <PhaseItem phase={item} getPhases={getPhases} project={project}/> }
                         keyExtractor={(item, index) => {return index.toString()}}
                         refreshControl={
                             <RefreshControl
@@ -70,7 +76,7 @@ export default function ProjectDetailsScreen(props) {
                     />
                 </View>
                 <View style={styles.button}>
-                    <ButtonAdd size={50} action={() => {navigation.navigate('PhaseForm', {project: project, getPhases: getPhases})}}/>
+                    <ButtonAdd size={50} action={() => {navigation.navigate('PhaseForm', {project: project})}}/>
                 </View>
             </View>
             

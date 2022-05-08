@@ -28,11 +28,9 @@ export default function TaskScreen() {
         remove(tasks, function(item){
           return item === task;
         })
-        console.log('Con seleccionado quitado', tasks)
         setTasks(orderBy(tasks,['priority'], ['desc']))
         
       }else{
-        console.log('No habia seleccionada')
         setTasks(orderBy(data,['priority'], ['desc']))
       }
     }

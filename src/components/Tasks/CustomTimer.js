@@ -60,11 +60,10 @@ export default function CustomTimer(props) {
                 {
                     text: "Sí",
                     onPress: async () => {
-                        //TODO: UPDATE(agregar duration, distraction, dateTime end)
+                        //TODO: UPDATE( distraction)
                         console.log('procesando tarea terminada')
                         selectedTask.finished = new Date()
                         selectedTask.duration = duration
-                        console.log(selectedTask)
                         setPlay(false)
                         updateTask(selectedTask)
                         setSelectedTask(undefined)

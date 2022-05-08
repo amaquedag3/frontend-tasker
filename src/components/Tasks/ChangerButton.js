@@ -9,12 +9,10 @@ export default function ChangerButton(props) {
 
     const changeSelection = () => {
         if(selection === 3){
-            console.log('cambio')
             setSelection(0)
         }else{
             setSelection(selection + 1)
         }
-        console.log(selection)
         setRange(states[selection])
     }
 

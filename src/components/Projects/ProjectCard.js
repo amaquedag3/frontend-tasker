@@ -22,7 +22,7 @@ export default function ProjectCard(props) {
                 {
                     text: "Sí",
                     onPress: async () => { 
-                        console.log('eliminando tarea ...', project.id)
+                        console.log('Eliminando prpyecto ...', project.id)
                         await deleteProject(project.id)
                         await loadProjects()
                     },

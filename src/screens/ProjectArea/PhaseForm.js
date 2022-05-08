@@ -1,15 +1,15 @@
 import { View, Text, StyleSheet, ImageBackground, TextInput, TouchableWithoutFeedback } from 'react-native'
 import React, {useState, useEffect} from 'react'
 import DatePicker from '../../components/DatePicker';
-import { savePhase } from '../../../api';
+import { savePhase, updatePhase } from '../../../api';
 import CustomModal from '../../components/CustomModal';
-
+import { useNavigation } from "@react-navigation/native";
 
 
 export default function PhaseForm(props) {
     const {route} = props;
     const {params} = route;
-    const {project, getPhases, phase} = params;
+    const {project, phase} = params;
 
     const [error, setError] = useState('')
     const [title, setTitle] = useState('')
@@ -18,19 +18,37 @@ export default function PhaseForm(props) {
     const [modalVisible, setModalVisible] = useState("");
     const [modalText, setModalText] = useState("");
 
+    const navigation = useNavigation();
+
+    const wait = (timeout) => {
+        return new Promise(resolve => setTimeout(resolve, timeout));
+    }
+
     const handleSubmit = async() => {
         if(validateInput()){
-            const newPhase = {
-                'title': title,
-                'description': description, 
-                'started': date,
-                'idProject': project.id
+            if(phase){
+                phase.title = title
+                phase.description = description
+                phase.date = date
+                await updatePhase(phase)
+                cleanInputs()
+                setModalText('!Tarea editada!')
+                setModalVisible(true)
+                await wait(2000)
+                navigation.goBack()
+            }else{
+                const newPhase = {
+                    'title': title,
+                    'description': description, 
+                    'started': date,
+                    'idProject': project.id
+                }
+                await savePhase(newPhase)
+                cleanInputs()
+                setModalText('!Tarea guardada!')
+                setModalVisible(true)
             }
-            await savePhase(newPhase)
-            cleanInputs()
-            setModalText('!Tarea guardada!')
-            setModalVisible(true)
-            await getPhases()
+            
         }
     }
     
@@ -57,10 +75,9 @@ export default function PhaseForm(props) {
 
     useEffect(()=> {
         if(phase){
-            console.log(phase)
             setTitle(phase.title)
             setDescription(phase.description)
-            setDate(phase.started)
+            setDate(phase.started.split('T')[0])
         }
     }, [])
 

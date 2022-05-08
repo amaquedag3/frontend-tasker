@@ -47,7 +47,6 @@ export default function ProjectForm() {
 
     const createProject = async () => {
       const newProject = {title, description, started, idUser}
-      console.log(newProject)
       const res = await saveProject(newProject)
       if(res.status != 200){
           setError(res.message)
@@ -57,7 +56,6 @@ export default function ProjectForm() {
           cleanInputs()
           navigation.navigate('ProjectsList')
       }
-      console.log(res)
     }
 
     function cleanInputs(){

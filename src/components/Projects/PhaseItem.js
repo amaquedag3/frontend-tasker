@@ -6,7 +6,7 @@ import { deletePhase, updatePhase } from '../../../api';
 import CustomModal from '../CustomModal';
 
 export default function PhaseItem(props) {
-    const {phase, getPhases} = props;
+    const {phase, getPhases, project} = props;
 
     const navigation = useNavigation();
     const [modalVisible, setModalVisible] = useState("");
@@ -14,12 +14,13 @@ export default function PhaseItem(props) {
 
     const setFinished = async() => {
         phase.finished = new Date()
+        console.log(phase)
         await updatePhase(phase)
         await getPhases()
     }
 
     const handleEdit = async() => {
-        navigation.navigate('PhaseForm', {phase: phase})
+        navigation.navigate('PhaseForm', {phase: phase, project: project})
     }
 
     const handleDelete = async() => {

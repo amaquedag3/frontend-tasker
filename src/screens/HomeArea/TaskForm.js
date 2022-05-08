@@ -97,7 +97,7 @@ export default function TaskForm() {
 
     const loadPhases = async() => {
         const data = await getPhasesByProjectId(project)
-        console.log(data)
+
         if(data)
             setPhases(data)
     }

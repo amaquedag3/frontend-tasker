@@ -279,6 +279,7 @@ export const savePhase = async(newPhase) => {
 };
 
 export const updatePhase = async(phase) => {
+    console.log(phase)
     try {
         const res = await fetch(API + '/phases', {
             method: "PUT",
