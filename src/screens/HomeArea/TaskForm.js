@@ -1,12 +1,14 @@
 import { ImageBackground, StyleSheet, View, TextInput, Text, TouchableWithoutFeedback } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import { useNavigation } from '@react-navigation/native';
-import DatePicker from '../../components/DatePicker'
+import DatePicker from '../../components/DatePicker';
+import CustomDropdownPicker from '../../components/CustomDropdownPicker';
 import Slider from '@react-native-community/slider';
 import { RadioButton } from 'react-native-paper';
 import useAuth from '../../hooks/useAuth';
 import CustomModal from '../../components/CustomModal';
-import { createTask } from '../../../api';
+import { createTask, getPhasesByProjectId, getUserProjects } from '../../../api';
+import { find } from 'lodash';
 
 
 export default function TaskForm() {
@@ -16,8 +18,11 @@ export default function TaskForm() {
     const [date, setDate] = useState(undefined)
     const [expectedDuration, setDuration] = useState(0)
     const [priority, setPriority] = useState(0)
-    const [projectPhase, setProjectPhase] =  useState(undefined)
-    //TODO: Posibilidad que la tarea esté vinculada a un proyecto
+
+    const [projects, setProjects] = useState()
+    const [project, setProject] = useState()
+    const [phases, setPhases] = useState([])
+    const [phase, setPhase] = useState()
 
     const [hours, setHours] = useState(0)
     const [minutes, setMinutes] = useState(0)
@@ -41,13 +46,18 @@ export default function TaskForm() {
         }
     }
 
+    const handleCleanSubmit = () => {
+        setProject(undefined)
+        setPhases([])
+    }
+
     const saveTask = async () => {
         const newTask ={   
             'title': title, 
             'date': date,
             'expectedDuration': expectedDuration, 
             'idUser': idUser, 
-            'projectPhase': projectPhase,
+            'projectPhase': phase,
             'priority': priority,
             'idUser': idUser
         }
@@ -74,6 +84,28 @@ export default function TaskForm() {
 
         return true;
     }
+
+    const loadProjects = async() => {
+        const data = await getUserProjects(idUser)
+        if(data)
+            setProjects(data)
+    }
+
+    useEffect(async() => {
+        loadProjects()
+    }, [])
+
+    const loadPhases = async() => {
+        const data = await getPhasesByProjectId(project)
+        console.log(data)
+        if(data)
+            setPhases(data)
+    }
+
+    useEffect(async() => {
+        if(project)
+            loadPhases()
+    }, [project])
 
     return (
         <ImageBackground source={require('../../../assets/desktop.jpg')} style={styles.background}>
@@ -114,7 +146,7 @@ export default function TaskForm() {
                                 }}>
                             <Text style={styles.sliderLabel}>{hours} Horas</Text>
                             <Slider
-                                style={{width: '90%', height: 40, alignSelf: 'center'}}
+                                style={{width: '90%', height: 30, alignSelf: 'center'}}
                                 minimumValue={0}
                                 maximumValue={5}
                                 minimumTrackTintColor="black"
@@ -125,7 +157,7 @@ export default function TaskForm() {
                             />
                             <Text style={styles.sliderLabel}>{minutes} Minutos</Text>
                             <Slider
-                                style={{width: '90%', height: 40, alignSelf: 'center'}}
+                                style={{width: '90%', height: 30, alignSelf: 'center'}}
                                 minimumValue={0}
                                 maximumValue={59}
                                 minimumTrackTintColor="black"
@@ -147,6 +179,41 @@ export default function TaskForm() {
                             <RadioButton value={3} status={ priority === 3 ? 'checked' : 'unchecked' } 
                                 onPress={() => setPriority(3)} uncheckedColor='red' color='red'/>
                         </View>
+
+                        {project == undefined ?
+                        <View style={styles.dropdownBox}>
+                                <CustomDropdownPicker
+                                    placeholder={'Selecciona un proyecto'}
+                                    options={projects}
+                                    setSelection={setProject}/>
+                        </View>
+                        : <Text style={styles.selectedOption}>Proyecto: {find(projects, {id: project}).title}</Text>
+                        }
+
+                        {project && phases.length > 0
+                        ?<View style={styles.dropdownBox}>
+                            <CustomDropdownPicker
+                                placeholder={'Selecciona una fase'}
+                                options={phases}
+                                setSelection={setPhase}/>
+                        </View>
+                        :<Text/>
+                        }
+                        
+                        {project && phases == 0 
+                        ?<View>
+                            <Text style={styles.errorProject}>Este proyecto no tiene fases</Text>
+                            <Text style={styles.errorProject}>Agregalas desde la sección de proyectos</Text>
+                        </View>
+                        :<Text/>
+                        }
+                        {project ?
+                            <TouchableWithoutFeedback onPress={handleCleanSubmit}>
+                                <Text style={styles.cleanOption}> Quitar Fase </Text>
+                            </TouchableWithoutFeedback>
+                        : <Text/>
+                        }
+
                         <Text style={styles.error}>{error}</Text>
                         <View style={styles.btn}>
                             <TouchableWithoutFeedback onPress={handleSubmit}>
@@ -180,16 +247,16 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: "bold",
         fontFamily: 'Roboto',
-        marginVertical: 20
+        marginVertical: 14
     },
     input: {
         height: 40,
         borderWidth: 1,
         padding: 10,
         borderRadius: 20,
-        backgroundColor: '#F2F1F1',
+        backgroundColor: 'white',
         marginHorizontal: 40,
-        marginVertical: 10
+        marginVertical: 8
     },
     inputDate: {
         height: 40,
@@ -197,7 +264,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         paddingLeft: 10,
         borderRadius: 20,
-        backgroundColor: '#F2F1F1',
+        backgroundColor: 'white',
         marginLeft: 40,
         marginRight: 10,
         marginVertical: 10,
@@ -216,7 +283,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         padding: 10,
         borderRadius: 20,
-        backgroundColor: '#F2F1F1',
+        backgroundColor: 'white',
         marginHorizontal: 40,
         marginVertical: 10,
         alignSelf: 'center'
@@ -227,10 +294,37 @@ const styles = StyleSheet.create({
         flexDirection:'row',
     },
     priorityBox:{
-        marginTop: '7%',
+        marginTop: '4%',
         flexDirection: "row",
         alignSelf: 'center',
-    },    
+    },
+    dropdownBox:{
+        paddingHorizontal: 25,
+        paddingVertical: 10
+    },
+    selectedOption:{
+        alignSelf: 'center',
+        padding: 10,
+        fontWeight: 'bold',
+        fontSize: 17,
+        color: '#003049'
+    },errorProject: {
+        textAlign: "center",
+        color: "#f00",
+        marginVertical: 2,
+    },
+    cleanOption:{
+        fontSize: 16,
+        color: '#003049', 
+        backgroundColor: '#f77f00',
+        width: '35%',
+        borderRadius: 20,
+        justifyContent: 'center',
+        padding: 5,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        alignSelf: 'center'
+    },
     error: {
         textAlign: "center",
         color: "#f00",

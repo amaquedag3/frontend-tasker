@@ -69,6 +69,43 @@ export const getUserTasks = async(idUser) => {
         console.log(error)
     }
 }
+export const getUserEndedTasks = async(idUser) => {
+    try {
+        const res = await fetch(API + '/tasks/user', {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                'idUser': idUser,
+                'extra': 'finished'
+            }),
+        });
+        return await res.json();
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getUserTodoTasks = async(idUser) => {
+    try {
+        const res = await fetch(API + '/tasks/user', {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                'idUser': idUser,
+                'extra': 'todo'
+            }),
+        });
+        return await res.json();
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 export const createTask = async(newTask) => {
     try {

@@ -5,7 +5,7 @@ import {StyleSheet, ImageBackground, Button,} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import ToDoTaskList from '../../components/Tasks/ToDoTaskList';
 import ToDoProgress from '../../components/Tasks/ToDoProgress';
-import { getUserTasks } from '../../../api'
+import { getUserTasks, getUserTodoTasks } from '../../../api'
 import useAuth from '../../hooks/useAuth';
 import ButtonAdd from '../../components/ButtonAdd';
 import { orderBy, remove } from "lodash";
@@ -22,7 +22,7 @@ export default function TaskScreen() {
   const navigation = useNavigation();
   
   const loadTasks = async(task) => {
-    const data = await getUserTasks(userData.user.id)
+    const data = await getUserTodoTasks(userData.user.id)
     if(data){
       if(task){
         remove(tasks, function(item){
