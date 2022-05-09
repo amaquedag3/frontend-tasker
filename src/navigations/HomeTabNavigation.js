@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import TaskNavigation from '../navigations/TaskNavigation'
 import NotesScreen from '../screens/HomeArea/NotesScreen';
 import CalendarScreen from '../screens/HomeArea/CalendarScreen';
+import NoteNavigation from './NoteNavigation';
 
 
 const Tab = createBottomTabNavigator();
@@ -46,7 +47,7 @@ export default function HomeTabNavigation() {
 
         <Tab.Screen 
             name="Notes" 
-            component={NotesScreen}
+            component={NoteNavigation}
             options={{
                 headerShown: false,
                 tabBarLabel: "",

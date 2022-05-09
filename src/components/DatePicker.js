@@ -27,7 +27,7 @@ export default function CustomDatePicker(props) {
             <TouchableWithoutFeedback onPress={openDatePicker}>
                 <Image
                     source={require('../../assets/calendar.png')}
-                    style={{ width: 35, height: 35 }}/>
+                    style={{ width: 30, height: 30 }}/>
             </TouchableWithoutFeedback>
             <DatePicker
                 isVisible={showDatePicker}

@@ -1,4 +1,4 @@
-import  React, { useState }  from 'react';
+import  React, { useEffect, useState }  from 'react';
 import AppLoading from 'expo-app-loading';
 import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -6,6 +6,9 @@ import IdentificationNavigation from './src/navigations/IdentificationNavigation
 import useFonts from './src/hooks/useFonts';
 import { AuthProvider } from './src/context/AuthContext';
 import useAuth from './src/hooks/useAuth';
+import { initDatabase } from './src/utils/sqliteDb';
+
+
 
 
 export default function App() {
@@ -13,6 +16,9 @@ export default function App() {
   const [storedCredentials, setStoredCredentials] = useState()
   const { login, userData } = useAuth();
 
+  useEffect(()=>{
+    //await initDatabase()
+  }, [])
 
   const checkStoredUserCredentials = async() => {
     try{
@@ -26,7 +32,7 @@ export default function App() {
     }catch(error){
       console.log(error)
     }
-}
+  }
 
   const onStart = async() => {
     loadFonts()
@@ -46,8 +52,6 @@ export default function App() {
       />
     );
   }
-
-  
 
   return (
     <NavigationContainer>
