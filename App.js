@@ -6,9 +6,7 @@ import IdentificationNavigation from './src/navigations/IdentificationNavigation
 import useFonts from './src/hooks/useFonts';
 import { AuthProvider } from './src/context/AuthContext';
 import useAuth from './src/hooks/useAuth';
-import { initDatabase } from './src/utils/sqliteDb';
-
-
+import { getUsers, initDatabase, insertUser } from './src/utils/sqliteDb';
 
 
 export default function App() {
@@ -16,8 +14,17 @@ export default function App() {
   const [storedCredentials, setStoredCredentials] = useState()
   const { login, userData } = useAuth();
 
-  useEffect(()=>{
-    //await initDatabase()
+  useEffect(async()=>{
+    initDatabase()
+    let user = {
+      id: '123',
+      email: 'prueba',
+      password: 'prueba',
+      firstname: 'prueba',
+      lastname: 'prueba'
+    }
+    await insertUser(user)
+    await getUsers()
   }, [])
 
   const checkStoredUserCredentials = async() => {

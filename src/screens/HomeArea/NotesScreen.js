@@ -10,16 +10,26 @@ export default function NotesScreen() {
 
   const navigation = useNavigation();
 
-  const goToProjectForm = () => {
-    navigation.navigate("ProjectForm");
-  };
-
   const items = [
     { id : 1,
-      content: 'HOla que tal'
+      content: 'Despertarse',
+      hour: '5:45',
+      activado: true
     },
     { id : 2,
-      content: 'HOla que tal 2'
+      content: 'Ir al curro',
+      hour: '6:30',
+      activado: false
+    },
+    { id : 3,
+      content: 'Despertase de siesta',
+      hour: '17:00',
+      activado: false
+    },
+    { id : 4,
+      content: 'A dormir',
+      hour: '23:30',
+      activado: true
     },
   ]
 
@@ -55,7 +65,6 @@ const styles = StyleSheet.create({
     marginTop: 50,
     marginBottom: 30,
     paddingHorizontal: 10,
-    paddingVertical: 10,
     height: '72%',
   }
 })

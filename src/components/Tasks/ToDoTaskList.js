@@ -16,7 +16,7 @@ export default function ToDoTaskList(props) {
 
   return (
     <View style={styles.container}>
-      <ChangerButton range={range} setRange={setRange}/>
+      {/*<ChangerButton range={range} setRange={setRange}/> */}
       <FlatList
         data={tasks}
         renderItem={({ item }) => 
