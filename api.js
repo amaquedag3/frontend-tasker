@@ -201,6 +201,7 @@ export const getUserProjects = async(idUser) => {
 }
 
 export const saveProject = async(newProject) => {
+    console.log(newProject)
     try {
         const res = await fetch(API + '/projects', {
             method: "POST",

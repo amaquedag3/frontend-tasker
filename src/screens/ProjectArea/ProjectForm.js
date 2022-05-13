@@ -1,7 +1,6 @@
 import { View, Text, TextInput, StyleSheet, Button, ImageBackground, TouchableWithoutFeedback } from 'react-native'
 import React, {useState} from 'react'
 import { useNavigation } from "@react-navigation/native";
-import DatePicker from '../../components/DatePicker'
 import { saveProject } from '../../../api';
 import useAuth from '../../hooks/useAuth';
 import CustomModal from '../../components/CustomModal'
@@ -11,9 +10,9 @@ import CustomModal from '../../components/CustomModal'
 export default function ProjectForm() {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
-    const [started, setStarted] = useState(undefined)
-    const [error, setError] = useState('')
+    const [started, setStared] = useState(new Date())
 
+    const [error, setError] = useState('')
     const [modalVisible, setModalVisible] = useState("");
     const [modalText, setModalText] = useState("");
 
@@ -34,13 +33,9 @@ export default function ProjectForm() {
           setError('Introduce un título')
           return false;
       }
-      if(started == undefined){
-          setError('Introduce una fecha')
-          return false;
-          //TODO: validar que no sea una fecha anterior a la actual
-      }
       if(description == false){
         setError('Introduce una descripción')
+        return false
       }
       return true;
   }
@@ -61,7 +56,6 @@ export default function ProjectForm() {
     function cleanInputs(){
       setTitle('')
       setDescription('')
-      setStarted('')
     }
 
     return (
@@ -81,16 +75,6 @@ export default function ProjectForm() {
                 placeholder='Titulo'
                 value={title}
                 onChangeText={(text) => setTitle(text)}/>
-              
-              <View style={styles.calendar}>
-                <TextInput
-                  placeholder="Fecha"
-                  style={styles.inputDate}
-                  editable={false}>   
-                  {started}                             
-                </TextInput>
-                <DatePicker setDate={setStarted}/>
-              </View>  
               
               <TextInput 
                 style={styles.inputDescription} 
@@ -124,7 +108,7 @@ const styles = StyleSheet.create({
     },
     form: {
       marginTop: 100,
-      backgroundColor: 'rgba(255, 255, 255, 0.7)',
+      backgroundColor: 'rgba(255, 255, 255, 0.8)',
       paddingHorizontal: 20,
       borderRadius: 30,
       elevation: 150,
@@ -139,39 +123,19 @@ const styles = StyleSheet.create({
     },
     inputTitle: {
       height: 40,
-      borderWidth: 1,
+    
       padding: 10,
       borderRadius: 20,
-      backgroundColor: '#F2F1F1',
+      backgroundColor: 'rgba(255, 255, 255, 0.7)',
       marginVertical: 10
-    },
-    inputDate: {
-      height: 40,
-      width: '82%',
-      borderWidth: 1,
-      paddingLeft: 10,
-      borderRadius: 20,
-      backgroundColor: '#F2F1F1',
-      marginRight: 10,
-      marginVertical: 10,
-      color: 'black'
-    },    
-    calendar:{
-      flexWrap: 'wrap', 
-      alignItems: 'flex-start',
-      flexDirection:'row',
     },
     inputDescription: {
       marginTop: 10,
       marginBottom: 40,
       borderRadius: 10,
-      backgroundColor: 'white',
+      backgroundColor: 'rgba(255, 255, 255, 0.7)',
       fontSize: 15,
       height: 140,
-    },
-    datePickerStyle: {
-      width: 200,
-      marginTop: 20,
     },
     error: {
       textAlign: "center",

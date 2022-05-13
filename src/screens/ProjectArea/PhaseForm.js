@@ -67,8 +67,12 @@ export default function PhaseForm(props) {
         if(date == undefined){
             setError('Introduce una fecha')
             return false;
-            //TODO: validar que no sea una fecha anterior a la actual
         }
+        if(date > project.started || date < new Date()){
+            setError('Selecciona una fecha valida')
+            return false
+        }
+
         return true
     }
 

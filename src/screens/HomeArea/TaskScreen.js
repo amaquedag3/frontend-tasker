@@ -57,7 +57,7 @@ export default function TaskScreen() {
             isPlaying={isPlaying}
             setPlay={setPlay}/>
             {
-              tasks ? <View style={styles.pill}><Text style={styles.text}>No tienes tareas pendientes</Text></View>
+              tasks == undefined || tasks.length == 0 ? <View style={styles.pill}><Text style={styles.text}>No tienes tareas pendientes</Text></View>
               : <View></View>
             }
 
