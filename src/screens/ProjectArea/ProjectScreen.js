@@ -55,7 +55,7 @@ const styles = StyleSheet.create(
     noProjects: {
       paddingVertical: 80,
       alignSelf: 'center',
-      fontSize: 200,
+      fontSize: 15,
       fontFamily: 'Roboto_Medium'
     }
   }

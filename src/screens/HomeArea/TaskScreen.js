@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import {StyleSheet, ImageBackground, Button,} from 'react-native'
+import {StyleSheet, ImageBackground, Button, View, Text} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import ToDoTaskList from '../../components/Tasks/ToDoTaskList';
 import ToDoProgress from '../../components/Tasks/ToDoProgress';
@@ -56,6 +56,10 @@ export default function TaskScreen() {
             setRange={setRange}
             isPlaying={isPlaying}
             setPlay={setPlay}/>
+            {
+              tasks ? <View style={styles.pill}><Text style={styles.text}>No tienes tareas pendientes</Text></View>
+              : <View></View>
+            }
 
         <ToDoProgress 
           tasks={tasks}
@@ -79,4 +83,19 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%'
   },
+  text:{
+    fontSize: 18, 
+    fontWeight: 'bold',
+    alignSelf: 'center',
+  },
+  pill:{
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    height: '3%',
+    width: '80%',
+    position: 'absolute',
+    marginTop: '30%',
+    alignSelf: 'center', 
+    borderRadius: 30,
+    justifyContent: 'center'
+  }
 });

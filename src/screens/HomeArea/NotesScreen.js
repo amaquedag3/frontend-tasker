@@ -40,7 +40,6 @@ export default function NotesScreen() {
         <SafeAreaView>
           <FlatList
             data={items}
-            numColumns={2}
             keyExtractor={(reminder) => String(reminder.id)}
             renderItem={({item}) => <NoteCard reminder={item} />}
             />
