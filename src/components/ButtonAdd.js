@@ -19,6 +19,6 @@ export default function ButtonAdd(props) {
 const styles = StyleSheet.create({
     container: {
         alignSelf: 'center',
-        padding: 20,
+        padding: 10,
     },
 })

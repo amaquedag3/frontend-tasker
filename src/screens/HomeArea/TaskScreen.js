@@ -60,7 +60,9 @@ export default function TaskScreen() {
               tasks == undefined || tasks.length == 0 ? <View style={styles.pill}><Text style={styles.text}>No tienes tareas pendientes</Text></View>
               : <View></View>
             }
-
+        <View style={{marginHorizontal: 120, marginVertical: 10}}>
+          <Button title="Tareas acabadas" onPress={() => {navigation.navigate('EndedTasks')}}/>
+        </View>
         <ToDoProgress 
           tasks={tasks}
           setTasks={setTasks}
@@ -72,7 +74,8 @@ export default function TaskScreen() {
           isPlaying={isPlaying}
           setPlay={setPlay}/>
         <ButtonAdd action={() => {navigation.navigate('Form')}}/>
-        <Button title="Tareas acabadas" />
+        
+        
       </SafeAreaView>
     </ImageBackground>
   )
