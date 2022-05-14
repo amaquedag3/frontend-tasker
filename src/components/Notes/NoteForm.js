@@ -1,11 +1,12 @@
 import { View, Text, StyleSheet, ImageBackground, TouchableWithoutFeedback , TextInput, Button} from 'react-native';
 import React, {useState} from 'react'
 import DatePicker from '../DatePicker';
-import TimePicker from 'react-native-date-picker'
+import CustomTimePicker from '../CustomTimePicker';
+
 
 export default function NoteForm() {
     const [content, setContent] = useState();
-    const [date, setDate] = useState(new Date())
+    const [date, setDate] = useState(new Date().toLocaleString())
     const [open, setOpen] = useState(false)
 
     const handleSubmit = () => {
@@ -21,17 +22,9 @@ export default function NoteForm() {
                     value={content}
                     onChangeText={(text) => setContent(text)}
                     multiline={true}style={styles.input}/>
-                <View style={styles.calendar}>
-                        <TextInput
-                            placeholder="Fecha"
-                            style={styles.inputDate}
-                            autoCapitalize="none"
-                            editable={false}>   
-                            {date}                             
-                        </TextInput>
-                        <DatePicker setDate={setDate}/>
-                </View>
-                <TimePicker date={ date } onDateChange={setDate} />
+                
+                <CustomTimePicker inputDate={date}/>
+                <Text style={styles.error}>Error</Text>
                 <View style={styles.btn}>
                     <TouchableWithoutFeedback onPress={handleSubmit}>
                         <Text style={styles.buttonText}> Guardar </Text>
@@ -49,14 +42,14 @@ const styles = StyleSheet.create({
         height: '100%',
     },
     container:{
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
         borderRadius: 10,
         marginHorizontal: 30,
-        marginTop: 90,
+        marginTop: 140,
         marginBottom: 30,
         paddingHorizontal: 20,
         paddingVertical: 30,
-        height: '75%'
+        height: '55%'
     },
     title: {
         textAlign: "center",
@@ -91,6 +84,12 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         color: 'black',
         textAlign: 'center'
+    },
+    error: {
+        textAlign: "center",
+        color: "#f00",
+        marginVertical: 10,
+        fontSize: 14
     },
     btn:{
         backgroundColor: '#49A1F9',

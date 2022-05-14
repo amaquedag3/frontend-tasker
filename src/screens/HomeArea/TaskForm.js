@@ -1,7 +1,7 @@
 import { ImageBackground, StyleSheet, View, TextInput, Text, TouchableWithoutFeedback } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import { useNavigation } from '@react-navigation/native';
-import DatePicker from '../../components/DatePicker';
+import CustomDatePicker from '../../components/DatePicker';
 import CustomDropdownPicker from '../../components/CustomDropdownPicker';
 import Slider from '@react-native-community/slider';
 import { RadioButton } from 'react-native-paper';
@@ -9,12 +9,14 @@ import useAuth from '../../hooks/useAuth';
 import CustomModal from '../../components/CustomModal';
 import { createTask, getPhasesByProjectId, getUserProjects } from '../../../api';
 import { find } from 'lodash';
+import CustomTimePicker from '../../components/CustomTimePicker';
+
 
 
 export default function TaskForm() {
     const [error, setError] = useState('')
     const [title, setTitle] = useState('')
-    const [date, setDate] = useState(undefined)
+    const [date, setDate] = useState(new Date())
     const [expectedDuration, setDuration] = useState(0)
     const [priority, setPriority] = useState(0)
 
@@ -130,14 +132,7 @@ export default function TaskForm() {
                             onChangeText={(text) => setTitle(text)}
                         />
                         <View style={styles.calendar}>
-                            <TextInput
-                                placeholder="Fecha"
-                                style={styles.inputDate}
-                                autoCapitalize="none"
-                                editable={false}>   
-                                {date}                             
-                            </TextInput>
-                            <DatePicker setDate={setDate}/>
+                            <CustomTimePicker inputDate={date}/>
                         </View>
                         
                         <View>
@@ -173,6 +168,7 @@ export default function TaskForm() {
                             />
                             </View>
                         </View>
+                
                         <View style={styles.priorityBox}>
                             <Text style={styles.sliderTitle}>Prioridad:   </Text>
                             <RadioButton value={0} status={ priority === 0 ? 'checked' : 'unchecked' } 
@@ -204,6 +200,7 @@ export default function TaskForm() {
                         </View>
                         :<Text/>
                         }
+                        
                         
                         {project && phases == 0 
                         ?<View>
@@ -262,18 +259,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
         marginHorizontal: 40,
         marginVertical: 8
-    },
-    inputDate: {
-        height: 40,
-        width: '65%',
-        borderWidth: 1,
-        paddingLeft: 10,
-        borderRadius: 20,
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
-        marginLeft: 40,
-        marginRight: 10,
-        marginVertical: 10,
-        color: 'black'
     },
     sliderTitle:{
         alignSelf: 'center',
