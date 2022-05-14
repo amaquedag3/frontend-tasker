@@ -68,7 +68,7 @@ export default function PhaseForm(props) {
             setError('Introduce una fecha')
             return false;
         }
-        if(date > project.started || date < new Date()){
+        if(date > project.started || date < new Date(0)){
             setError('Selecciona una fecha valida')
             return false
         }
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     },
     inputDate: {
         height: 40,
-        width: '65%',
+        width: '50%',
         borderWidth: 1,
         paddingLeft: 10,
         borderRadius: 20,
@@ -176,12 +176,14 @@ const styles = StyleSheet.create({
         marginLeft: 40,
         marginRight: 10,
         marginVertical: 10,
-        color: 'black'
+        color: 'black',
+        textAlign: 'center'
     },
     calendar:{
         flexWrap: 'wrap', 
         alignItems: 'flex-start',
         flexDirection:'row',
+        justifyContent: 'center'
     },
     error: {
         textAlign: "center",

@@ -5,12 +5,28 @@ import CustomTimePicker from '../CustomTimePicker';
 
 
 export default function NoteForm() {
-    const [content, setContent] = useState();
-    const [date, setDate] = useState(new Date().toLocaleString())
+    const [error, setError] = useState();
+    const [content, setContent] = useState('');
+    const [date, setDate] = useState(new Date())
     const [open, setOpen] = useState(false)
 
     const handleSubmit = () => {
+        if(validateInput()){
+            console.log('correcto')
+        }
+    }
 
+    function validateInput(){
+        setError('')
+        if(content == ''){
+            setError('Introduce un contenido')
+            return false
+        }
+        if(date < new Date(0)){
+            setError('No puedes introducir una fecha pasada')
+            return false
+        }
+        return true
     }
 
     return (
@@ -23,8 +39,11 @@ export default function NoteForm() {
                     onChangeText={(text) => setContent(text)}
                     multiline={true}style={styles.input}/>
                 
-                <CustomTimePicker inputDate={date}/>
-                <Text style={styles.error}>Error</Text>
+                <CustomTimePicker inputDate={date.toLocaleString()}/>
+                {
+                    error ? <Text style={styles.error}>{error}</Text> : <View/> 
+                }
+                
                 <View style={styles.btn}>
                     <TouchableWithoutFeedback onPress={handleSubmit}>
                         <Text style={styles.buttonText}> Guardar </Text>

@@ -43,14 +43,14 @@ export default function CustomTimePicker(props) {
                     <TouchableWithoutFeedback  onPress={showDatepicker}>
                         <Image
                             source={require('../../assets/calendar.png')}
-                            style={{ width: 33, height: 33 }}/>
+                            style={{ width: 38, height: 38 }}/>
                     </TouchableWithoutFeedback>
                 </View>
                 <View style={styles.icon}>
                     <TouchableWithoutFeedback  onPress={showTimepicker}>
                         <Image
                             source={require('../../assets/clock.png')}
-                            style={{ width: 33, height: 33 }}/>
+                            style={{ width: 38, height: 38 }}/>
                     </TouchableWithoutFeedback>
                 </View>
                 {show && (
@@ -88,6 +88,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
         justifyContent:'center',
         color: 'black',
-        fontSize: 14,
+        fontSize: 16,
     },
 })
