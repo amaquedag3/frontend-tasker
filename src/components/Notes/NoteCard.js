@@ -6,7 +6,7 @@ export default function NoteCard(props) {
     const {reminder} = props;
     const [isActive, setActive] = useState(reminder.activado);
     const [content, setContent] = useState(reminder.content);
-    const [hour, setHours] = useState(reminder.hour)
+    const [hour, setHour] = useState(reminder.hour)
 
     const handleChangeAlarm = () => { 
         console.log('pressed')

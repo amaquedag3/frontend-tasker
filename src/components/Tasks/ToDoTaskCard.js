@@ -14,11 +14,11 @@ export default function ToDoTaskCard(props) {
     const [modalVisible, setModalVisible] = useState("");
     const [modalText, setModalText] = useState("");
 
-    const pill = {backgroundColor: colorPriority, ...styles.pill };
+    var pill = {backgroundColor: colorPriority, ...styles.pill };
 
     useEffect(async() => {
         setCardPriority()
-    }, [])
+    }, [tasks])
 
     const handleDeleteTask = () => {
         return Alert.alert(
@@ -88,8 +88,11 @@ export default function ToDoTaskCard(props) {
                     
                 </View>
                 <View style={{flexDirection: 'row'}}>
-                    <View style={pill}>
-                        <Text style={styles.priority}>{textPriority}</Text>
+                    
+                    <View>
+                        <View style={pill}>
+                            <Text style={styles.priority}>{textPriority}</Text>
+                        </View>
                     </View>
                     
                     <View style={styles.iconBox} >
@@ -122,7 +125,8 @@ const styles = StyleSheet.create({
     },
     pill: {
         borderRadius: 20,
-        margin: 10
+        margin: 10,
+        overflow: 'hidden'
     },
     title: {
         color: "black",

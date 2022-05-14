@@ -22,6 +22,7 @@ export default function NoteForm() {
             setError('Introduce un contenido')
             return false
         }
+
         if(date < new Date(0)){
             setError('No puedes introducir una fecha pasada')
             return false
@@ -39,7 +40,7 @@ export default function NoteForm() {
                     onChangeText={(text) => setContent(text)}
                     multiline={true}style={styles.input}/>
                 
-                <CustomTimePicker inputDate={date.toLocaleString()}/>
+                <CustomTimePicker inputDate={date}/>
                 {
                     error ? <Text style={styles.error}>{error}</Text> : <View/> 
                 }

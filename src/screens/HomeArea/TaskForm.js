@@ -78,8 +78,9 @@ export default function TaskForm() {
             setError('Introduce una fecha')
             return false;
         }
-        if(new Date(date) < new Date(0)){
-            setError('No puedes agregar fechas anteriores a hoy')
+        console.log(date, '-', new Date())
+        if(date > new Date()){
+            setError('Introduce una fecha y hora validas')
             return false;
         }else{
             console.log('not working ')
@@ -209,14 +210,20 @@ export default function TaskForm() {
                         </View>
                         :<Text/>
                         }
+
                         {project ?
                             <TouchableWithoutFeedback onPress={handleCleanSubmit}>
                                 <Text style={styles.cleanOption}> Quitar Fase </Text>
                             </TouchableWithoutFeedback>
                         : <Text/>
                         }
-
-                        <Text style={styles.error}>{error}</Text>
+                        
+                        {
+                            error ?
+                            <Text style={styles.error}>{error}</Text>
+                        
+                            : <View/>
+                        }
                         <View style={styles.btn}>
                             <TouchableWithoutFeedback onPress={handleSubmit}>
                                 <Text style={styles.buttonText}> Guardar </Text>
@@ -279,9 +286,8 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     calendar:{
-        flexWrap: 'wrap', 
-        alignItems: 'flex-start',
-        flexDirection:'row',
+        paddingHorizontal: 35,
+        justifyContent: 'center',
     },
     priorityBox:{
         marginTop: '4%',
