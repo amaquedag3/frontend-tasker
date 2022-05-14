@@ -1,4 +1,4 @@
-import { View, Text, TextInput, StyleSheet, Button, ImageBackground, TouchableWithoutFeedback } from 'react-native'
+import { View, Text, TextInput, StyleSheet, ImageBackground, TouchableWithoutFeedback } from 'react-native'
 import React, {useState} from 'react'
 import { useNavigation } from "@react-navigation/native";
 import { saveProject } from '../../../api';

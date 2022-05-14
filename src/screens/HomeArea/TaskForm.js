@@ -14,7 +14,6 @@ import { find } from 'lodash';
 export default function TaskForm() {
     const [error, setError] = useState('')
     const [title, setTitle] = useState('')
-    //const [description, setDescription] = useState('')
     const [date, setDate] = useState(undefined)
     const [expectedDuration, setDuration] = useState(0)
     const [priority, setPriority] = useState(0)
@@ -65,6 +64,7 @@ export default function TaskForm() {
         await createTask(newTask)
     }
 
+
     const validateInput = () => {
         setError('')
         setDuration(0)
@@ -75,7 +75,12 @@ export default function TaskForm() {
         if(date == undefined){
             setError('Introduce una fecha')
             return false;
-            //TODO: validar que no sea una fecha anterior a la actual
+        }
+        if(new Date(date) < new Date(0)){
+            setError('No puedes agregar fechas anteriores a hoy')
+            return false;
+        }else{
+            console.log('not working ')
         }
         if(expectedDuration < 5){
             setError('Una tarea debe durar al menos 5 minutos')
@@ -254,7 +259,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         padding: 10,
         borderRadius: 20,
-        backgroundColor: 'white',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
         marginHorizontal: 40,
         marginVertical: 8
     },
@@ -264,7 +269,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         paddingLeft: 10,
         borderRadius: 20,
-        backgroundColor: 'white',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
         marginLeft: 40,
         marginRight: 10,
         marginVertical: 10,
@@ -283,7 +288,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         padding: 10,
         borderRadius: 20,
-        backgroundColor: 'white',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
         marginHorizontal: 40,
         marginVertical: 10,
         alignSelf: 'center'

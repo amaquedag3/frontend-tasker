@@ -17,7 +17,7 @@ export default function NotesScreen() {
       activado: true
     },
     { id : 2,
-      content: 'Ir al curro',
+      content: 'Ir al curro mamwebo que te quedas sopa ',
       hour: '6:30',
       activado: false
     },
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     borderRadius: 10,
     marginHorizontal: 25,
-    marginTop: 50,
+    marginTop: 60,
     marginBottom: 30,
     paddingHorizontal: 10,
     height: '72%',

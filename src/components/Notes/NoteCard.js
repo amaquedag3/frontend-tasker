@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
-import React, {useState} from 'react'
-import { useHandler } from 'react-native-reanimated';
+import React, {useEffect, useState} from 'react'
 
 export default function NoteCard(props) {
     const {reminder} = props;
@@ -9,26 +8,35 @@ export default function NoteCard(props) {
     const [content, setContent] = useState(reminder.content);
     const [hour, setHours] = useState(reminder.hour)
 
-    const handleChangeAlarm = () => {
-        console.log('change', isActive)
+    const handleChangeAlarm = () => { 
+        console.log('pressed')
         setActive(!isActive)
         reminder.activado = isActive
     }
 
+    useEffect(()=> {
+        
+    }, [])
+
     return (
         <View style={styles.container}>
-            <TouchableWithoutFeedback onPress={handleChangeAlarm}>
-                <View style={styles.icon}>
-                    {reminder.activado ? 
-                    <Ionicons name='alarm-outline' size={25} color='green'/> : 
-                    <Ionicons name='alarm-outline' size={25}/>
-                    }
-                </View>
-            </TouchableWithoutFeedback>
-            <Text style={styles.text}>{reminder.content}</Text>
-            {reminder.activado ?
-            <Text>{reminder.hour}</Text>
-            : <Text></Text>
+
+            
+            
+                <TouchableWithoutFeedback onPress={handleChangeAlarm}>
+                    <View style={styles.icon}>
+                        {reminder.activado ? 
+                        <Ionicons name='alarm-outline' size={37} color='green'/> : 
+                        <Ionicons name='alarm-outline' size={37} color='gray'/>
+                        }
+                    </View>
+                </TouchableWithoutFeedback>
+            
+            <Text style={styles.content}>{reminder.content}</Text>
+
+            {reminder.activado ? 
+            <Text style={{fontWeight: 'bold'}}>{reminder.hour}</Text> :
+            <Text style={{fontWeight: 'normal'}}>{reminder.hour}</Text>
             }
         </View>
     )
@@ -36,20 +44,18 @@ export default function NoteCard(props) {
 
 const styles = StyleSheet.create({
     container: {
-        width: '45%',
         height: 70,
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
-        padding: 8,
-        margin: 8,
+        padding: 7,
+        margin: 7,
         borderRadius: 10
     },
     icon: {
         alignSelf: 'flex-end',
         position: 'absolute',
-        marginTop: '5%',
-        marginLeft: '5%'
+        padding: 12,
     },
-    text: {
+    content: {
         marginRight: '20%'
     }
 })

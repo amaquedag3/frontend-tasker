@@ -21,16 +21,18 @@ export default function App() {
       email: 'prueba',
       password: 'prueba',
       firstname: 'prueba',
-      lastname: 'prueba'
+      lastname: 'prueba',
+      birth: ''
     }
     await insertUser(user)
-    await getUsers()
+    const data = await getUsers()
+    console.log('sqlite-get',data)
   }, [])
 
   const checkStoredUserCredentials = async() => {
     try{
       const data = await AsyncStorage.getItem('token')
-      console.log('Token recibido en App.js: ')
+      //console.log('Token recibido en App.js: ', data)
       if(data !== null){
         login(data)
       }else{

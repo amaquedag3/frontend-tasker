@@ -1,9 +1,10 @@
+import { generateINSERTQuery } from './queryGenerator';
+
 const SQlite = require('expo-sqlite')
 const DATABASE_NAME = 'tasker.db';
 
 function getConnection(){
-    let db = SQlite.openDatabase(
-        {name: DATABASE_NAME, location: 'default'},
+    let db = SQlite.openDatabase({name: DATABASE_NAME},
         () => {},
         error => { console.log(error) }
     )
@@ -27,26 +28,31 @@ async function createTableTask(db){
 }
 
 export async function insertUser(user){
-    const query = "INSERT INTO `usuarios` VALUES ('" + user.id + "', '" + user.email + "', '" + user.password + "', '" + user.firstname + "', '" + user.lastname || '' + "', '" + user.birth || '' + "');"
     const db = getConnection()
-    await db.transaction((tx) => {
-        tx.executeSql(query)
+    db.transaction(function(tx){
+        tx.executeSql(
+            generateINSERTQuery('usuarios', ['id', 'email', 'password', 'firstname', 'lastname', 'birth'])
+            [user.id,  user.email, user.password, user.firstname, user.lastname, user.birth],
+            (tx, results) => {
+                console.log('Results', results.rowsAffected);
+                if (results.rowsAffected > 0) {
+                    console.log('Data Inserted Successfully....');
+                } else  console.log('Failed....');
+            }
+        );
     })
-    console.log('insertado')
+    
 }
 
-export async function getUsers(){
+export function getUsers(){
     const query = "SELECT * FROM `usuarios`"
     const db = getConnection()
-    try{
-        db.transaction((tx) => {
-            tx.executeSql(query, [], (tx, results) => {
-                console.log(results)
-            })
+    db.transaction(function(tx) {
+        tx.executeSql(query, [], function(tx, results){
+            console.log(results)
         })
-    }catch(error){
-        console.log(error)
-    }
+    })
+    
 }
 
 //USUARIOS
