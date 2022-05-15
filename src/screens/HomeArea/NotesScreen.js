@@ -9,27 +9,31 @@ import { SafeAreaView } from 'react-native-safe-area-context';import NoteCard fr
 export default function NotesScreen() {
 
   const navigation = useNavigation();
-
+      
   const items = [
     { id : 1,
       content: 'Despertarse',
       date: '5:45',
-      activado: true
+      activado: true,
+      periodicity: 1
     },
     { id : 2,
       content: 'Ir al curro mamwebo que te quedas sopa ',
       date: '6:30',
-      activado: false
+      activado: false,
+      periodicity: 2
     },
     { id : 3,
       content: 'Despertase de siesta',
       date: '17:00',
-      activado: false
+      activado: false,
+      periodicity: 3
     },
     { id : 4,
       content: 'A dormir',
       date: '23:30',
-      activado: true
+      activado: true,
+      periodicity: 4
     },
   ]
 

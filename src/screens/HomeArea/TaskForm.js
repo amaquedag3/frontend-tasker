@@ -1,7 +1,6 @@
 import { ImageBackground, StyleSheet, View, TextInput, Text, TouchableWithoutFeedback } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import { useNavigation } from '@react-navigation/native';
-import CustomDatePicker from '../../components/DatePicker';
 import CustomDropdownPicker from '../../components/CustomDropdownPicker';
 import Slider from '@react-native-community/slider';
 import { RadioButton } from 'react-native-paper';
@@ -9,7 +8,7 @@ import useAuth from '../../hooks/useAuth';
 import CustomModal from '../../components/CustomModal';
 import { createTask, getPhasesByProjectId, getUserProjects } from '../../../api';
 import { find } from 'lodash';
-import CustomTimePicker from '../../components/CustomTimePicker';
+import CustomDateTimePicker from '../../components/CustomDateTimePicker';
 
 
 
@@ -113,7 +112,10 @@ export default function TaskForm() {
     useEffect(async() => {
         if(project)
             loadPhases()
+
     }, [project])
+
+    
 
     return (
         <ImageBackground source={require('../../../assets/desktop.jpg')} style={styles.background}>
@@ -133,7 +135,7 @@ export default function TaskForm() {
                             onChangeText={(text) => setTitle(text)}
                         />
                         <View style={styles.calendar}>
-                            <CustomTimePicker inputDate={date}/>
+                            <CustomDateTimePicker inputDate={date}/>
                         </View>
                         
                         <View>

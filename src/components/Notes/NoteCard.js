@@ -9,6 +9,14 @@ export default function NoteCard(props) {
     const [content, setContent] = useState();
     const [hour, setHour] = useState()
 
+    const options = [
+        {id: 1, title: 'Una vez'},
+        {id: 2, title: 'De lunes a viernes'},
+        {id: 3, title: 'Fin de semana'},
+        {id: 4, title: 'Personalizado'}
+    ]
+
+
     const navigation = useNavigation();
 
     const handleChangeAlarm = () => { 
@@ -22,8 +30,9 @@ export default function NoteCard(props) {
         setHour(reminder.hour)
     }, [reminder])
 
+
     return (
-        <TouchableWithoutFeedback onPress={()=>{navigation.navigate('NoteForm', {reminder: reminder})}}>
+        <TouchableWithoutFeedback onPress={()=>{navigation.navigate('NoteForm', {reminder: reminder, options,})}}>
             <View style={styles.container}>
 
                 <TouchableWithoutFeedback onPress={handleChangeAlarm}>
@@ -47,6 +56,7 @@ export default function NoteCard(props) {
                     </View>
                 
                 }
+                <Text>{options[reminder.periodicity - 1].title}</Text>
             </View>
         </TouchableWithoutFeedback>
     )

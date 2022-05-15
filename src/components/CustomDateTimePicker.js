@@ -4,10 +4,10 @@ import React, {useState} from 'react'
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 
-export default function CustomTimePicker(props) {
+export default function CustomDateTimePicker(props) {
     const {inputDate} = props;
     const [date, setDate] = useState(new Date(inputDate));
-    const [mode, setMode] = useState('time');
+    const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
 
     const onChange = (event, selectedDate) => {
@@ -31,14 +31,21 @@ export default function CustomTimePicker(props) {
 
     return (
         <>
+            <TextInput
+                placeholder="Fecha"
+                style={styles.inputDate}
+                autoCapitalize="none"
+                editable={false}>   
+                {date.toLocaleString()}                             
+            </TextInput>
             <View style={styles.container}>
-                <TextInput
-                    placeholder="Hora"
-                    style={styles.inputDate}
-                    autoCapitalize="none"
-                    editable={false}>   
-                    {date.getHours() + ':' + date.getMinutes()}                             
-                </TextInput>
+                <View style={styles.icon}>
+                    <TouchableWithoutFeedback  onPress={showDatepicker}>
+                        <Image
+                            source={require('../../assets/calendar.png')}
+                            style={{ width: 38, height: 38 }}/>
+                    </TouchableWithoutFeedback>
+                </View>
                 <View style={styles.icon}>
                     <TouchableWithoutFeedback  onPress={showTimepicker}>
                         <Image
@@ -63,6 +70,7 @@ export default function CustomTimePicker(props) {
 const styles = StyleSheet.create({
     container:{
         flexDirection: 'row',
+        paddingHorizontal: '20%',
         alignSelf:'center',
         marginVertical: 10,
     },
@@ -72,7 +80,6 @@ const styles = StyleSheet.create({
     },
     inputDate: {
         height: 40,
-        width: 100,
         borderWidth: 1,
         textAlign: 'center',
         marginHorizontal: 12,

@@ -1,14 +1,24 @@
-import { View, Text, StyleSheet, ImageBackground, TouchableWithoutFeedback , TextInput, Button} from 'react-native';
+import { View, Text, StyleSheet,ImageBackground, TouchableWithoutFeedback , TextInput, Alert} from 'react-native';
 import React, {useState, useEffect} from 'react';
+import CustomDateTimePicker from '../CustomDateTimePicker';
+import CustomDropdownPicker from '../CustomDropdownPicker';
 import CustomTimePicker from '../CustomTimePicker';
+import DayPicker from '../DayPicker';
 
 
 export default function NoteForm(props) {
     const {reminder} = props;
+    const options = [
+        {id: 1, title: 'Una vez'},
+        {id: 2, title: 'De lunes a viernes'},
+        {id: 3, title: 'Fin de semana'},
+        {id: 4, title: 'Personalizado'}
+    ]
 
     const [error, setError] = useState();
     const [content, setContent] = useState('' );
     const [date, setDate] = useState(new Date())
+    const [periodicity, setPeriodicity] = useState()
 
     const handleSubmit = () => {
         if(validateInput()){
@@ -34,8 +44,18 @@ export default function NoteForm(props) {
             setError('No puedes introducir una fecha pasada')
             return false
         }
+        if(!periodicity){
+            setError('Elige una opcion de alarma')
+            return false
+        }
         return true
     }
+
+    useEffect(()=>{
+        if(periodicity == 4){
+            console.log('Custom periodicity')
+        }
+    }, [periodicity])
 
     return (
         <ImageBackground style={styles.background} source={require('../../../assets/medusa.jpg')} >
@@ -47,11 +67,28 @@ export default function NoteForm(props) {
                     onChangeText={(text) => setContent(text)}
                     multiline={true}style={styles.input}/>
                 
-                <CustomTimePicker inputDate={date}/>
+                <View style={{paddingHorizontal: 15, paddingTop: 8}}>
+                    <CustomDropdownPicker
+                        placeholder={'Selecciona una opcion'}
+                        options={options}
+                        setSelection={setPeriodicity}/>
+                </View>
+
+                {
+                    periodicity == 1
+                    ? <CustomDateTimePicker inputDate={date}/> :
+                    <View>
+                        <DayPicker />
+                        <CustomTimePicker inputDate={date}/>
+                    </View>
+                }
+                
+
                 {
                     error ? <Text style={styles.error}>{error}</Text> : <View/> 
                 }
                 
+
                 <View style={styles.btn}>
                     <TouchableWithoutFeedback onPress={handleSubmit}>
                         <Text style={styles.buttonText}> Guardar </Text>
@@ -72,11 +109,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255, 255, 255, 0.9)',
         borderRadius: 10,
         marginHorizontal: 30,
-        marginTop: 140,
+        marginTop: 100,
         marginBottom: 30,
         paddingHorizontal: 20,
         paddingVertical: 30,
-        height: '55%'
+        height: '66%'
     },
     title: {
         textAlign: "center",
