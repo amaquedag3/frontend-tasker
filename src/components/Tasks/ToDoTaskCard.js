@@ -22,7 +22,7 @@ export default function ToDoTaskCard(props) {
 
     const handleDeleteTask = () => {
         return Alert.alert(
-            "Elimnando tarea...",
+            "Eliminando tarea...",
             "¿Estas seguro de que quieres eliminar esta tarea?",
             [
                 {

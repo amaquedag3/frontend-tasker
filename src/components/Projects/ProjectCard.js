@@ -16,13 +16,13 @@ export default function ProjectCard(props) {
 
     const handleDeleteProject = () => {
         return Alert.alert(
-            "Elimnando pryecto...",
+            "Eliminando proyecto...",
             "¿Estas seguro de que quieres eliminar este Proyecto?",
             [
                 {
                     text: "Sí",
                     onPress: async () => { 
-                        console.log('Eliminando prpyecto ...', project.id)
+                        console.log('Eliminando proyecto ...', project.id)
                         await deleteProject(project.id)
                         await loadProjects()
                     },

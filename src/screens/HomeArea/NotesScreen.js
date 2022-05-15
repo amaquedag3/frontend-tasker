@@ -13,22 +13,22 @@ export default function NotesScreen() {
   const items = [
     { id : 1,
       content: 'Despertarse',
-      hour: '5:45',
+      date: '5:45',
       activado: true
     },
     { id : 2,
       content: 'Ir al curro mamwebo que te quedas sopa ',
-      hour: '6:30',
+      date: '6:30',
       activado: false
     },
     { id : 3,
       content: 'Despertase de siesta',
-      hour: '17:00',
+      date: '17:00',
       activado: false
     },
     { id : 4,
       content: 'A dormir',
-      hour: '23:30',
+      date: '23:30',
       activado: true
     },
   ]

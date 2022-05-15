@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from "@react-navigation/native";
 import React, {useEffect, useState} from 'react'
 
 export default function NoteCard(props) {
@@ -7,6 +8,8 @@ export default function NoteCard(props) {
     const [isActive, setActive] = useState(reminder.activado);
     const [content, setContent] = useState();
     const [hour, setHour] = useState()
+
+    const navigation = useNavigation();
 
     const handleChangeAlarm = () => { 
         reminder.activado = !isActive
@@ -17,33 +20,35 @@ export default function NoteCard(props) {
         setActive(reminder.activado)
         setContent(reminder.content)
         setHour(reminder.hour)
-    }, [])
+    }, [reminder])
 
     return (
-        <View style={styles.container}>
+        <TouchableWithoutFeedback onPress={()=>{navigation.navigate('NoteForm', {reminder: reminder})}}>
+            <View style={styles.container}>
 
-            <TouchableWithoutFeedback onPress={handleChangeAlarm}>
-                <View style={styles.icon}>
-                    {reminder.activado ? 
-                    <Ionicons name='alarm-outline' size={37} color='green'/> : 
-                    <Ionicons name='alarm-outline' size={37} color='gray'/>
-                    }
-                </View>
-            </TouchableWithoutFeedback>
-            
-            <Text style={styles.content}>{reminder.content}</Text>
+                <TouchableWithoutFeedback onPress={handleChangeAlarm}>
+                    <View style={styles.icon}>
+                        {reminder.activado ? 
+                        <Ionicons name='alarm-outline' size={37} color='green'/> : 
+                        <Ionicons name='alarm-outline' size={37} color='gray'/>
+                        }
+                    </View>
+                </TouchableWithoutFeedback>
+                
+                <Text style={styles.content}>{reminder.content}</Text>
 
-            {reminder.activado ? 
-                <View> 
-                    <Text style={{fontWeight: 'bold', marginTop: 5}}>{reminder.hour}</Text> 
-                </View>
-                :
-                <View>
-                    <Text style={{fontWeight: 'normal', marginTop: 5}}>{reminder.hour}</Text>
-                </View>
-            
-            }
-        </View>
+                {reminder.activado ? 
+                    <View> 
+                        <Text style={{fontWeight: 'bold', marginTop: 5}}>{reminder.date}</Text> 
+                    </View>
+                    :
+                    <View>
+                        <Text style={{fontWeight: 'normal', marginTop: 5}}>{reminder.date}</Text>
+                    </View>
+                
+                }
+            </View>
+        </TouchableWithoutFeedback>
     )
 }
 

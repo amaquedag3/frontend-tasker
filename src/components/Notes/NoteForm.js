@@ -1,20 +1,27 @@
 import { View, Text, StyleSheet, ImageBackground, TouchableWithoutFeedback , TextInput, Button} from 'react-native';
-import React, {useState} from 'react'
-import DatePicker from '../DatePicker';
+import React, {useState, useEffect} from 'react';
 import CustomTimePicker from '../CustomTimePicker';
 
 
-export default function NoteForm() {
+export default function NoteForm(props) {
+    const {reminder} = props;
+
     const [error, setError] = useState();
-    const [content, setContent] = useState('');
+    const [content, setContent] = useState('' );
     const [date, setDate] = useState(new Date())
-    const [open, setOpen] = useState(false)
 
     const handleSubmit = () => {
         if(validateInput()){
             console.log('correcto')
         }
     }
+    useEffect(()=> {
+        if(reminder){
+            console.log(reminder)
+            setContent(reminder.content)
+            setDate(reminder.date)
+        }
+    }, [reminder])
 
     function validateInput(){
         setError('')

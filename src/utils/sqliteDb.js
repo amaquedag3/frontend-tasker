@@ -29,17 +29,14 @@ async function createTableTask(db){
 
 export async function insertUser(user){
     const db = getConnection()
-    db.transaction(function(tx){
+    console.log('SQLITE get db in insert:', db._db._name.name)
+
+    db.transaction(tx => {
         tx.executeSql(
-            generateINSERTQuery('usuarios', ['id', 'email', 'password', 'firstname', 'lastname', 'birth'])
+            generateINSERTQuery('usuarios', ['id', 'email', 'password', 'firstname', 'lastname', 'birth']), 
             [user.id,  user.email, user.password, user.firstname, user.lastname, user.birth],
-            (tx, results) => {
-                console.log('Results', results.rowsAffected);
-                if (results.rowsAffected > 0) {
-                    console.log('Data Inserted Successfully....');
-                } else  console.log('Failed....');
-            }
-        );
+            (txObj, resultSet) => console.log(result),
+            (txObj, error) => console.log('Error', error))
     })
     
 }
@@ -47,12 +44,12 @@ export async function insertUser(user){
 export function getUsers(){
     const query = "SELECT * FROM `usuarios`"
     const db = getConnection()
-    db.transaction(function(tx) {
-        tx.executeSql(query, [], function(tx, results){
-            console.log(results)
-        })
+    db.transaction(tx => {
+        tx.executeSql(query, null, 
+            (txObj, { rows: { _array } }) => console.log(_array),
+            (txObj, error) => console.log('Error ', error)
+        )
     })
-    
 }
 
 //USUARIOS

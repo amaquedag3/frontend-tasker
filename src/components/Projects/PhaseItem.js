@@ -14,7 +14,6 @@ export default function PhaseItem(props) {
 
     const setFinished = async() => {
         phase.finished = new Date()
-        console.log(phase)
         await updatePhase(phase)
         await getPhases()
     }
