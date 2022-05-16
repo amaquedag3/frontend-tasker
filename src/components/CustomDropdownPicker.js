@@ -36,7 +36,7 @@ export default function CustomDropdownPicker(props) {
             setItems={setItems}
             placeholder={placeholder}
             onChangeValue={(value) => {handleChange(value)}}
-            style={{marginBottom: 10}}
+            style={{height: '5%'}}
         />
     )
 }

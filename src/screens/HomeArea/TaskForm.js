@@ -244,34 +244,32 @@ const styles = StyleSheet.create({
         height: '100%'
     },
     container:{
-        padding: 20,
-        height: '100%',
+        paddingHorizontal: '5%',
+        marginBottom: '15%'
     },
     form: {
-        marginTop: 50,
+        marginTop: '5%',
         backgroundColor: 'rgba(255, 255, 255, 0.7)',
         borderRadius: 30,
         elevation: 150,
     },
     title: {
         textAlign: "center",
-        fontSize: 25,
+        fontSize: 23,
         fontWeight: "bold",
-        fontFamily: 'Roboto',
-        marginVertical: 14
+        marginVertical: 10
     },
     input: {
-        height: 40,
+        height: 38,
         borderWidth: 1,
         padding: 10,
         borderRadius: 20,
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
         marginHorizontal: 40,
-        marginVertical: 8
     },
     sliderTitle:{
         alignSelf: 'center',
-        fontSize: 18
+        fontSize: 16
     },
     sliderLabel:{
         marginTop:'2%',
@@ -297,7 +295,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     dropdownBox:{
-        paddingHorizontal: 25,
+        paddingHorizontal: '10%',
         paddingVertical: 10
     },
     selectedOption:{
@@ -309,7 +307,7 @@ const styles = StyleSheet.create({
     },errorProject: {
         textAlign: "center",
         color: "#f00",
-        marginVertical: 2,
+        marginVertical: '1%',
     },
     cleanOption:{
         fontSize: 16,
@@ -318,7 +316,6 @@ const styles = StyleSheet.create({
         width: '35%',
         borderRadius: 20,
         justifyContent: 'center',
-        padding: 5,
         fontWeight: 'bold',
         textAlign: 'center',
         alignSelf: 'center'
@@ -326,19 +323,19 @@ const styles = StyleSheet.create({
     error: {
         textAlign: "center",
         color: "#f00",
-        marginVertical: 10,
+        marginVertical: '3%',
     },
     btn:{
         backgroundColor: '#49A1F9',
-        marginHorizontal: 90,
-        marginBottom: 15,
+        marginHorizontal: '25%',
+        marginBottom: '4%',
         borderRadius: 20,
         alignItems: 'center'
     },
     buttonText:{
         alignSelf: 'center',
         color: 'white',
-        padding: 10,
-        fontSize: 18
+        padding: '4%',
+        fontSize: 17
     }
 })

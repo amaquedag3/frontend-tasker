@@ -49,7 +49,7 @@ export default function NotesScreen() {
             />
         </SafeAreaView>
       </View>
-      <View style={{ position: 'absolute', bottom: 50, alignSelf: 'center'}}>
+      <View style={{ position: 'absolute', bottom: '7%', alignSelf: 'center'}}>
         <ButtonAdd action={() => {navigation.navigate('NoteForm')}}/>
       </View>
     </ImageBackground>
@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
   container:{
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     borderRadius: 10,
-    marginHorizontal: 25,
-    marginTop: 60,
+    marginHorizontal: '7%',
+    marginTop: '12%',
     marginBottom: 30,
     paddingHorizontal: 10,
     height: '72%',

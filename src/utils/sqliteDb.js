@@ -8,6 +8,16 @@ export  function openDataBase(){
     return db;
 }
 
+
+export function initDatabase(db){
+    console.log('SQLITE DATABASE:', db)
+    createTableTask(db)
+    createTableUser(db)
+    //db._db.close()
+}
+
+
+
 export  function selectQuery(){
     const db = openDataBase()
     db.transaction((tx) => {
@@ -29,6 +39,11 @@ export function createTableTask(db){
     //db._db.close()
 }
 
+export function createTableReminder(db){
+    const query = "CREATE TABLE IF NOT EXISTS `recordatorios` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, content VARCHAR(50), periodicity LONGTEXT, active TINYINT(1));"
+
+}
+
 export function createTableUser(db){
     const query = 'CREATE TABLE IF NOT EXISTS `usuarios` (`id` varchar(20) NOT NULL,`email` varchar(50) NOT NULL,`password` varchar(100) NOT NULL,`firstname` varchar(20) NOT NULL,`lastname` varchar(50) NOT NULL,`birth` date NOT NULL);'
 
@@ -38,8 +53,7 @@ export function createTableUser(db){
     //db._db.close()
 }
 
-export  function insertUser(user){
-    const db =  openDataBase()
+export  function insertUser(db ,user){
     db.transaction(
         (tx) => {
             tx.executeSql(
@@ -50,43 +64,8 @@ export  function insertUser(user){
             );
         },
         null
-        
     );
     
 }
 
 
-export function initDatabase(){
-    const db = openDataBase()
-    console.log('SQLITE DATABASE:', db)
-    createTableTask(db)
-    createTableUser(db)
-    //db._db.close()
-}
-
-/*
-export async function getConnection(){
-    const db = await SQLite.openDatabase({name: DATABASE_NAME, location: 'default'})
-    return db;
-}
-
-
-
-
-
-
-
-
-
-export async function getUsers(){
-    const query = "SELECT * FROM `usuarios`"
-    const db = await getConnection()
-    db.transaction(tx => {
-        tx.executeSql(query, null, 
-            (txObj, { rows: { _array } }) => () => {console.log('SELECT',_array)},
-            (txObj, error) => console.log('Error ', error)
-        )
-    })
-}
-
-*/

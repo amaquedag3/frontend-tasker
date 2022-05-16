@@ -5,7 +5,7 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 export default function ButtonAdd(props) {
     const {action, size} = props;
 
-    const image = {  width: size || 80, height: size || 80, alignSelf: 'center'};
+    const image = {  width: size || 70, height: size || 70, alignSelf: 'center'};
 
     return (
         <TouchableWithoutFeedback onPress={action}>

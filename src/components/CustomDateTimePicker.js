@@ -30,27 +30,26 @@ export default function CustomDateTimePicker(props) {
     };
 
     return (
-        <>
-            <TextInput
-                placeholder="Fecha"
-                style={styles.inputDate}
-                autoCapitalize="none"
-                editable={false}>   
-                {date.toLocaleString()}                             
-            </TextInput>
             <View style={styles.container}>
+                <TextInput
+                    placeholder="Fecha"
+                    style={styles.inputDate}
+                    autoCapitalize="none"
+                    editable={false}>   
+                    {date.toLocaleString()}                             
+                </TextInput>
                 <View style={styles.icon}>
                     <TouchableWithoutFeedback  onPress={showDatepicker}>
                         <Image
                             source={require('../../assets/calendar.png')}
-                            style={{ width: 38, height: 38 }}/>
+                            style={{ width: 35, height: 35 }}/>
                     </TouchableWithoutFeedback>
                 </View>
                 <View style={styles.icon}>
                     <TouchableWithoutFeedback  onPress={showTimepicker}>
                         <Image
                             source={require('../../assets/clock.png')}
-                            style={{ width: 38, height: 38 }}/>
+                            style={{ width: 35, height: 35 }}/>
                     </TouchableWithoutFeedback>
                 </View>
                 {show && (
@@ -63,14 +62,12 @@ export default function CustomDateTimePicker(props) {
                     />
                 )}
             </View>
-        </>
     );
 }
 
 const styles = StyleSheet.create({
     container:{
         flexDirection: 'row',
-        paddingHorizontal: '20%',
         alignSelf:'center',
         marginVertical: 10,
     },
@@ -79,15 +76,15 @@ const styles = StyleSheet.create({
         paddingLeft: 10
     },
     inputDate: {
-        height: 40,
+        height: 35,
         borderWidth: 1,
         textAlign: 'center',
-        marginHorizontal: 12,
+        width: '60%',
         marginVertical: 10,
         borderRadius: 20,
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
         justifyContent:'center',
         color: 'black',
-        fontSize: 16,
+        fontSize: 13,
     },
 })

@@ -7,12 +7,10 @@ import { orderBy } from "lodash";
 import { updateTask } from '../../../api';
 
 export default function CustomTimer(props) {
-    const {tasks, setTasks, loadTasks, selectedTask, setSelectedTask, isPlaying, setPlay, duration, setDuration} = props;
+    const {loadTasks, selectedTask, setSelectedTask, isPlaying, setPlay, duration, setDuration} = props;
     const [seconds, setSeconds] = useState(0);
     const [minutes, setMinutes] = useState(0);
-    const [hours, setHours] = useState(0);
-    const [modal, setModal] = useState();
-    const [modalText, setModalText] = useState()
+    const [hours, setHours] = useState(0);;
 
     const timerSeconds = seconds < 10 ? `0${seconds}` : seconds;
     const timerMinutes = minutes < 10 ? `0${minutes}` : minutes;
@@ -97,12 +95,12 @@ export default function CustomTimer(props) {
                 duration={1200}
                 spinDuration={4000}
                 animated= 'true' 
-                size={280} 
+                size={230} 
                 color={colors} 
                 />
                 :
                 <Progress.Circle
-                size={280}
+                size={230}
                 borderWidth={10}/>
             }
             </View>

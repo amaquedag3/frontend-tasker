@@ -73,10 +73,11 @@ export default function TaskScreen() {
           setDuration={setDuration}
           isPlaying={isPlaying}
           setPlay={setPlay}/>
-        <ButtonAdd action={() => {navigation.navigate('Form')}}/>
-        
-        
+          <View style={{position: 'absolute', bottom: '-17%', alignSelf: 'center'}}>
+            <ButtonAdd action={() => {navigation.navigate('Form')}}/>
+          </View>        
       </SafeAreaView>
+      
     </ImageBackground>
   )
 }
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
     height: '100%'
   },
   text:{
-    fontSize: 18, 
+    fontSize: 16, 
     fontWeight: 'bold',
     alignSelf: 'center',
   },
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
     height: '3%',
     width: '80%',
     position: 'absolute',
-    marginTop: '30%',
+    marginTop: '25%',
     alignSelf: 'center', 
     borderRadius: 30,
     justifyContent: 'center'

@@ -47,7 +47,7 @@ export default function ToDoTaskList(props) {
 
 const styles = StyleSheet.create({
   container: {
-      height: '30%',
+      height: '25%',
   },
   noTasks: {
     paddingVertical: 80,

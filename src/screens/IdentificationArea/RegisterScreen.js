@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
         height: '100%'
     },
     form: {
-        marginTop: 90,
+        marginTop: '15%',
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
         borderRadius: 30,
         elevation: 20,
