@@ -15,7 +15,7 @@ export default function App() {
   const { login, userData } = useAuth();
 
   useEffect(async()=>{
-    const connection = await openDataBase()
+    /*const connection = await openDataBase()
     await initDatabase(connection)
     let user = {
       id: '123',
@@ -25,8 +25,8 @@ export default function App() {
       lastname: 'prueba',
       birth: ''
     }
-    await insertUser(connection, user)
-    // connection._db.close()
+    await insertUser(connection, user) */
+    // connection._db.close() 
   }, [])
 
   const checkStoredUserCredentials = async() => {

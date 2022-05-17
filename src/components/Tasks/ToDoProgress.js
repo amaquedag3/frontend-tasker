@@ -30,7 +30,7 @@ export default function ToDoProgress(props) {
 
 const styles = StyleSheet.create({
   container: {
-    height: '38%',
+    height: '45%',
     borderRadius: 10,
     marginHorizontal: 30,
     marginBottom: 50,

@@ -119,11 +119,15 @@ export default function TaskForm() {
 
     return (
         <ImageBackground source={require('../../../assets/desktop.jpg')} style={styles.background}>
-            <CustomModal 
+            {
+                modalVisible ?
+                <CustomModal 
                 modalVisible={modalVisible} 
                 setModalVisible={setModalVisible} 
                 modalText={modalText}
                 setModalText={setModalText}/>
+                : <View/>
+            }
             <View style={styles.container}>
                     <View style={styles.form}>
                         <Text style={styles.title}>Nueva Tarea</Text>
@@ -245,10 +249,10 @@ const styles = StyleSheet.create({
     },
     container:{
         paddingHorizontal: '5%',
-        marginBottom: '15%'
+        marginBottom: '25%'
     },
     form: {
-        marginTop: '5%',
+        marginTop: '18%',
         backgroundColor: 'rgba(255, 255, 255, 0.7)',
         borderRadius: 30,
         elevation: 150,
@@ -311,6 +315,7 @@ const styles = StyleSheet.create({
     },
     cleanOption:{
         fontSize: 16,
+        marginVertical: '2%',
         color: '#003049', 
         backgroundColor: '#f77f00',
         width: '35%',
@@ -318,7 +323,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         fontWeight: 'bold',
         textAlign: 'center',
-        alignSelf: 'center'
+        alignSelf: 'center',
+        padding: '2%'
     },
     error: {
         textAlign: "center",

@@ -5,7 +5,7 @@ import {StyleSheet, ImageBackground, Button, View, Text} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import ToDoTaskList from '../../components/Tasks/ToDoTaskList';
 import ToDoProgress from '../../components/Tasks/ToDoProgress';
-import { getUserTasks, getUserTodoTasks } from '../../../api'
+import { getUserTodoTasks } from '../../../api'
 import useAuth from '../../hooks/useAuth';
 import ButtonAdd from '../../components/ButtonAdd';
 import { orderBy, remove } from "lodash";
@@ -73,7 +73,7 @@ export default function TaskScreen() {
           setDuration={setDuration}
           isPlaying={isPlaying}
           setPlay={setPlay}/>
-          <View style={{position: 'absolute', bottom: '-17%', alignSelf: 'center'}}>
+          <View style={{position: 'absolute', bottom: '-8%', alignSelf: 'center'}}>
             <ButtonAdd action={() => {navigation.navigate('Form')}}/>
           </View>        
       </SafeAreaView>
