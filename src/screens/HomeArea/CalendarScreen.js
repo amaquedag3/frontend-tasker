@@ -9,14 +9,19 @@ export default function CalendarScreen() {
   const workout = {key: 'workout', color: 'green'};
 
   return ( 
-    <Agenda 
-    markingType={'multi-dot'}
-    markedDates={{
-      '2022-05-25': {dots: [vacation, massage, workout], selected: true, selectedColor: 'red'},
-      '2022-05-26': {dots: [massage, workout], disabled: true}
-    }}
-    />
+    <>
+      <Agenda 
+      markingType={'multi-dot'}
+      markedDates={{
+        '2022-05-25': {dots: [vacation, massage, workout], selected: true, selectedColor: 'red'},
+        '2022-05-26': {dots: [massage, workout], disabled: true}
+      }}
+      />
+
+      <CalendarList />
+    </>
   )
+  
 }
 
 

@@ -7,9 +7,8 @@ import ButtonAdd from '../../components/ButtonAdd';
 import PhaseItem from '../../components/Projects/PhaseItem';
 
 export default function ProjectDetailsScreen(props) {
-    const {route} = props;
-    const {params} = route;
-    const {project} = params;
+    const {project} = props.route.params;
+
 
     const navigation = useNavigation();
     const [phases, setPhases] = useState()
@@ -30,7 +29,7 @@ export default function ProjectDetailsScreen(props) {
                 }
             }
         }else{
-            console.log(phases)
+            console.log('fases', phases)
             return false
         }
         return true

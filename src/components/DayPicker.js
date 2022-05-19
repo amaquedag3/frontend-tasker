@@ -1,9 +1,12 @@
-import { View, Text, StyleSheet, FlatList, SafeAreaView } from 'react-native'
-import React from 'react'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import { View, StyleSheet, FlatList, SafeAreaView } from 'react-native'
+import React, {useState} from 'react'
 import DayPill from './DayPill'
 
 export default function DayPicker() {
+    const [schedule, setSchedule] = useState([])
+    
+    console.log(schedule)
+
     const days = [
         {id: 0, value: 'L'},
         {id: 1, value: 'M'},
@@ -20,7 +23,12 @@ export default function DayPicker() {
                 <View style={styles.container}>
                     <FlatList
                             data={days}
-                            renderItem={({ item }) => <DayPill day={item}/>}
+                            renderItem={({ item }) => 
+                                <DayPill 
+                                    schedule={schedule}
+                                    setSchedule={setSchedule}
+                                    day={item}/>
+                            }
                             keyExtractor={(item, index) => {return index.toString()}}
                             horizontal={true}
 

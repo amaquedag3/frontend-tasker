@@ -11,7 +11,6 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "~1.15.0",
     "@react-native-community/datetimepicker": "4.0.0",
-    "@react-native-community/push-notification-ios": "^1.10.1",
     "@react-native-community/slider": "4.1.12",
     "@react-navigation/bottom-tabs": "^6.3.1",
     "@react-navigation/drawer": "^6.4.1",
@@ -37,11 +36,9 @@
     "react-native-neat-date-picker": "^1.2.2",
     "react-native-paper": "^4.12.1",
     "react-native-progress": "^5.0.0",
-    "react-native-push-notification": "^8.1.1",
     "react-native-reanimated": "~2.3.1",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
-    "react-native-simple-alarm": "^2.0.2",
     "react-native-svg": "12.1.1",
     "react-native-web": "0.17.1",
     "react-navigation-stack": "react-navigation/stack"

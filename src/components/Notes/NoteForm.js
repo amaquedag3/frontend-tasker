@@ -2,8 +2,6 @@ import { View, Text, StyleSheet,ImageBackground, TouchableWithoutFeedback , Text
 import React, {useState, useEffect} from 'react';
 import CustomDateTimePicker from '../CustomDateTimePicker';
 import CustomDropdownPicker from '../CustomDropdownPicker';
-import CustomTimePicker from '../CustomTimePicker';
-import DayPicker from '../DayPicker';
 
 
 export default function NoteForm(props) {
@@ -44,18 +42,8 @@ export default function NoteForm(props) {
             setError('No puedes introducir una fecha pasada')
             return false
         }
-        if(!periodicity){
-            setError('Elige una opcion de alarma')
-            return false
-        }
         return true
     }
-
-    useEffect(()=>{
-        if(periodicity == 4){
-            console.log('Custom periodicity')
-        }
-    }, [periodicity])
 
     return (
         <ImageBackground style={styles.background} source={require('../../../assets/medusa.jpg')} >
@@ -65,24 +53,18 @@ export default function NoteForm(props) {
                     placeholder='Contenido'
                     value={content}
                     onChangeText={(text) => setContent(text)}
-                    multiline={true}style={styles.input}/>
+                    multiline={true} style={styles.input}/>
                 
-                <View style={{paddingHorizontal: 15, paddingTop: 8}}>
+                <View style={{paddingHorizontal: 15, marginVertical: 15}}>
                     <CustomDropdownPicker
                         placeholder={'Selecciona una opcion'}
                         options={options}
                         setSelection={setPeriodicity}/>
                 </View>
 
-                {
-                    periodicity == 1
-                    ? <CustomDateTimePicker inputDate={date}/> :
-                    <View>
-                        <DayPicker />
-                        <CustomTimePicker inputDate={date}/>
-                    </View>
-                }
-                
+                <View style={styles.inputDate}>
+                    <CustomDateTimePicker inputDate={date}/>
+                </View>
 
                 {
                     error ? <Text style={styles.error}>{error}</Text> : <View/> 
@@ -109,26 +91,24 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255, 255, 255, 0.9)',
         borderRadius: 10,
         marginHorizontal: 30,
-        marginTop: 100,
+        marginTop: '30%',
         marginBottom: 30,
         paddingHorizontal: 20,
-        paddingVertical: 30,
-        height: '66%'
+        paddingTop: 30,
     },
     title: {
         textAlign: "center",
         fontSize: 20,
         fontWeight: "bold",
         fontFamily: 'Roboto',
-        marginVertical: 14
+        marginVertical: 17
     },input: {
-        height: '30%',
         borderWidth: 1,
-        padding: 10,
+        padding: 3,
         borderRadius: 20,
         backgroundColor: 'white',
-        marginHorizontal: 10,
-        marginVertical: 8
+        marginHorizontal: 15,
+        marginBottom: 8
     },
     calendar:{
         flexWrap: 'wrap', 
@@ -137,17 +117,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     inputDate: {
-        height: 40,
-        width: '60%',
-        borderWidth: 1,
-        paddingLeft: 10,
-        borderRadius: 20,
-        backgroundColor: 'white',
-        marginLeft: 20,
-        marginRight: 10,
-        marginVertical: 10,
-        color: 'black',
-        textAlign: 'center'
+        marginTop: 18
     },
     error: {
         textAlign: "center",

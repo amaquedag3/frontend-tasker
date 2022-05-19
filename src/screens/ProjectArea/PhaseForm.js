@@ -13,6 +13,7 @@ export default function PhaseForm(props) {
 
     const [error, setError] = useState('')
     const [title, setTitle] = useState('')
+
     const [description, setDescription] = useState()
     const [date, setDate] = useState(undefined)
     const [modalVisible, setModalVisible] = useState("");
@@ -31,11 +32,7 @@ export default function PhaseForm(props) {
                 phase.description = description
                 phase.date = date
                 await updatePhase(phase)
-                cleanInputs()
                 setModalText('!Tarea editada!')
-                setModalVisible(true)
-                await wait(2000)
-                navigation.goBack()
             }else{
                 const newPhase = {
                     'title': title,
@@ -44,11 +41,12 @@ export default function PhaseForm(props) {
                     'idProject': project.id
                 }
                 await savePhase(newPhase)
-                cleanInputs()
                 setModalText('!Tarea guardada!')
-                setModalVisible(true)
             }
-            
+            setModalVisible(true)
+            cleanInputs()
+            await wait(2000)
+            navigation.goBack()
         }
     }
     
@@ -68,11 +66,11 @@ export default function PhaseForm(props) {
             setError('Introduce una fecha')
             return false;
         }
-        if(date > project.started || date < new Date(0)){
+        
+        if(new Date(date) > project.started || date < new Date(0)){
             setError('Selecciona una fecha valida')
             return false
         }
-
         return true
     }
 

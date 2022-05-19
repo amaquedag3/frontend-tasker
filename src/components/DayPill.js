@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native'
 import React, {useState, useEffect} from 'react'
 
 export default function DayPill(props) {
-    const {day} = props;
+    const {day, schedule, setSchedule} = props;
     const [isSelect, setSelected] = useState(false)
     const [bgColor, setBgColor] = useState('gray')
 
@@ -14,9 +14,17 @@ export default function DayPill(props) {
         else
             setBgColor('gray')
     }, [isSelect])
+    
+    const handleSelection = () => {
+        console.log(schedule)
+        setSelected(!isSelect)
+
+        setSchedule(schedule[day.id].splice(day.id, 1,  ['range']))
+
+    }
 
     return (
-        <TouchableWithoutFeedback onPress={() => {setSelected(!isSelect)}}>
+        <TouchableWithoutFeedback onPress={handleSelection}>
             <View style={pill}>
                 <Text style={styles.content}>{day.value}</Text>
             </View>
@@ -34,6 +42,7 @@ const styles = StyleSheet.create({
     },
     content:{
         color: 'white',
-        textAlign: 'center'
+        textAlign: 'center',
+        fontWeight: 'bold'
     }
 })

@@ -17,9 +17,11 @@ export default function StudentScreen() {
         <View style={styles.subcontainer}>
         </View>
       </View>
-      <View style={{position: 'absolute', bottom: '0', alignSelf: 'center'}}>
-        <ButtonAdd />
+      {
+      <View style={styles.buttonBox}>
+        <ButtonAdd size={50} action={() => {navigation.navigate('SubjectForm')}}/>
       </View>  
+      }
     </ImageBackground>
   )
 }
@@ -50,6 +52,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
     bottom: '5%'
+  },
+  buttonBox: {
+    position: 'absolute',
+    bottom: 0,
+    alignSelf: 'center'
   }
 
 })
