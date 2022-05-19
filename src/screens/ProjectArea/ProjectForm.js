@@ -17,7 +17,7 @@ export default function ProjectForm() {
     const [modalText, setModalText] = useState("");
 
     const { userData } = useAuth();
-    const idUser = userData.user.id;
+    const idUser = userData.id;
 
     const navigation = useNavigation();
 

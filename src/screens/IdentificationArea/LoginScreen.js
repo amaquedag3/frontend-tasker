@@ -39,6 +39,7 @@ export default function LoginScreen() {
         }else{
             login({
                 'token': result.token,
+                'id': result.user.id,
                 'email': result.user.email,
                 'password': password,
                 'name': result.user.firstname

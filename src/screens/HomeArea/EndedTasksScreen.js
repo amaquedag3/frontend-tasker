@@ -10,7 +10,7 @@ export default function EndedTasksScreen() {
     const { userData } = useAuth()
 
     const loadTasks = async() => {
-        const data = await getUserEndedTasks(userData.user.id)
+        const data = await getUserEndedTasks(userData.id)
         if(data){
             setTasks(orderBy(data,['priority'], ['desc']))
         }

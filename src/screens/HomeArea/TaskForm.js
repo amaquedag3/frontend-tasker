@@ -31,7 +31,7 @@ export default function TaskForm() {
     const [modalText, setModalText] = useState("");
     const navigation = useNavigation();
     const { userData } = useAuth();
-    const idUser = userData.user.id;
+    const idUser = userData.id;
 
     const wait = (timeout) => {
         return new Promise(resolve => setTimeout(resolve, timeout));

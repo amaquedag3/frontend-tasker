@@ -12,7 +12,7 @@ export default function ProjectsScreen() {
   const { userData } = useAuth();
 
   const loadProjects = async() => {
-    const data = await getUserProjects(userData.user.id)
+    const data = await getUserProjects(userData.id)
     if(data)
       setProjects(data)
   }

@@ -22,7 +22,7 @@ export default function TaskScreen() {
   const navigation = useNavigation();
   
   const loadTasks = async(task) => {
-    const data = await getUserTodoTasks(userData.user.id)
+    const data = await getUserTodoTasks(userData.id)
     if(data){
       if(task){
         remove(tasks, function(item){
