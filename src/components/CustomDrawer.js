@@ -18,6 +18,8 @@ export default function CustomDrawer(props) {
         await AsyncStorage.removeItem('token')
         logout()
     }
+
+    console.log('USER DATA',userData)
     
     return (
         <View style={{flex: 1}}>
@@ -26,7 +28,7 @@ export default function CustomDrawer(props) {
                     source={require('../../assets/back-drawer.jpg')} 
                     style={{padding:20}}>
                     <Image source={require('../../assets/gengar.png')} style={styles.icon}/>
-                    <Text style={styles.title}>{userData.firstname}</Text>
+                    <Text style={styles.title}>TO DO</Text>
                 </ImageBackground>
                 <View style={styles.itemListContainer}>
                     <DrawerItemList {...props}/>

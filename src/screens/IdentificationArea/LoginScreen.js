@@ -8,29 +8,20 @@ import { APIlogin } from "../../../api";
 
 export default function LoginScreen() {
     const [error, setError] = useState("");
-    const [email, setEmail] = useState("admin")
-    const [password, setPassword] = useState("admin")
+    const [email, setEmail] = useState()
+    const [password, setPassword] = useState()
 
     const { login, userData } = useAuth();
     const navigation = useNavigation();
 
-    const goRegister = () => {
-        navigation.navigate("Register");
-    }
-    const goHome = () => {
-        navigation.navigate('Home')
-    }
-
-    const storeUserCreddentials = async(userData) => {
-        try {
-            await AsyncStorage.setItem('token',  userData.token)
-            await AsyncStorage.setItem('lastLog', JSON.stringify(new Date()))
-        } catch (error) {
-            console.log(error)
+    //Metodo que es llamado al hacer press en submit
+    function handleSubmit(){
+        if(validateInput()){
+            loginAPIResponse()
         }
     }
-    
 
+    //Validación de entrada de campos
     function validateInput(){
         setError('');
         if(email == '' || password == ''){
@@ -40,30 +31,44 @@ export default function LoginScreen() {
         return true;
     }
 
+    //Metodo que maneja la respuesta de la API
     const loginAPIResponse = async() => {
-        const credentials = {email, password}
-        const result = await APIlogin(credentials)
+        const result = await APIlogin({email, password})
         if(result.status != 200){
             setError(result.message)
         }else{
-            const userData = {
-                user: result.user, 
-                token: result.token
-            }
-            storeUserCreddentials(userData)
-            login(userData)
-            goHome()
+            login({
+                'token': result.token,
+                'email': result.user.email,
+                'password': password,
+                'name': result.user.firstname
+            })
+            await storeUserCreddentials()
+            navigation.navigate('Home')
         }
     }
 
-    function handleSubmit(){
-        if(validateInput()){
-            loginAPIResponse()
+    //Metodo que guarda en LocalStorage las credenciales para el siguiente login
+    const storeUserCreddentials = async() => {
+        try {
+            AsyncStorage.setItem('credentials',  JSON.stringify({email, password}))
+        } catch (error) {
+            console.log(error)
         }
     }
 
+    //Metodo que se activa cuando se inicia el componente
+    //Busca los datos del ultimo usuario logeado
     useEffect(async() => {
-        console.log('Login - useEffect')
+        try{
+            const data = JSON.parse(await AsyncStorage.getItem('credentials'))
+            if(data){
+                setEmail(data.email)
+                setPassword(data.password)
+            }
+        }catch(error){
+            console.log(error)
+        }
     }, [])
 
     return (
@@ -77,6 +82,7 @@ export default function LoginScreen() {
                         style={styles.input}
                         autoCapitalize="none"
                         onChangeText={(text) => setEmail(text)}
+                        value={email}
                     />
                     <TextInput
                         placeholder="Contraseña"
@@ -84,6 +90,7 @@ export default function LoginScreen() {
                         autoCapitalize="none"
                         secureTextEntry={true}
                         onChangeText={(text) => setPassword(text)}
+                        value={password}
                     />
 
                     <Text style={styles.error}>{error}</Text>
@@ -95,7 +102,7 @@ export default function LoginScreen() {
                     </View>
 
                     <SafeAreaView>
-                        <TouchableWithoutFeedback onPress={goRegister}>
+                        <TouchableWithoutFeedback onPress={() => {navigation.navigate("Register")}}>
                             <Text style={styles.registerText}>Resgistrate aquí</Text>
                         </TouchableWithoutFeedback>
                     </SafeAreaView>
