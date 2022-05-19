@@ -1,10 +1,12 @@
 import { View, Text, StyleSheet, TouchableWithoutFeedback, Alert } from 'react-native'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { deleteTask } from '../../../api';
+import { deleteTask, getPhaseById, getProjectById } from '../../../api';
 
 export default function EndedTaskCard(props) {
     const {task, loadTasks} = props;
+    const [projectName, setProjectName] = useState();
+    const [phaseName, setPhaseName] = useState()
 
     const handleDeleteTask = () => {
         return Alert.alert(
@@ -23,18 +25,33 @@ export default function EndedTaskCard(props) {
         );
     }
 
+    const setProjectNameByPhaseId =async() => {
+        let phase = await getPhaseById(task.idPhase)
+        let project = await getProjectById(phase[0].idProject)
+        setPhaseName(phase[0].title)
+        setProjectName(project[0].title)
+    }
+
+    useEffect( () => {
+        if(task.idPhase)
+            setProjectNameByPhaseId()
+        
+    }, [])
+    
+    
+
     return (
         
             <View style={styles.card}>
                 <View style={styles.spacing}>
                     <Text style={styles.title}>{task.title}</Text>
-                    <Text>Duracion: {task.duration}</Text>
-                    <Text>Duracion esperada: {task.expectedDuration}</Text>
-                    <Text>Fecha: {task.date.split('T')[0]}</Text>
-                    <Text>Acabada: {task.finished.split('T')[0]}</Text>
+                    <Text style={styles.subTitle}>Duracion: <Text style={styles.content}>{task.duration} minutos</Text></Text>
+                    <Text style={styles.subTitle}>Duracion esperada: <Text style={styles.content}>{task.expectedDuration} minutos</Text></Text>
+                    <Text style={styles.subTitle}>Fecha: <Text style={styles.content}>{task.date.split('T')[0]}</Text></Text>
+                    <Text style={styles.subTitle}>Acabada: <Text style={styles.content}>{task.finished.split('T')[0]}</Text></Text>
                     {
                         task.idPhase
-                        ? <Text>Proyecto: {task.idPhase}</Text>
+                        ? <Text style={styles.subTitle}>Proyecto: <Text style={styles.content}>{ projectName } - {phaseName} </Text></Text>
                         : <View/>
                     }
                 </View>
@@ -58,13 +75,23 @@ const styles = StyleSheet.create({
     title: {
         color: "black",
         fontWeight: "bold",
-        fontSize: 15,
+        fontSize: 16,
         paddingTop: 10,
         alignSelf: 'center',
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    subTitle: {
+        color: "black",
+        fontWeight: "bold",
+        fontSize: 14,
+    },
+    content: {
+        color: "black",
+        fontWeight: "normal",
+        fontSize: 14,
     },
     icon: {
         color: 'red',

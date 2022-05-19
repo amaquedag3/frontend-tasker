@@ -182,6 +182,25 @@ export const getProjects = async() => {
     return await res.json()
 }
 
+export const getProjectById = async(id) => {
+    try {
+        const res = await fetch(API + '/projects/id', {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                'id': id
+            }),
+        });
+        return await res.json();
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
 export const getUserProjects = async(idUser) => {
     try {
         const res = await fetch(API + '/projects/user', {
@@ -240,7 +259,7 @@ export const deleteProject = async(id) => {
 
 export const getPhasesByProjectId = async(idProject) => {
     try {
-        const res = await fetch(API + '/phases/project', {
+        const res = await fetch(API + '/phases/id', {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -248,6 +267,24 @@ export const getPhasesByProjectId = async(idProject) => {
             },
             body: JSON.stringify({
                 'idProject': idProject
+            }),
+        });
+        return await res.json();
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getPhaseById = async(id) => {
+    try {
+        const res = await fetch(API + '/phases/id', {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                'id': id
             }),
         });
         return await res.json();

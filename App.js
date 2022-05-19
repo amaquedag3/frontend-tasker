@@ -14,7 +14,7 @@ export default function App() {
   const { login, userData } = useAuth();
 
   useEffect(async()=>{
-    initDataBase()
+    //initDataBase()
   }, [])
 
 
