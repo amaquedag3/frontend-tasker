@@ -4,7 +4,6 @@ import EndedTaskCard from './EndedTaskCard';
 
 export default function EndedTaskList(props) {
     const {tasks, setTasks, loadTasks} = props;
-
     const [refreshing, setRefreshing] = useState(false);
 
     const onRefresh = React.useCallback(async() =>{

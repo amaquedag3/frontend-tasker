@@ -7,9 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 
 
 export default function PhaseForm(props) {
-    const {route} = props;
-    const {params} = route;
-    const {project, phase} = params;
+    const {project, phase} = props.route.params;
 
     const [error, setError] = useState('')
     const [title, setTitle] = useState('')
@@ -27,6 +25,7 @@ export default function PhaseForm(props) {
 
     const handleSubmit = async() => {
         if(validateInput()){
+            setError('')
             if(phase){
                 phase.title = title
                 phase.description = description

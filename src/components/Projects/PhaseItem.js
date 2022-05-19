@@ -39,9 +39,14 @@ export default function PhaseItem(props) {
             <View style={styles.container}>
                 <Text style={styles.title}>{phase.title}  <Text style={styles.date}>{phase.started.split('T')[0]}</Text></Text>
                 <Text>{phase.description}</Text>
+                <Text></Text>
+                <Text>Tiempo dedicado: x</Text>
                 <View style={styles.iconBox}>
                     {phase.finished ? <Text style={styles.dateEnd}>Acabado: {phase.finished.split('T')[0]}</Text> : <Text style={styles.dateEnd}>Por hacer</Text>}
-                    <Ionicons onPress={setFinished} name="checkmark-circle-outline"  size={23} style={styles.icon} color='green'/> 
+                    {phase.finished 
+                        ? <Ionicons onPress={() => console.log('ya esta acabada')} name="checkmark-circle-outline"  size={23} style={styles.icon} color='gray'/> 
+                        : <Ionicons onPress={setFinished} name="checkmark-circle-outline"  size={23} style={styles.icon} color='green'/> 
+                    }
                     <Ionicons onPress={handleEdit} name="pencil"  size={23} style={styles.icon} color='#FFBD33'/> 
                     <Ionicons onPress={handleDelete} name="trash-outline"  size={23} style={styles.icon} color='red' /> 
                 </View>

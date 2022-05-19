@@ -1,26 +1,26 @@
 import { View, Text, StyleSheet,ImageBackground, TouchableWithoutFeedback , TextInput, Alert} from 'react-native';
 import React, {useState, useEffect} from 'react';
-import CustomDateTimePicker from '../CustomDateTimePicker';
-import CustomDropdownPicker from '../CustomDropdownPicker';
+import CustomDateTimePicker from '../../components/CustomDateTimePicker';
+import { insertReminder } from '../../utils/sqliteDb';
+import useAuth from '../../hooks/useAuth';
 
 
 export default function NoteForm(props) {
     const {reminder} = props;
-    const options = [
-        {id: 1, title: 'Una vez'},
-        {id: 2, title: 'De lunes a viernes'},
-        {id: 3, title: 'Fin de semana'},
-        {id: 4, title: 'Personalizado'}
-    ]
+    const { userData } = useAuth()
 
     const [error, setError] = useState();
     const [content, setContent] = useState('' );
     const [date, setDate] = useState(new Date())
-    const [periodicity, setPeriodicity] = useState()
 
-    const handleSubmit = () => {
+    const handleSubmit = async() => {
         if(validateInput()){
-            console.log('correcto')
+            await insertReminder({
+                content: content,
+                date: date,
+                active: false,
+                idUser: userData.id
+            })
         }
     }
     useEffect(()=> {
@@ -53,16 +53,9 @@ export default function NoteForm(props) {
                     placeholder='Contenido'
                     value={content}
                     onChangeText={(text) => setContent(text)}
-                    multiline={true} style={styles.input}/>
+                    style={styles.input}/>
                 
-                <View style={{paddingHorizontal: 15, marginVertical: 15}}>
-                    <CustomDropdownPicker
-                        placeholder={'Selecciona una opcion'}
-                        options={options}
-                        setSelection={setPeriodicity}/>
-                </View>
-
-                <View style={styles.inputDate}>
+                <View>
                     <CustomDateTimePicker inputDate={date}/>
                 </View>
 
@@ -101,23 +94,21 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold",
         fontFamily: 'Roboto',
-        marginVertical: 17
+        marginVertical: 10,
+        paddingHorizontal: '5%'
     },input: {
         borderWidth: 1,
         padding: 3,
         borderRadius: 20,
         backgroundColor: 'white',
         marginHorizontal: 15,
-        marginBottom: 8
+        marginVertical: 8
     },
     calendar:{
         flexWrap: 'wrap', 
         alignItems: 'flex-start',
         flexDirection:'row',
         alignSelf: 'center'
-    },
-    inputDate: {
-        marginTop: 18
     },
     error: {
         textAlign: "center",

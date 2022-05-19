@@ -6,7 +6,7 @@ import IdentificationNavigation from './src/navigations/IdentificationNavigation
 import useFonts from './src/hooks/useFonts';
 import { AuthProvider } from './src/context/AuthContext';
 import useAuth from './src/hooks/useAuth';
-
+import { openDataBase, initDataBase } from './src/utils/sqliteDb';
 
 export default function App() {
   const [IsReady, SetIsReady] = useState(false);
@@ -14,26 +14,12 @@ export default function App() {
   const { login, userData } = useAuth();
 
   useEffect(async()=>{
-   
+    initDataBase()
   }, [])
 
-  const checkStoredUserCredentials = async() => {
-    try{
-      const data = await AsyncStorage.getItem('token')
-      //console.log('Token recibido en App.js: ', data)
-      if(data !== null){
-        login(data)
-      }else{
-        await AsyncStorage.removeItem('token')
-      }
-    }catch(error){
-      console.log(error)
-    }
-  }
 
   const onStart = async() => {
     loadFonts()
-    checkStoredUserCredentials()
   }
 
   const loadFonts = async () => {

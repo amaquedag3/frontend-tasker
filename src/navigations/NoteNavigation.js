@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from "@react-navigation/stack";
 import NotesScreen from '../screens/HomeArea/NotesScreen';
-import NoteForm from '../components/Notes/NoteForm';
+import NoteForm from '../screens/HomeArea/NoteForm';
 
 
 const Stack = createStackNavigator();

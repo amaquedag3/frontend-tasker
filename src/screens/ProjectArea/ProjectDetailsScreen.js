@@ -29,7 +29,6 @@ export default function ProjectDetailsScreen(props) {
                 }
             }
         }else{
-            console.log('fases', phases)
             return false
         }
         return true
@@ -40,6 +39,9 @@ export default function ProjectDetailsScreen(props) {
         const result = await getPhasesByProjectId(project.id)
         if(result){
             setPhases(result)
+            if(isEnded()){
+                setEnded(true)
+            }
         }
     }
 
@@ -47,10 +49,12 @@ export default function ProjectDetailsScreen(props) {
         await getPhases()
     }, [])
 
-    useState(() => {
-        isEnded()
+    useEffect(()=> {
+        if(isEnded()){
+            setEnded(true)
+        }
     }, [phases])
-    
+
 
     return (
         <ImageBackground source={require('../../../assets/night-landscape.jpg')} style={styles.background}>
