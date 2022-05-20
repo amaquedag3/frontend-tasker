@@ -13,7 +13,6 @@ import { orderBy, remove } from "lodash";
 
 export default function TaskScreen() {
   const [tasks, setTasks] = useState(undefined)
-  const [range, setRange] = useState('Hoy')
   const [selectedTask, setSelectedTask] = useState(undefined)
   const [isPlaying, setPlay] = useState(false)
   const [duration, setDuration] = useState(0)
@@ -41,6 +40,10 @@ export default function TaskScreen() {
     loadTasks()
   }, [])
 
+  useEffect(()=>{
+    console.log('cambio de tarea', selectedTask)
+  }, [selectedTask])
+
   return (
     <ImageBackground source={require('../../../assets/sun-flower.jpg')} style={styles.background}>
       <SafeAreaView>
@@ -52,8 +55,6 @@ export default function TaskScreen() {
             setSelectedTask={setSelectedTask}
             duration={duration}
             setDuration={setDuration}
-            range={setRange} 
-            setRange={setRange}
             isPlaying={isPlaying}
             setPlay={setPlay}/>
             {

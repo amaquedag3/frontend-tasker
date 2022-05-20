@@ -32,7 +32,7 @@ export default function CustomTimer(props) {
                     setHours(hours + 1)
                 }
                 }
-            }, 1)
+            }, 0.01)
         }
     }, [seconds, isPlaying])
 
@@ -45,9 +45,21 @@ export default function CustomTimer(props) {
         setSeconds(0)
         setMinutes(0)
         setHours(0)
-        setSelectedTask(undefined)
+        setSelectedTask()
         loadTasks()
-    } 
+    }
+
+    const handleSave = () => {
+        selectedTask.finished = new Date()
+        selectedTask.duration = duration
+        setPlay(false)
+        updateTask(selectedTask)
+        setSelectedTask(undefined)
+        setDuration(0)
+        setSeconds(0)
+        setMinutes(0)
+        setHours(0)
+    }
 
     const handleEnd = () => {
         console.log('Fin de tarea')
@@ -57,18 +69,7 @@ export default function CustomTimer(props) {
             [
                 {
                     text: "Sí",
-                    onPress: async () => {
-                        //TODO: UPDATE( distraction)
-                        selectedTask.finished = new Date()
-                        selectedTask.duration = duration
-                        setPlay(false)
-                        updateTask(selectedTask)
-                        setSelectedTask(undefined)
-                        setDuration(0)
-                        setSeconds(0)
-                        setMinutes(0)
-                        setHours(0)
-                    },
+                    onPress: handleSave
                 },
                 {
                     text: "No",
@@ -95,12 +96,12 @@ export default function CustomTimer(props) {
                 duration={1200}
                 spinDuration={4000}
                 animated= 'true' 
-                size={230} 
+                size={240} 
                 color={colors} 
                 />
                 :
                 <Progress.Circle
-                size={230}
+                size={240}
                 borderWidth={10}/>
             }
             </View>

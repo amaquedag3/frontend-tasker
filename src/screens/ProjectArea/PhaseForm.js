@@ -4,6 +4,7 @@ import DatePicker from '../../components/DatePicker';
 import { savePhase, updatePhase } from '../../../api';
 import CustomModal from '../../components/CustomModal';
 import { useNavigation } from "@react-navigation/native";
+import { wait } from '../../utils/wait';
 
 
 export default function PhaseForm(props) {
@@ -19,9 +20,6 @@ export default function PhaseForm(props) {
 
     const navigation = useNavigation();
 
-    const wait = (timeout) => {
-        return new Promise(resolve => setTimeout(resolve, timeout));
-    }
 
     const handleSubmit = async() => {
         if(validateInput()){
@@ -40,7 +38,7 @@ export default function PhaseForm(props) {
                     'idProject': project.id
                 }
                 await savePhase(newPhase)
-                setModalText('!Tarea guardada!')
+                setModalText('!Fase de proyecto guardada!')
             }
             setModalVisible(true)
             cleanInputs()

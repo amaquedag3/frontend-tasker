@@ -9,10 +9,6 @@ export default function ProjectCard(props) {
     const {project, loadProjects} = props;
     const navigation = useNavigation();
 
-    const goToProject = () => {
-        navigation.navigate("ProjectDetails", { project });
-    };
-
 
     const handleDeleteProject = () => {
         return Alert.alert(
@@ -36,7 +32,7 @@ export default function ProjectCard(props) {
 
 
     return (
-        <TouchableWithoutFeedback onPress={goToProject}>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate("ProjectDetails", { project })}>
             <View style={styles.card}>
                 <View style={styles.spacing}>
                     <View style={styles.bgStyles}>

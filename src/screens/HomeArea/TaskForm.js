@@ -77,13 +77,11 @@ export default function TaskForm() {
             setError('Introduce una fecha')
             return false;
         }
-        console.log(date, '-', new Date())
         if(date > new Date()){
             setError('Introduce una fecha y hora validas')
             return false;
-        }else{
-            console.log('not working ')
         }
+
         if(expectedDuration < 5){
             setError('Una tarea debe durar al menos 5 minutos')
             return false;
@@ -98,16 +96,16 @@ export default function TaskForm() {
             setProjects(data)
     }
 
-    useEffect(async() => {
-        loadProjects()
-    }, [])
-
     const loadPhases = async() => {
         const data = await getPhasesByProjectId(project)
 
         if(data)
             setPhases(data)
     }
+
+    useEffect(async() => {
+        loadProjects()
+    }, [])
 
     useEffect(async() => {
         if(project)

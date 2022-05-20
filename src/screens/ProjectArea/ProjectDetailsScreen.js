@@ -1,19 +1,20 @@
 import { View, Text, ImageBackground, StyleSheet, RefreshControl } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native';
-import { getPhasesByProjectId } from '../../../api';
+import { getPhasesByProjectId, getTasksByPhaseId } from '../../../api';
 import { FlatList } from 'react-native-gesture-handler';
 import ButtonAdd from '../../components/ButtonAdd';
-import PhaseItem from '../../components/Projects/PhaseItem';
+import PhaseCard from '../../components/Projects/PhaseCard';
 
 export default function ProjectDetailsScreen(props) {
     const {project} = props.route.params;
 
-
-    const navigation = useNavigation();
     const [phases, setPhases] = useState()
     const [refreshing, setRefreshing] = useState(false);
     const [ended, setEnded] = useState(false)
+    const [time, setTime] = useState(0)
+
+    const navigation = useNavigation();
 
     const onRefresh = React.useCallback(async() =>{
         setRefreshing(true)
@@ -42,34 +43,50 @@ export default function ProjectDetailsScreen(props) {
             if(isEnded()){
                 setEnded(true)
             }
+            await computeTime()
         }
+    }
+
+    const computeTime = () => {
+        if(phases){
+            setTime(0)
+            phases.forEach(async(phase) => {
+                const relatedTasks = await getTasksByPhaseId(phase.id)
+                relatedTasks.forEach(task => {
+                    setTime(time +  task.duration)
+                });
+            });
+        }
+        
     }
 
     useEffect(async()=> {
         await getPhases()
     }, [])
 
-    useEffect(()=> {
+    useEffect(async ()=> {
         if(isEnded()){
             setEnded(true)
         }
+        computeTime()
     }, [phases])
 
 
     return (
-        <ImageBackground source={require('../../../assets/night-landscape.jpg')} style={styles.background}>
+        <ImageBackground source={require('../../../assets/sun-flower.jpg')} style={styles.background}>
             <View style={styles.container}>
                 <Text style={styles.title}>{project.title}</Text>
                 <Text style={styles.subTitle}>Descripción: </Text>
                 <Text>{project.description}</Text>
                 <Text style={styles.subTitle}>Fecha de Inicio:  <Text style={{fontWeight: 'normal'}}>{project.started.split('T')[0]}</Text></Text>
+                <Text style={styles.subTitle}>Tiempo total: <Text style={{fontWeight: 'normal'}}>{time} minutos</Text></Text>
                 <Text style={styles.subTitle}>Estado: {ended ? <Text style={{fontWeight: 'normal'}}>Acabado</Text> : <Text style={{fontWeight: 'normal'}}>En proceso</Text>}</Text>
                 <Text>{project.finished}</Text>
                 <Text style={styles.subTitle}>Fases creadas: </Text>
                 <View style={styles.list}>
                     <FlatList 
                         data={phases}
-                        renderItem={({ item }) => <PhaseItem phase={item} getPhases={getPhases} project={project}/> }
+                        renderItem={({ item }) => <PhaseCard phase={item} getPhases={getPhases} project={project}/> }
                         keyExtractor={(item, index) => {return index.toString()}}
                         refreshControl={
                             <RefreshControl
@@ -115,7 +132,7 @@ const styles =  StyleSheet.create({
         paddingHorizontal: 10,
         marginTop: 10,
         height: '50%',
-        borderWidth: 0.4,
+        borderWidth: 0.8,
         borderRadius: 20
     },
 

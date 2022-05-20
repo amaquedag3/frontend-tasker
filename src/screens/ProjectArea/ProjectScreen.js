@@ -22,14 +22,9 @@ export default function ProjectsScreen() {
 
   const navigation = useNavigation();
     
-  const goToProjectForm = () => {
-      navigation.navigate("ProjectForm");
-  };
-
-
 
   return (
-    <ImageBackground source={require('../../../assets/sun-flower.jpg')} style={styles.background}>
+    <ImageBackground source={require('../../../assets/night-landscape.jpg')} style={styles.background}>
       <View>
         <SafeAreaView style={styles.container} >
           {projects ? 
@@ -37,7 +32,7 @@ export default function ProjectsScreen() {
           <Text style={styles.noProjects}>No tienes proyectos creados</Text>}
           
         </SafeAreaView>
-        <ButtonAdd action={goToProjectForm}/>
+        <ButtonAdd action={() => navigation.navigate("ProjectForm")}/>
       </View>
     </ImageBackground>
   )

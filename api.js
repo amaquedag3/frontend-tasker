@@ -46,7 +46,7 @@ export const APIlogin= async(credentials) => {
 
 
 
-//TASKS
+//---------------------TASKS---------------------
 export const getTasks = async() => {
     const res = await fetch(API + '/tasks')
     return await res.json()
@@ -99,6 +99,25 @@ export const getUserTodoTasks = async(idUser) => {
             body: JSON.stringify({
                 'idUser': idUser,
                 'extra': 'todo'
+            }),
+        });
+        return await res.json();
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export const getTasksByPhaseId = async(idPhase) => {
+    try {
+        const res = await fetch(API + '/tasks/phase', {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                'idPhase': idPhase,
             }),
         });
         return await res.json();
@@ -175,7 +194,7 @@ export const deleteTask = async(id) => {
 
 
 
-//PROJECTS
+//---------------------PROJECTS---------------------
 
 export const getProjects = async() => {
     const res = await fetch(API + '/projects')
@@ -255,11 +274,11 @@ export const deleteProject = async(id) => {
 }
 
 
-//FASES
+//---------------------FASES---------------------
 
 export const getPhasesByProjectId = async(idProject) => {
     try {
-        const res = await fetch(API + '/phases/id', {
+        const res = await fetch(API + '/phases/project', {
             method: "POST",
             headers: {
                 Accept: "application/json",
