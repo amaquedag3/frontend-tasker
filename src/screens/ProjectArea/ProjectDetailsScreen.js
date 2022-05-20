@@ -1,10 +1,10 @@
-import { View, Text, ImageBackground, StyleSheet, RefreshControl } from 'react-native'
+import { View, Text, ImageBackground, StyleSheet, RefreshControl, TouchableWithoutFeedback , FlatList } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { getPhasesByProjectId, getTasksByPhaseId } from '../../../api';
-import { FlatList } from 'react-native-gesture-handler';
 import ButtonAdd from '../../components/ButtonAdd';
 import PhaseCard from '../../components/Projects/PhaseCard';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function ProjectDetailsScreen(props) {
     const {project} = props.route.params;
@@ -43,19 +43,19 @@ export default function ProjectDetailsScreen(props) {
             if(isEnded()){
                 setEnded(true)
             }
-            await computeTime()
+            computeTime()
         }
     }
 
-    const computeTime = () => {
+    const computeTime = async() => {
         if(phases){
-            setTime(0)
-            phases.forEach(async(phase) => {
-                const relatedTasks = await getTasksByPhaseId(phase.id)
-                relatedTasks.forEach(task => {
-                    setTime(time +  task.duration)
-                });
-            });
+            console.log('calculating...')
+            for (let x=0; x < phases.length; x++){
+                let relatedTasks = await getTasksByPhaseId(phases[x].id)
+                for (let y=0; y < relatedTasks.length; y++){
+                    setTime(time +  relatedTasks[y].duration)
+                } 
+            }
         }
         
     }
@@ -68,13 +68,20 @@ export default function ProjectDetailsScreen(props) {
         if(isEnded()){
             setEnded(true)
         }
-        computeTime()
     }, [phases])
 
 
     return (
         <ImageBackground source={require('../../../assets/sun-flower.jpg')} style={styles.background}>
             <View style={styles.container}>
+            
+            <View style={styles.icon}>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate("ProjectForm", {project: project})}> 
+                    <Ionicons  name="pencil"  size={25}  color='#FFBD33' /> 
+                </TouchableWithoutFeedback>
+            </View>
+
+            
                 <Text style={styles.title}>{project.title}</Text>
                 <Text style={styles.subTitle}>Descripción: </Text>
                 <Text>{project.description}</Text>
@@ -95,11 +102,11 @@ export default function ProjectDetailsScreen(props) {
                         }
                     />
                 </View>
-                <View style={styles.button}>
-                    <ButtonAdd size={50} action={() => {navigation.navigate('PhaseForm', {project: project})}}/>
-                </View>
+                
             </View>
-            
+            <View style={styles.button}>
+                <ButtonAdd size={50} action={() => {navigation.navigate('PhaseForm')}}/>
+            </View>
         </ImageBackground>
     )
 }
@@ -116,6 +123,11 @@ const styles =  StyleSheet.create({
         marginHorizontal: 25,
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
         borderRadius: 15
+    },
+    icon:{
+        position: 'absolute',
+        top: 10, 
+        right: 20
     },
     title: {
         fontSize: 18,

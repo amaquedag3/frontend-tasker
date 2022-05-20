@@ -238,8 +238,7 @@ export const getUserProjects = async(idUser) => {
     }
 }
 
-export const saveProject = async(newProject) => {
-    console.log(newProject)
+export const createProject = async(newProject) => {
     try {
         const res = await fetch(API + '/projects', {
             method: "POST",
@@ -260,6 +259,31 @@ export const saveProject = async(newProject) => {
         console.log(error)
     }
 };
+
+export const updateProject = async(project) => {
+    try {
+        const res = await fetch(API + '/projects', {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                'title': project.title,
+                'description': project.description,
+                'started': project.started,
+                'finished': project.finished || '',
+                'idUser': project.idUser,
+                'id': project.id
+            }),
+        });
+        return await res.json();
+    } catch (error) {
+        console.log(error)
+    }
+};
+
+
 
 
 export const deleteProject = async(id) => {
@@ -336,7 +360,6 @@ export const savePhase = async(newPhase) => {
 };
 
 export const updatePhase = async(phase) => {
-    console.log(phase)
     try {
         const res = await fetch(API + '/phases', {
             method: "PUT",

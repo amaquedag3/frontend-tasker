@@ -1,13 +1,15 @@
 import { View, Text, TextInput, StyleSheet, ImageBackground, TouchableWithoutFeedback } from 'react-native'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useNavigation } from "@react-navigation/native";
-import { saveProject } from '../../../api';
+import { createProject, updateProject } from '../../../api';
 import useAuth from '../../hooks/useAuth';
 import CustomModal from '../../components/CustomModal'
 
 
 
-export default function ProjectForm() {
+export default function ProjectForm(props) {
+    const project = props.route.params.project;
+
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [started, setStared] = useState(new Date())
@@ -23,7 +25,7 @@ export default function ProjectForm() {
 
     const handleSubmit = () => {
         if(validateInputs()){
-          createProject()
+            saveProject()
         }
     }
 
@@ -40,13 +42,24 @@ export default function ProjectForm() {
       return true;
   }
 
-    const createProject = async () => {
-      const newProject = {title, description, started, idUser}
-      const res = await saveProject(newProject)
+
+    const saveProject = async () => {
+      let res;
+      if(project){
+        project.title = title
+        project.description = description
+        res = await updateProject(project)
+      }else {
+        const newProject = {title, description, started, idUser}
+        res = await createProject(newProject)
+      }
+
+      console.log(res)
+
       if(res.status != 200){
           setError(res.message)
       }else{
-          setModalText('!Proyeto creado!')
+          setModalText('!Proyecto guardado!')
           setModalVisible(true)
           cleanInputs()
           navigation.navigate('ProjectsList')
@@ -58,6 +71,15 @@ export default function ProjectForm() {
       setDescription('')
     }
 
+    useEffect(() => {
+      if(project){
+        setTitle(project.title)
+        setDescription(project.description)
+      }
+
+    }, [])
+    
+
     return (
         <ImageBackground  source={require('../../../assets/sea.jpg')} style={styles.background}>
             <CustomModal 
@@ -68,7 +90,12 @@ export default function ProjectForm() {
 
             <View style={styles.container}>
               <View style={styles.form}>
-              <Text style={styles.title}>Formulario de Proyecto</Text>
+              {
+                project 
+                ? <Text style={styles.title}>Edit de {project.title}</Text> 
+                : <Text style={styles.title}>Formulario de Proyecto</Text> 
+              }
+              
               
               <TextInput 
                 style={styles.inputTitle} 

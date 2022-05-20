@@ -26,7 +26,6 @@ export default function PhaseCard(props) {
         if(data){
             setTime(0)
             data.forEach(task => {
-                console.log(task)
                 setTime(time + task.duration)
             });
         }
