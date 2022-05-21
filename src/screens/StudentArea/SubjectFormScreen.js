@@ -1,14 +1,21 @@
-import { View, Text, ImageBackground, StyleSheet, TextInput } from 'react-native'
+import { View, Text, ImageBackground, StyleSheet, TextInput, TouchableWithoutFeedback } from 'react-native'
 import React, {useState} from 'react'
-import DayPicker from '../../components/DayPicker'
+import DayPicker from '../../components/DayPicker';
+import Slider from '@react-native-community/slider';
+import CustomSliderDuration from '../../components/CustomSliderDuration';
 
 export default function SubjectFormScreen() {
   const [name, setName] = useState()
-
+  const [duration, setDuration] = useState()
+  const [error, setError] = useState()
+  
+  const handleSubmit = () => {
+    console.log('validate input')
+  }
   return (
     <ImageBackground source={require('../../../assets/sea.jpg')} style={styles.background}> 
       <View style={styles.container}>
-          <Text style={styles.title}>Formulario de Asinatura</Text>
+          <Text style={styles.title}>Formulario de Asignatura</Text>
           <TextInput
             placeholder="Nombre"
             style={styles.input}
@@ -20,6 +27,17 @@ export default function SubjectFormScreen() {
             <Text style={styles.subTitle}>Horario: </Text>
             <DayPicker />
           </View>
+          <CustomSliderDuration setDuration={setDuration}/>
+          {
+            error ?
+            <Text style={styles.error}>{error}</Text> :
+            <Text></Text>
+          }
+        <View style={styles.btn}>
+            <TouchableWithoutFeedback onPress={handleSubmit}>
+                <Text style={styles.buttonText}> Guardar </Text>
+            </TouchableWithoutFeedback>
+        </View>
       </View>
     </ImageBackground>
   )
@@ -33,7 +51,7 @@ const styles = StyleSheet.create({
   },
   container:{
     paddingHorizontal: '5%',
-    height: '88%',
+    paddingVertical: '5%',
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     marginVertical: '12%',
     marginHorizontal: '8%',
@@ -61,5 +79,24 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     paddingLeft: '6%',
     marginBottom: '2%'
-},
+  },
+  error: {
+    textAlign: "center",
+    color: "#f00",
+    marginVertical: '3%',
+  },
+  btn:{
+      backgroundColor: '#49A1F9',
+      marginHorizontal: '25%',
+      marginTop: '6%',
+      marginBottom: '4%',
+      borderRadius: 20,
+      alignItems: 'center'
+  },
+  buttonText:{
+      alignSelf: 'center',
+      color: 'white',
+      padding: '4%',
+      fontSize: 17
+  }
 })

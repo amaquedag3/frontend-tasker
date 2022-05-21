@@ -2,13 +2,14 @@ import { ImageBackground, StyleSheet, View, TextInput, Text, TouchableWithoutFee
 import React, {useEffect, useState} from 'react'
 import { useNavigation } from '@react-navigation/native';
 import CustomDropdownPicker from '../../components/CustomDropdownPicker';
-import Slider from '@react-native-community/slider';
+
 import { RadioButton } from 'react-native-paper';
 import useAuth from '../../hooks/useAuth';
 import CustomModal from '../../components/CustomModal';
 import { createTask, getPhasesByProjectId, getUserProjects } from '../../../api';
 import { find } from 'lodash';
 import CustomDateTimePicker from '../../components/CustomDateTimePicker';
+import CustomSliderDuration from '../../components/CustomSliderDuration';
 
 
 
@@ -23,9 +24,6 @@ export default function TaskForm() {
     const [project, setProject] = useState()
     const [phases, setPhases] = useState([])
     const [phase, setPhase] = useState()
-
-    const [hours, setHours] = useState(0)
-    const [minutes, setMinutes] = useState(0)
 
     const [modalVisible, setModalVisible] = useState("");
     const [modalText, setModalText] = useState("");
@@ -140,39 +138,7 @@ export default function TaskForm() {
                             <CustomDateTimePicker inputDate={date}/>
                         </View>
                         
-                        <View>
-                            <Text style={styles.sliderTitle}>Duración</Text>
-
-                            <View style={{
-                                borderColor: 'black',
-                                borderWidth: 0.5,
-                                marginHorizontal: 20, 
-                                borderRadius: 15
-                                }}>
-                            <Text style={styles.sliderLabel}>{hours} Horas</Text>
-                            <Slider
-                                style={{width: '90%', height: 30, alignSelf: 'center'}}
-                                minimumValue={0}
-                                maximumValue={5}
-                                minimumTrackTintColor="black"
-                                maximumTrackTintColor="#000000"
-                                step={1}
-                                onValueChange={(value)=>{setHours(value)}}
-                                onSlidingComplete={() => {setDuration(60 * hours + minutes)}}
-                            />
-                            <Text style={styles.sliderLabel}>{minutes} Minutos</Text>
-                            <Slider
-                                style={{width: '90%', height: 30, alignSelf: 'center'}}
-                                minimumValue={0}
-                                maximumValue={59}
-                                minimumTrackTintColor="black"
-                                maximumTrackTintColor="#000000"
-                                step={1}
-                                onValueChange={(value)=>{setMinutes(value)}}
-                                onSlidingComplete={() => {setDuration(60 * hours + minutes)}}
-                            />
-                            </View>
-                        </View>
+                        <CustomSliderDuration setDuration={setDuration}/>
                 
                         <View style={styles.priorityBox}>
                             <Text style={styles.sliderTitle}>Prioridad:   </Text>
@@ -269,14 +235,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
         marginHorizontal: 40,
     },
-    sliderTitle:{
-        alignSelf: 'center',
-        fontSize: 16
-    },
-    sliderLabel:{
-        marginTop:'2%',
-        marginLeft: '15%'
-    },
+
     inputDuration: {
         height: 40,
         borderWidth: 1,

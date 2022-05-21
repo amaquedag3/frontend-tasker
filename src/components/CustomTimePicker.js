@@ -4,9 +4,8 @@ import React, {useState} from 'react'
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 
-export default function CustomTimePicker(props) {
-    const {inputDate} = props;
-    const [date, setDate] = useState(new Date(inputDate));
+export default function CustomTimePicker() {
+    const [date, setDate] = useState(new Date().toLocaleTimeString('default', {hour: '2-digit',minute: '2-digit'}));
     const [mode, setMode] = useState('time');
     const [show, setShow] = useState(false);
 
@@ -21,10 +20,6 @@ export default function CustomTimePicker(props) {
         setMode(currentMode);
     };
 
-    const showDatepicker = () => {
-        showMode('date');
-    };
-
     const showTimepicker = () => {
         showMode('time');
     };
@@ -37,7 +32,7 @@ export default function CustomTimePicker(props) {
                     style={styles.inputDate}
                     autoCapitalize="none"
                     editable={false}>   
-                    {date.getHours() + ':' + date.getMinutes()}                             
+                    {String(date).slice(0, -3)}                             
                 </TextInput>
                 <View style={styles.icon}>
                     <TouchableWithoutFeedback  onPress={showTimepicker}>

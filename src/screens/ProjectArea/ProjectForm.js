@@ -8,7 +8,10 @@ import CustomModal from '../../components/CustomModal'
 
 
 export default function ProjectForm(props) {
-    const project = props.route.params.project;
+    let project;
+    if(props.route.params != undefined){
+      project = props.route.params.project
+    }
 
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')

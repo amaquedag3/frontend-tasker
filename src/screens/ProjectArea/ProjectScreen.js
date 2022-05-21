@@ -32,7 +32,7 @@ export default function ProjectsScreen() {
           <Text style={styles.noProjects}>No tienes proyectos creados</Text>}
           
         </SafeAreaView>
-        <ButtonAdd action={() => navigation.navigate("ProjectForm", {project: project})}/>
+        <ButtonAdd action={() => navigation.navigate("ProjectForm")}/>
       </View>
     </ImageBackground>
   )

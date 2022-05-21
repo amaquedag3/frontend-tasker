@@ -1,30 +1,27 @@
 import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native'
 import React, {useState, useEffect} from 'react'
+import { find } from 'lodash';
 
 export default function DayPill(props) {
-    const {day, schedule, setSchedule} = props;
-    const [isSelect, setSelected] = useState(false)
+    const {day, setSelectedDay}  = props;
+    const [isSelected, setSelected] = useState(false)
     const [bgColor, setBgColor] = useState('gray')
 
     const pill = { backgroundColor: bgColor, ...styles.pill };
 
     useEffect(()=> {
-        if(isSelect)
+        if(isSelected){
+            setSelectedDay(day.id)
             setBgColor('blue')
-        else
+        }else{
+            setSelectedDay()
             setBgColor('gray')
-    }, [isSelect])
+        }
+    }, [isSelected])
     
-    const handleSelection = () => {
-        console.log(schedule)
-        setSelected(!isSelect)
-
-        setSchedule(schedule[day.id].splice(day.id, 1,  ['range']))
-
-    }
 
     return (
-        <TouchableWithoutFeedback onPress={handleSelection}>
+        <TouchableWithoutFeedback onPress={() => setSelected(!isSelected)}>
             <View style={pill}>
                 <Text style={styles.content}>{day.value}</Text>
             </View>
