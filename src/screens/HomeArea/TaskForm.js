@@ -62,7 +62,7 @@ export default function TaskForm() {
         
         await createTask(newTask)
     }
-
+    
 
     const validateInput = () => {
         setError('')
@@ -75,7 +75,7 @@ export default function TaskForm() {
             setError('Introduce una fecha')
             return false;
         }
-        if(date > new Date()){
+        if(date < new Date()){
             setError('Introduce una fecha y hora validas')
             return false;
         }
@@ -84,7 +84,6 @@ export default function TaskForm() {
             setError('Una tarea debe durar al menos 5 minutos')
             return false;
         }
-
         return true;
     }
 
@@ -102,14 +101,14 @@ export default function TaskForm() {
     }
 
     useEffect(async() => {
-        loadProjects()
-    }, [])
-
-    useEffect(async() => {
         if(project)
             loadPhases()
 
     }, [project])
+
+    useEffect(async() => {
+        loadProjects()
+    }, [])
 
     
 
@@ -135,7 +134,7 @@ export default function TaskForm() {
                             onChangeText={(text) => setTitle(text)}
                         />
                         <View style={styles.calendar}>
-                            <CustomDateTimePicker inputDate={date}/>
+                            <CustomDateTimePicker inputDate={date} setInputDate={setDate}/>
                         </View>
                         
                         <CustomSliderDuration setDuration={setDuration}/>

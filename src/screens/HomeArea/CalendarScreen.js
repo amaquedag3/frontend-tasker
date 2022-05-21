@@ -11,14 +11,15 @@ export default function CalendarScreen() {
   return ( 
     <>
       <Agenda 
-      markingType={'multi-dot'}
-      markedDates={{
-        '2022-05-25': {dots: [vacation, massage, workout], selected: true, selectedColor: 'red'},
-        '2022-05-26': {dots: [massage, workout], disabled: true}
-      }}
-      />
+        selected={'2022-05-16'}
+        items={{
+        '2022-05-22': [{ name: 'item 1 - any js object' }],
+        '2022-05-23': [{ name: 'item 2 - any js object', height: 80 }],
+        '2022-05-24': [],
+        '2022-05-25': [{ name: 'item 3 - any js object' }], 
+        }} />
 
-      <CalendarList />
+      
     </>
   )
   

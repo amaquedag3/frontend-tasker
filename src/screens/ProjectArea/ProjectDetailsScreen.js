@@ -105,7 +105,7 @@ export default function ProjectDetailsScreen(props) {
                 
             </View>
             <View style={styles.button}>
-                <ButtonAdd size={50} action={() => {navigation.navigate('PhaseForm')}}/>
+                <ButtonAdd size={50} action={() => {navigation.navigate('PhaseForm', {project: project})}}/>
             </View>
         </ImageBackground>
     )

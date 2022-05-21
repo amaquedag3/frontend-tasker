@@ -8,7 +8,13 @@ import { wait } from '../../utils/wait';
 
 
 export default function PhaseForm(props) {
-    const {project, phase} = props.route.params;
+    let phase;
+    let project;
+    if(props.route.params != undefined){
+        console.log(props.route.params)
+        phase = props.route.params.phase
+        project = props.route.params.project
+    }
 
     const [error, setError] = useState('')
     const [title, setTitle] = useState('')

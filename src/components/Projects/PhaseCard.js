@@ -50,12 +50,11 @@ export default function PhaseCard(props) {
             <View style={styles.container}>
                 <Text style={styles.title}>{phase.title}  <Text style={styles.date}>{phase.started.split('T')[0]}</Text></Text>
                 <Text>{phase.description}</Text>
-                <Text></Text>
-                <Text>Tiempo dedicado: {time} minutos</Text>
+                <Text style={styles.subtitle}>Tiempo dedicado: <Text style={{fontWeight:'normal'}}>{time} minutos</Text></Text>
                 <View style={styles.iconBox}>
-                    {phase.finished ? <Text style={styles.dateEnd}>Acabado: {phase.finished.split('T')[0]}</Text> : <Text style={styles.dateEnd}>Por hacer</Text>}
+                    {phase.finished ? <Text style={styles.dateEnd}>Acabado: <Text style={{fontWeight: 'normal'}}>{phase.finished.split('T')[0]}</Text></Text> : <Text style={styles.dateEnd}>Por hacer</Text>}
                     {phase.finished 
-                        ? <Ionicons onPress={() => console.log('ya esta acabada')} name="checkmark-circle-outline"  size={23} style={styles.icon} color='gray'/> 
+                        ? <Ionicons name="checkmark-circle-outline"  size={23} style={styles.icon} color='gray'/> 
                         : <Ionicons onPress={setFinished} name="checkmark-circle-outline"  size={23} style={styles.icon} color='green'/> 
                     }
                     <Ionicons onPress={() => navigation.navigate('PhaseForm', {phase: phase, project: project})} name="pencil"  size={23} style={styles.icon} color='#FFBD33'/> 
@@ -75,15 +74,22 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     title: {
+        fontSize: 14,
         fontWeight: 'bold',
         marginBottom: 8
+    },
+    subtitle: {
+        fontWeight: 'bold',
+        fontSize: 13.5,
+        marginTop: 8
     },
     date: {
         fontWeight: 'normal',
     },
     dateEnd: {
         marginRight: 'auto',
-        alignSelf: 'center'
+        alignSelf: 'center',
+        fontWeight: 'bold'
     },
     iconBox: {
         flexDirection: 'row',

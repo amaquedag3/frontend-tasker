@@ -5,15 +5,15 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 
 export default function CustomDateTimePicker(props) {
-    const {inputDate} = props;
+    const {inputDate, setInputDate} = props;
     const [date, setDate] = useState(new Date(inputDate));
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
 
     const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate;
         setShow(false);
-        setDate(currentDate);
+        setInputDate(selectedDate)
+        setDate(selectedDate);
     };
 
     const showMode = (currentMode) => {
@@ -36,7 +36,7 @@ export default function CustomDateTimePicker(props) {
                     style={styles.inputDate}
                     autoCapitalize="none"
                     editable={false}>   
-                    {date.toLocaleString()}                             
+                    {String(inputDate).split('GMT')[0]}                             
                 </TextInput>
                 <View style={styles.icon}>
                     <TouchableWithoutFeedback  onPress={showDatepicker}>
