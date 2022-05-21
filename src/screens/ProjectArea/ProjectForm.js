@@ -153,7 +153,6 @@ const styles = StyleSheet.create({
     },
     inputTitle: {
       height: 40,
-    
       padding: 10,
       borderRadius: 20,
       backgroundColor: 'rgba(255, 255, 255, 0.7)',

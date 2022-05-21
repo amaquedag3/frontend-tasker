@@ -393,3 +393,103 @@ export const deletePhase = async(id) => {
     });
 }
 
+
+//---------------------ASIGNATURAS---------------------
+
+
+export const saveSubject = async(newSubject) => {
+    console.log(newSubject)
+    try {
+        const res = await fetch(API + '/subjects', {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                'nombre': newSubject.name,
+                'schedule': newSubject.horario,
+                'idUser': newSubject.idUser
+            }),
+        });
+        return await res.json();
+    } catch (error) {
+        console.log(error)
+    }
+};
+
+
+export const getSubjectsByUserId = async(idUser) => {
+    try {
+        const res = await fetch(API + '/subjects/user', {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                'idUser': idUser
+            }),
+        });
+        return await res.json();
+    } catch (error) {
+        console.log(error)
+    }
+};
+
+export const deleteSubject = async(id) => {
+    await fetch(API + '/subjects', {
+        method: "DELETE",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({'id': id})
+    });
+}
+
+
+//---------------------EXAMENES---------------------
+
+
+export const getExamsBySubjectId = async(idSubject) => {
+    try {
+        const res = await fetch(API + '/exams/subject', {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                'idSubject': idSubject
+            }),
+        });
+        console.log(res)
+        return await res.json();
+    } catch (error) {
+        console.log(error)
+    }
+};
+
+
+export const saveExam= async(newExam) => {
+    console.log(newExam)
+    try {
+        const res = await fetch(API + '/exams', {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                'title': newExam.title,
+                'calification': newExam.calification,
+                'date': newExam.date,
+                'idSubject': newExam.idSubject
+            }),
+        });
+        return await res.json();
+    } catch (error) {
+        console.log(error)
+    }
+};

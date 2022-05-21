@@ -53,13 +53,11 @@ export default function TaskForm() {
         const newTask ={   
             'title': title, 
             'date': date,
-            'expectedDuration': expectedDuration, 
-            'idUser': idUser, 
+            'expectedDuration': expectedDuration,  
             'projectPhase': phase,
             'priority': priority,
             'idUser': idUser
         }
-        
         await createTask(newTask)
     }
     

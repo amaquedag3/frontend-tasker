@@ -1,27 +1,61 @@
-import { View, Text, StyleSheet, ImageBackground } from 'react-native';
-import React from 'react';
+import { View, Text, StyleSheet, ImageBackground, RefreshControl } from 'react-native';
+import React, {useEffect, useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import useAuth from '../../hooks/useAuth';
 import ButtonAdd from '../../components/ButtonAdd';
+import { getSubjectsByUserId } from '../../../api';
+import { FlatList } from 'react-native-gesture-handler';
+import SubjectCard from '../../components/Student/SubjectCard';
 
 export default function StudentScreen() {
 
-  const { userData } = useAuth()
   const navigation = useNavigation();
+  const { userData } = useAuth()
+  const [subjects, setSubjects] = useState([])
+  const [refreshing, setRefreshing] = useState(false);
+
+  const loadSubjects = async() =>{
+    const data = await getSubjectsByUserId(userData.id)
+    setSubjects(data)   
+  }
+  
+  const onRefresh = React.useCallback(async() =>{
+    setRefreshing(true);
+    await loadSubjects();
+    setRefreshing(false);
+  })
+
+  useEffect(async() => {
+    loadSubjects()
+  }, [])
+  
 
   return (
     <ImageBackground source={require('../../../assets/moon.jpg')} style={styles.background}> 
       <View style={styles.container}>
         <Text style={styles.title}>Estudiante</Text>
+        
+        <FlatList
+          data={subjects}
+          renderItem={({item}) =>
+            <SubjectCard 
+              subject={item}
+              loadSubjects={loadSubjects}/>}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}/>
+          }
+        />
+        {
+            subjects.length == 0 ? <View style={styles.pill}><Text style={styles.text}>No tienes asignaturas creadas</Text></View>
+            : <View></View>
+        }
 
-        <View style={styles.subcontainer}>
-        </View>
+        <View style={styles.buttonBox}>
+          <ButtonAdd size={50} action={() => {navigation.navigate('SubjectForm')}}/>
+        </View>  
       </View>
-      {
-      <View style={styles.buttonBox}>
-        <ButtonAdd size={50} action={() => {navigation.navigate('SubjectForm')}}/>
-      </View>  
-      }
     </ImageBackground>
   )
 }
@@ -39,19 +73,26 @@ const styles = StyleSheet.create({
     marginHorizontal: '8%',
     borderRadius: 20
   },
+  text:{
+    fontSize: 16, 
+    fontWeight: 'bold',
+    alignSelf: 'center',
+  },
+  pill:{
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    height: '3%',
+    width: '80%',
+    position: 'absolute',
+    marginTop: '25%',
+    alignSelf: 'center', 
+    borderRadius: 30,
+    justifyContent: 'center'
+  },
   title: {
     textAlign: "center",
     fontSize: 23,
     fontWeight: "bold",
     marginVertical: 10
-  },
-  subcontainer: {
-    backgroundColor: 'red',
-    height: '50%',
-    width: '100%',
-    position: 'absolute',
-    alignSelf: 'center',
-    bottom: '5%'
   },
   buttonBox: {
     position: 'absolute',

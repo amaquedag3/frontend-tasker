@@ -1,19 +1,84 @@
 import { View, Text, ImageBackground, StyleSheet, TextInput, TouchableWithoutFeedback } from 'react-native'
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import DayPicker from '../../components/DayPicker';
-import Slider from '@react-native-community/slider';
 import CustomSliderDuration from '../../components/CustomSliderDuration';
+import { saveSubject } from '../../../api';
+import useAuth from '../../hooks/useAuth';
+import CustomModal from '../../components/CustomModal';
+import { useNavigation } from '@react-navigation/native';
+
 
 export default function SubjectFormScreen() {
   const [name, setName] = useState()
+  const [schedule, setSchedule] = useState([])
   const [duration, setDuration] = useState()
+  const { userData } = useAuth();
+  const idUser = userData.id;
+
   const [error, setError] = useState()
-  
-  const handleSubmit = () => {
-    console.log('validate input')
+  const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState("");
+  const [modalText, setModalText] = useState("");
+
+  const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
   }
+
+  const handleSubmit = () => {
+    if(validateInput()){
+      createSubject()
+      setModalText('!Asignatura guardada!')
+      setModalVisible(true)
+      wait(1500).then(() => navigation.navigate('StudentHome'));
+    }
+  }
+
+  const createSubject = async () => {
+    const newSubject ={   
+        'name': name, 
+        'schdule': '',
+        'duration': duration, 
+        'idUser': idUser
+    }
+    
+    await saveSubject(newSubject)
+  }
+
+  function validateInput(){
+    if(name == ''){
+      setError('Introduce un nombre de asignatura')
+      return false
+    }
+
+    if(duration < 30){
+      setError('La clase debe durar al menos 30 minutos')
+      return false
+    }
+    return true
+  }
+
+  useEffect(() => {
+    /*
+    for (let x=0; x < 7; x++){
+      let aux = schedule;
+      aux = aux.push({id: x,time: '', duration: ''})
+      setSchedule(aux)
+    }
+    */
+  }, [])
+  
+
   return (
     <ImageBackground source={require('../../../assets/sea.jpg')} style={styles.background}> 
+      {
+        modalVisible ?
+        <CustomModal 
+          modalVisible={modalVisible} 
+          setModalVisible={setModalVisible} 
+          modalText={modalText}
+          setModalText={setModalText}/>
+          : <View/>
+      }
       <View style={styles.container}>
           <Text style={styles.title}>Formulario de Asignatura</Text>
           <TextInput
@@ -25,7 +90,7 @@ export default function SubjectFormScreen() {
           />
           <View style={styles.dayPickerBox}>
             <Text style={styles.subTitle}>Horario: </Text>
-            <DayPicker />
+            <DayPicker schedule={schedule} setSchedule={setSchedule}/>
           </View>
           <CustomSliderDuration setDuration={setDuration}/>
           {

@@ -3,7 +3,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import React, {useState, useEffect} from 'react';
 import { deleteTask } from "../../../api";
 import CustomModal from '../CustomModal';
-import { orderBy, find, indexOf } from "lodash";
 
 export default function ToDoTaskCard(props) {
     const {task, setTasks, tasks, loadTasks, selectedTask, setSelectedTask, isPlaying, setPlay, duration, setDuration} = props;
