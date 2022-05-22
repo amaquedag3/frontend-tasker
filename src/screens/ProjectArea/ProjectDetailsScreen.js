@@ -6,6 +6,7 @@ import ButtonAdd from '../../components/ButtonAdd';
 import PhaseCard from '../../components/Projects/PhaseCard';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+
 export default function ProjectDetailsScreen(props) {
     const {project} = props.route.params;
 
@@ -73,7 +74,6 @@ export default function ProjectDetailsScreen(props) {
     return (
         <ImageBackground source={require('../../../assets/sun-flower.jpg')} style={styles.background}>
             <View style={styles.container}>
-            
             <View style={styles.icon}>
                 <TouchableWithoutFeedback onPress={() => navigation.navigate("ProjectForm", {project: project})}> 
                     <Ionicons  name="pencil"  size={25}  color='#FFBD33' /> 

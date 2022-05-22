@@ -155,8 +155,8 @@ const styles = StyleSheet.create({
     buttonText:{
         alignSelf: 'center',
         color: 'white',
-        padding: 10,
-        fontSize: 18
+        padding: 8,
+        fontSize: 15
     }
 
 })

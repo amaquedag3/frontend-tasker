@@ -16,7 +16,6 @@ export default function EndedTaskCard(props) {
                 {
                     text: "Sí",
                     onPress: async () => { 
-                        console.log('eliminando tarea ...', task.id)
                         await deleteTask(task.id)
                         await loadTasks()
                     },

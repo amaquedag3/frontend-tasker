@@ -53,7 +53,7 @@ export default function ProjectCard(props) {
 const styles = StyleSheet.create({
     card: {
         flex: 1,
-        height: 80,
+        height: 75,
     },
     spacing: {
         flex: 1,
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     title: {
         color: "black",
         fontWeight: "bold",
-        fontSize: 15,
+        fontSize: 18,
         paddingTop: 10,
         alignSelf: 'center',
         display: 'flex',

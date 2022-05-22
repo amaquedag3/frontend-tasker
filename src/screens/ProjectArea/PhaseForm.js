@@ -124,7 +124,10 @@ export default function PhaseForm(props) {
                         </TextInput>
                         <DatePicker setDate={setDate}/>
                     </View>
-                    <Text style={styles.error}>{error}</Text>
+                    {
+                        error ? <Text style={styles.error}>{error}</Text> : <View/>
+                    }
+                    
                     <View style={styles.btn}>
                         <TouchableWithoutFeedback onPress={handleSubmit}>
                             <Text style={styles.buttonText}> Guardar </Text>
@@ -201,7 +204,7 @@ const styles = StyleSheet.create({
     buttonText:{
         alignSelf: 'center',
         color: 'white',
-        padding: 10,
-        fontSize: 18
+        padding: 8,
+        fontSize: 15
     }
 })

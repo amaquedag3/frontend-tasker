@@ -492,3 +492,57 @@ export const saveExam= async(newExam) => {
         console.log(error)
     }
 };
+
+//---------------------TRANSACCIONES---------------------
+
+export const getTransactionsByUserId = async(idUser) => {
+    try {
+        const res = await fetch(API + '/expenses/user', {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                'idUser': idUser
+            }),
+        });
+        return await res.json();
+    } catch (error) {
+        console.log(error)
+    }
+};
+
+
+export const saveTransaction= async(newTransaction) => {
+    try {
+        const res = await fetch(API + '/expenses', {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                'reason': newTransaction.reason,
+                'amount': newTransaction.amount,
+                'date': newTransaction.date,
+                'type': newTransaction.type,
+                'idUser': newTransaction.idUser
+            }),
+        });
+        return await res.json();
+    } catch (error) {
+        console.log(error)
+    }
+};
+
+export const deleteTransaction = async(id) => {
+    await fetch(API + '/expenses', {
+        method: "DELETE",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({'id': id})
+    });
+}

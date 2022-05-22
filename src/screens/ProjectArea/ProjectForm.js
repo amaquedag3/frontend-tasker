@@ -167,6 +167,7 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       backgroundColor: 'rgba(255, 255, 255, 0.7)',
       fontSize: 15,
+      paddingHorizontal: 10,
       height: 140,
       borderWidth: 1
     },
@@ -177,14 +178,14 @@ const styles = StyleSheet.create({
     btn:{
       backgroundColor: '#4AD021',
       marginHorizontal: 90,
-      marginVertical: 15,
+      marginBottom: 15,
       borderRadius: 20,
       alignItems: 'center'
     },
     buttonText:{
         alignSelf: 'center',
         color: 'white',
-        padding: 10,
-        fontSize: 18
+        padding: 8,
+        fontSize: 15
     }
 })

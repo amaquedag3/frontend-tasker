@@ -1,6 +1,5 @@
-import { View, Text, ImageBackground, StyleSheet, RefreshControl, TouchableWithoutFeedback , FlatList  } from 'react-native'
+import { View, Text, ImageBackground, StyleSheet, RefreshControl , FlatList  } from 'react-native'
 import React, {useEffect, useState} from 'react'
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import ButtonAdd from '../../components/ButtonAdd';
 import { getExamsBySubjectId } from '../../../api';

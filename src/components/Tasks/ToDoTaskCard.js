@@ -27,7 +27,6 @@ export default function ToDoTaskCard(props) {
                 {
                     text: "Sí",
                     onPress: async () => { 
-                        console.log('eliminando tarea ...', task.id)
                         await deleteTask(task.id)
                         await loadTasks()
                     },
