@@ -238,6 +238,25 @@ export const getUserProjects = async(idUser) => {
     }
 }
 
+export const getProjectTime = async(id) => {
+    try {
+        const res = await fetch(API + '/projects/time', {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                'id': id
+            }),
+        });
+        return await res.json();
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
 export const createProject = async(newProject) => {
     try {
         const res = await fetch(API + '/projects', {
@@ -469,6 +488,18 @@ export const getExamsBySubjectId = async(idSubject) => {
         console.log(error)
     }
 };
+
+
+export const deleteExam = async(id) => {
+    await fetch(API + '/exams', {
+        method: "DELETE",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({'id': id})
+    });
+}
 
 
 export const saveExam= async(newExam) => {

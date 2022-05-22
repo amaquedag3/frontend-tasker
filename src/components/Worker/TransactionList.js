@@ -1,4 +1,4 @@
-import { View, Text, FlatList, RefreshControl } from 'react-native'
+import { FlatList, RefreshControl } from 'react-native'
 import React, {useState} from 'react'
 import TransactionCard from './TransactionCard';
 

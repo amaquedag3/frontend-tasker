@@ -1,12 +1,30 @@
-import { View, Text, StyleSheet, } from 'react-native'
+import { View, Text, StyleSheet, Alert, TouchableWithoutFeedback} from 'react-native'
 import React, {useEffect, useState} from 'react'
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { deleteExam } from '../../../api';
 
 export default function ExamCard(props) {
-  const {exam} = props;
+  const {exam, getExams} = props;
 
   const [pillColor, setPillColor] = useState();
 
   const pill = { backgroundColor: pillColor, ...styles.pill };
+
+  const handleDeleteExam = () => {
+    return Alert.alert(
+        "Eliminando examen...",
+        "¿Estas seguro de que quieres eliminar este examen?",
+        [
+            {
+                text: "Sí",
+                onPress: async () => { 
+                    await deleteExam(exam.id)
+                    await getExams()
+                },
+            },{text: "No"},
+        ]
+    );
+}
 
   useEffect(() => {
       if(exam.calificacion < 5){
@@ -20,8 +38,15 @@ export default function ExamCard(props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{exam.titulo}</Text>
+      <View style={styles.titleContainter}>
+        <Text style={styles.title}>{exam.titulo}</Text>
+      </View>
       <View style={pill}><Text style={styles.calificacion}>{exam.calificacion}</Text></View>
+      <View style={styles.iconBox} >
+          <TouchableWithoutFeedback onPress={handleDeleteExam}>
+            <Ionicons name="trash-outline"  size={23} style={styles.icon} /> 
+          </TouchableWithoutFeedback>
+      </View>
     </View>
   )
 }
@@ -33,6 +58,9 @@ const styles = StyleSheet.create({
       padding: 10,
       borderRadius: 10,
       justifyContent: 'center'
+  },
+  titleContainter:{
+    width: '73%'
   },
   title: {
     fontSize: 14,
@@ -46,10 +74,18 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     position: 'absolute',
-    right: 10,
+    right: 45,
   },
   calificacion: {
     textAlign: 'center',
     fontWeight: 'bold',
+  },
+  iconBox: {
+    position: 'absolute',
+    padding: 10,
+    right: 0
+  },
+  icon:{
+      color: 'red',
   }
 })

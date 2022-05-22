@@ -1,7 +1,7 @@
 import { View, Text, ImageBackground, StyleSheet, RefreshControl, TouchableWithoutFeedback , FlatList } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native';
-import { getPhasesByProjectId, getTasksByPhaseId } from '../../../api';
+import { getPhasesByProjectId, getTasksByPhaseId, getProjectTime } from '../../../api';
 import ButtonAdd from '../../components/ButtonAdd';
 import PhaseCard from '../../components/Projects/PhaseCard';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -49,15 +49,8 @@ export default function ProjectDetailsScreen(props) {
     }
 
     const computeTime = async() => {
-        if(phases){
-            for (let x=0; x < phases.length; x++){
-                let relatedTasks = await getTasksByPhaseId(phases[x].id)
-                for (let y=0; y < relatedTasks.length; y++){
-                    setTime(time +  relatedTasks[y].duration)
-                } 
-            }
-        }
-        
+        const data = await getProjectTime(project.id)
+        setTime(JSON.stringify(data).split('":"')[1].slice(0, -2))
     }
 
     useEffect(async()=> {

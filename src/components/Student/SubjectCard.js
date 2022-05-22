@@ -28,8 +28,9 @@ export default function SubjectCard(props) {
     return (
         <TouchableWithoutFeedback onPress={()=>navigation.navigate("SubjectDetails", {subject})}>
             <View style={styles.card}>
-            
-                <Text style={styles.title}>{subject.nombre}</Text>
+                <View style={styles.titleContainter}>
+                    <Text style={styles.title}>{subject.nombre}</Text>
+                </View>
                 <View style={styles.iconBox} >
                     <TouchableWithoutFeedback onPress={handleDeleteSubject}>
                         <Ionicons name="trash-outline"  size={23} style={styles.icon} /> 
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     container: {
         height: '8%',
         width: '100%',
-        margin: '3%'
+        margin: '3%',
     },
     card: {
         width: '90%',
@@ -53,7 +54,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignSelf: 'center',
         marginHorizontal: 10,
-        marginTop: 4
+        marginTop: 4,
+        borderWidth: 0.8
+    },
+    titleContainter: {
+        width: '85%'
     },
     title:{
         fontWeight: 'bold',

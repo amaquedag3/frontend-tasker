@@ -28,17 +28,25 @@ export default function SubjectDetailsScreen(props) {
     })
 
     function calculateAverage(){
-        setAverage(0)
-        let sum = 0
-        exams.forEach(exam => {
-            sum = sum + parseInt(exam.calificacion)
-        });
-        setAverage(sum / exams.length)
+        if(exams.length == 0){
+            setAverage(0)
+        }else {
+            setAverage(0)
+            let sum = 0
+            exams.forEach(exam => {
+                sum = sum + parseInt(exam.calificacion)
+            });
+            setAverage(sum / exams.length)
+        }
     }
 
+    useEffect(()=>{
+        calculateAverage()
+    }, [exams])
+
     useEffect(async() => {
-        await getExams()
-        await calculateAverage()
+        getExams()
+        calculateAverage()
     }, [])
     
 
@@ -57,9 +65,14 @@ export default function SubjectDetailsScreen(props) {
                 <Text style={styles.title}>{subject.nombre}</Text>
                 <Text style={styles.subTitle}>Media de Examenes:  <Text style={{fontWeight: 'normal'}}>{(Math.round(average * 100) / 100).toFixed(2)}</Text></Text>
                 <View style={styles.list}>
+                    {
+                        exams.length == 0 ? 
+                        <View style={styles.pill}><Text style={styles.text}>No tienes examenes añadidos</Text></View>
+                        : <View/>
+                    }
                     <FlatList 
                         data={exams}
-                        renderItem={({ item }) => <ExamCard exam={item}/> }
+                        renderItem={({ item }) => <ExamCard exam={item} getExams={getExams}/> }
                         keyExtractor={(item, index) => {return index.toString()}}
                         refreshControl={
                             <RefreshControl
@@ -112,6 +125,21 @@ const styles =  StyleSheet.create({
         height: '70%',
         borderWidth: 0.8,
         borderRadius: 20
+    },
+    text:{
+        fontSize: 16, 
+        fontWeight: 'bold',
+        alignSelf: 'center',
+    },
+    pill:{
+        backgroundColor: 'rgba(255, 255, 255, 0.7)',
+        height: '3%',
+        width: '80%',
+        position: 'absolute',
+        marginTop: '25%',
+        alignSelf: 'center', 
+        borderRadius: 30,
+        justifyContent: 'center'
     },
     button: {
         position: 'absolute',

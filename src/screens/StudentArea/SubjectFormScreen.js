@@ -69,7 +69,7 @@ export default function SubjectFormScreen(props) {
   
 
   return (
-    <ImageBackground source={require('../../../assets/sea.jpg')} style={styles.background}> 
+    <>
       {
         modalVisible ?
         <CustomModal 
@@ -79,38 +79,40 @@ export default function SubjectFormScreen(props) {
           setModalText={setModalText}/>
           : <View/>
       }
-      <View style={styles.container}>
-          <Text style={styles.title}>Formulario de Asignatura</Text>
-        
-          <TextInput
-            placeholder="Nombre"
-            style={styles.input}
-            autoCapitalize="none"
-            value={name}
-            onChangeText={(text) => setName(text)}
-          />
+      <ImageBackground source={require('../../../assets/sea.jpg')} style={styles.background}> 
+        <View style={styles.container}>
+            <Text style={styles.title}>Formulario de Asignatura</Text>
+          
+            <TextInput
+              placeholder="Nombre"
+              style={styles.input}
+              autoCapitalize="none"
+              value={name}
+              onChangeText={(text) => setName(text)}
+            />
 
-          {/*
-          <View style={styles.dayPickerBox}>
-            <Text style={styles.subTitle}>Horario: </Text>
-            <DayPicker schedule={schedule} setSchedule={setSchedule}/>
+            {/*
+            <View style={styles.dayPickerBox}>
+              <Text style={styles.subTitle}>Horario: </Text>
+              <DayPicker schedule={schedule} setSchedule={setSchedule}/>
+            </View>
+            <CustomSliderDuration setDuration={setDuration}/>
+            */}
+
+            {
+              error ?
+              <Text style={styles.error}>{error}</Text> :
+              <Text></Text>
+            }
+
+          <View style={styles.btn}>
+              <TouchableWithoutFeedback onPress={handleSubmit}>
+                  <Text style={styles.buttonText}> Guardar </Text>
+              </TouchableWithoutFeedback>
           </View>
-          <CustomSliderDuration setDuration={setDuration}/>
-          */}
-
-          {
-            error ?
-            <Text style={styles.error}>{error}</Text> :
-            <Text></Text>
-          }
-
-        <View style={styles.btn}>
-            <TouchableWithoutFeedback onPress={handleSubmit}>
-                <Text style={styles.buttonText}> Guardar </Text>
-            </TouchableWithoutFeedback>
         </View>
-      </View>
-    </ImageBackground>
+      </ImageBackground>
+    </>
   )
 }
 

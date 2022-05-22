@@ -25,8 +25,10 @@ export default function TransactionCard(props) {
 
     return (
         <View style={styles.container}>
-            <Text>{transaction.motivo}</Text>
-            <Text>{transaction.importe}€</Text>
+            <View style={styles.textContainer}>
+                <Text style={styles.text}>{transaction.motivo}</Text>
+                <Text style={styles.text}>Importe: {transaction.importe}€</Text>
+            </View>
             <View style={styles.iconBox} >
                 <TouchableWithoutFeedback onPress={handleDeleteSubject}>
                     <Ionicons name="trash-outline"  size={23} style={styles.icon} /> 
@@ -39,16 +41,24 @@ export default function TransactionCard(props) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'gray',
+        backgroundColor: 'rgba(0, 0, 0, 0.1)',
         margin: 5,
         padding: 5,
         borderRadius: 10,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderWidth: 0.8
+    },
+    textContainer:{
+        width: '80%'
+    },
+    text: {
+        fontSize: 12,
+        textAlign: 'center',
+        fontWeight: 'bold'
     },
     iconBox: {
         position: 'absolute',
-        paddingRight: 10,
-        paddingTop: 5,
+        paddingRight: 8,
         right: 0
     },
     icon:{
