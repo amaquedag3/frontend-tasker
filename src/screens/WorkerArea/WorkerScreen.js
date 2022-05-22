@@ -56,34 +56,35 @@ export default function WorkerScreen() {
       });
       setAmountIncomes(sum)
     }
-    
+    calculatePercentage()
+  }
+
+  function calculatePercentage(){
     if(amountIncomes > 0 && amountWastes > 0){
       setPercentageIncomes(amountIncomes / (amountIncomes + amountWastes))
+    }else if(amountIncomes > 0 && amountWastes == 0){
+      setPercentageIncomes(1)
+    }else if(amountWastes> 0 && amountIncomes == 0){
+      setPercentageIncomes(0)
+    }else{
+      setPercentageIncomes(1)
     }
   }
 
   useEffect(() => {
     separeAmounts()
-    if(amountIncomes > 0 && amountWastes > 0){
-      setPercentageIncomes(amountIncomes / (amountIncomes + amountWastes))
-    }else{
-      getUserTransactions()
-    }
+    calculatePercentage()
   }, [wastes, incomes])
 
   useEffect(async() => {
     separeTransactions()
     separeAmounts()
-    if(amountIncomes > 0 && amountWastes > 0){
-      setPercentageIncomes(amountIncomes / (amountIncomes + amountWastes))
-    }
+    calculatePercentage()
   }, [transactions])
 
   useEffect(async() => {
     getUserTransactions()
-    if(amountIncomes > 0 && amountWastes > 0){
-      setPercentageIncomes(amountIncomes / (amountIncomes + amountWastes))
-    }
+    calculatePercentage()
   }, [])
 
 
