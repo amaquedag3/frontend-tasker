@@ -1,7 +1,6 @@
 import { generateINSERTQuery } from './queryGenerator';
 import * as SQLite from 'expo-sqlite';
-import { resolveUri } from 'expo-asset/build/AssetSources';
-import { DownloadResumable } from 'expo-file-system';
+
 
 const DATABASE_NAME = 'tasker.reminders'
 

@@ -8,10 +8,10 @@ import { APIlogin } from "../../../api";
 
 export default function LoginScreen() {
     const [error, setError] = useState("");
-    const [email, setEmail] = useState()
+    const [email, setEmail] = useState("")
     const [password, setPassword] = useState()
 
-    const { login, userData } = useAuth();
+    const { login } = useAuth();
     const navigation = useNavigation();
 
     //Metodo que es llamado al hacer press en submit
@@ -25,7 +25,7 @@ export default function LoginScreen() {
     function validateInput(){
         setError('');
         if(email == '' || password == ''){
-            setError('Introduce ambos campos');
+            setError('Introduce tus credenciales');
             return false;
         }
         return true;

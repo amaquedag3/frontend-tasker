@@ -15,9 +15,7 @@ export default function CustomDrawer(props) {
     
     const handleLogout = async() => {
         navigation.navigate('Login')
-        await AsyncStorage.removeItem('token')
-        await AsyncStorage.removeItem('email')
-        await AsyncStorage.removeItem('password')
+        await AsyncStorage.removeItem('credentials')
         logout()
     }
     

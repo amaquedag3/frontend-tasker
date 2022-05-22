@@ -49,7 +49,6 @@ export default function ProjectDetailsScreen(props) {
 
     const computeTime = async() => {
         if(phases){
-            console.log('calculating...')
             for (let x=0; x < phases.length; x++){
                 let relatedTasks = await getTasksByPhaseId(phases[x].id)
                 for (let y=0; y < relatedTasks.length; y++){

@@ -113,7 +113,9 @@ export default function ProjectForm(props) {
                 multiline={true}
                 onChangeText={(text) => setDescription(text)}/>
               
-              <Text style={styles.error}>{error}</Text>
+              {
+                error ? <Text style={styles.error}>{error}</Text> : <View/>
+              }
               
               <View style={styles.btn}>
                 <TouchableWithoutFeedback onPress={handleSubmit}>
@@ -156,7 +158,8 @@ const styles = StyleSheet.create({
       padding: 10,
       borderRadius: 20,
       backgroundColor: 'rgba(255, 255, 255, 0.7)',
-      marginVertical: 10
+      marginVertical: 10,
+      borderWidth: 1
     },
     inputDescription: {
       marginTop: 10,
@@ -165,6 +168,7 @@ const styles = StyleSheet.create({
       backgroundColor: 'rgba(255, 255, 255, 0.7)',
       fontSize: 15,
       height: 140,
+      borderWidth: 1
     },
     error: {
       textAlign: "center",

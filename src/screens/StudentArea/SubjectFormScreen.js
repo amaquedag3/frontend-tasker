@@ -8,7 +8,7 @@ import CustomModal from '../../components/CustomModal';
 import { useNavigation } from '@react-navigation/native';
 
 
-export default function SubjectFormScreen() {
+export default function SubjectFormScreen(props) {
   const [name, setName] = useState()
   const [schedule, setSchedule] = useState([])
   const [duration, setDuration] = useState()
@@ -81,6 +81,7 @@ export default function SubjectFormScreen() {
       }
       <View style={styles.container}>
           <Text style={styles.title}>Formulario de Asignatura</Text>
+        
           <TextInput
             placeholder="Nombre"
             style={styles.input}
@@ -88,16 +89,21 @@ export default function SubjectFormScreen() {
             value={name}
             onChangeText={(text) => setName(text)}
           />
+
+          {/*
           <View style={styles.dayPickerBox}>
             <Text style={styles.subTitle}>Horario: </Text>
             <DayPicker schedule={schedule} setSchedule={setSchedule}/>
           </View>
           <CustomSliderDuration setDuration={setDuration}/>
+          */}
+
           {
             error ?
             <Text style={styles.error}>{error}</Text> :
             <Text></Text>
           }
+
         <View style={styles.btn}>
             <TouchableWithoutFeedback onPress={handleSubmit}>
                 <Text style={styles.buttonText}> Guardar </Text>

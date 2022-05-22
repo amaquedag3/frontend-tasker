@@ -464,7 +464,6 @@ export const getExamsBySubjectId = async(idSubject) => {
                 'idSubject': idSubject
             }),
         });
-        console.log(res)
         return await res.json();
     } catch (error) {
         console.log(error)

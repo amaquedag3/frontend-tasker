@@ -40,9 +40,6 @@ export default function TaskScreen() {
     loadTasks()
   }, [])
 
-  useEffect(()=>{
-    console.log('cambio de tarea', selectedTask)
-  }, [selectedTask])
 
   return (
     <ImageBackground source={require('../../../assets/sun-flower.jpg')} style={styles.background}>

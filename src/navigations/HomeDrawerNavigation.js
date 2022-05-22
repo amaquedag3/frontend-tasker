@@ -10,8 +10,6 @@ import ProjectNavigation from './ProjectNavigation';
 import StudentNavigation from './StudentNavigation';
 import WorkerNavigation from './WorkerNavigation';
 
-import SettingScreen from '../screens/SettingsScreen';
-
 
 const Drawer = createDrawerNavigator();
 
@@ -56,12 +54,6 @@ export default function HomeDrawerNavigation() {
                 options={{
                 drawerIcon: ({color}) => (
                     <MaterialIcons name="work-outline" size={35} color={'purple'} />
-                )
-            }}/>
-            <Drawer.Screen name="Ajustes" component={SettingScreen}
-                options={{
-                drawerIcon: ({color}) => (
-                    <Ionicons name="settings-outline" size={35} color={'purple'} />
                 )
             }}/>
         </Drawer.Navigator>
