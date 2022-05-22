@@ -7,6 +7,11 @@ import PhaseForm from "../screens/ProjectArea/PhaseForm";
 
 const Stack = createStackNavigator();
 
+//Navigation que permite la navegación entre las pantallas de:
+    //Pantalla de listado de proyectos
+    //Pantalla de formulario de proyectos
+    //Pantalla de formulario de proyetos
+    //Pantalla de formulario de fases de proyectos
 export default function ProjectNavigation() {
     return (
         <Stack.Navigator initialRouteName="ProjectsList">

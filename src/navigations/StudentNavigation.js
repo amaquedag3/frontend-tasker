@@ -7,7 +7,11 @@ import ExamFormScreen from '../screens/StudentArea/ExamFormScreen';
 
 
 const Stack = createStackNavigator();
-
+//Navigation que permite la navegación entre :
+    //Pantalla principal de Estudiante --> Listado de asignaturas
+    //Pantalla de formulario de Asignaturas
+    //Pantalla de muestra los detalles de una asignturas --> Listado de examenes
+    //Pantalla de formualrio de Exámentes
 export default function StudentNavigation() {
     return (
         <Stack.Navigator>

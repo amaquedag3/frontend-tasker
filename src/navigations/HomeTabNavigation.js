@@ -3,13 +3,14 @@ import { Image } from "react-native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import TaskNavigation from '../navigations/TaskNavigation'
-import NotesScreen from '../screens/HomeArea/NotesScreen';
 import CalendarScreen from '../screens/HomeArea/CalendarScreen';
 import NoteNavigation from './NoteNavigation';
 
 
 const Tab = createBottomTabNavigator();
 
+//Navegación de la barra inferior que contiene las pantalla del calendario
+// y las navegaciones de Tareas y Notas
 export default function HomeTabNavigation() {
     return (
         <Tab.Navigator initialRouteName='Tasks'

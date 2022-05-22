@@ -4,7 +4,9 @@ import WorkerScreen from '../screens/WorkerArea/WorkerScreen';
 import TransactionsFormScreen from '../screens/WorkerArea/TransactionsFormScreen';
 
 const Stack = createStackNavigator();
-
+//Navigation que permite la navegación entre:
+    //Pantalla de ingresos y gastos
+    //Pantalla de formulario de ingresos y gastos
 export default function WorkerNavigation() {  
     return (
         <Stack.Navigator>

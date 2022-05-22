@@ -7,6 +7,10 @@ import HomeDrawerNavigation from './HomeDrawerNavigation';
 
 const Stack = createNativeStackNavigator();
 
+//Navegación inicial del proyecto permite la navegación entre:
+    //Pantalla de Login
+    //Pantanlla de Register
+    //La navegación principal del proyecto --> HOME
 export default function IdentificationNavigation() {
     return (
         <Stack.Navigator>

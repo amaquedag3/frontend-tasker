@@ -13,6 +13,9 @@ import WorkerNavigation from './WorkerNavigation';
 
 const Drawer = createDrawerNavigator();
 
+//Navegación principal de la App que contiene las otras navegaciones de la aplicación
+    //La navegación inicial desde el Tab -->  HOME(Calendario, Tareas y Notas)
+    //La navegación lateral entre secciones -->HOME, Proyectos, Estuantes e Ingresos-Gastos
 export default function HomeDrawerNavigation() {
     return (
         <Drawer.Navigator 

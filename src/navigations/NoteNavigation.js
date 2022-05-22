@@ -6,6 +6,9 @@ import NoteForm from '../screens/HomeArea/NoteForm';
 
 const Stack = createStackNavigator();
 
+//Navegación de Notas que permite la navegación entre:
+    //La Pantalla de listado de recordatorios
+    //La Pantalla de fomulario de recordatorios
 export default function NoteNavigation() {
     return (
         <Stack.Navigator>

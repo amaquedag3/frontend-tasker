@@ -1,27 +1,25 @@
 import  React, { useEffect, useState }  from 'react';
 import AppLoading from 'expo-app-loading';
 import { NavigationContainer } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import IdentificationNavigation from './src/navigations/IdentificationNavigation';
 import useFonts from './src/hooks/useFonts';
 import { AuthProvider } from './src/context/AuthContext';
-import useAuth from './src/hooks/useAuth';
-import { openDataBase, initDataBase } from './src/utils/sqliteDb';
+import { initDataBase } from './src/utils/sqliteDb';
 
+
+//Funcion principal de la aplicación
 export default function App() {
   const [IsReady, SetIsReady] = useState(false);
-  const [storedCredentials, setStoredCredentials] = useState()
-  const { login, userData } = useAuth();
 
   useEffect(async()=>{
-    //initDataBase()
+    //Inicio de base de datos SQLite
+    initDataBase()
   }, [])
-
 
   const onStart = async() => {
     loadFonts()
   }
-
+  //Función que llama al hook que carga la fuente usada en la aplicación
   const loadFonts = async () => {
     await useFonts();
   };
@@ -36,6 +34,9 @@ export default function App() {
     );
   }
 
+  //Proveedor de navegación a la aplicación
+  //Hook que provee de los datos del usuario a los componentes de la aplicación
+  //Navegación Inicial de la aplicación
   return (
     <NavigationContainer>
       <AuthProvider>

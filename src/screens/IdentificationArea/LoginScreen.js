@@ -7,11 +7,15 @@ import useAuth from "../../hooks/useAuth";
 import { APIlogin } from "../../../api";
 
 export default function LoginScreen() {
+    //Estados del componente
     const [error, setError] = useState("");
     const [email, setEmail] = useState("")
-    const [password, setPassword] = useState()
+    const [password, setPassword] = useState("")
 
+    //Hook que guarda las credenciales del usuario para ser
+    //reutilizadas en la navegación princial
     const { login } = useAuth();
+    //Variable que permite la navegación entre pantallas
     const navigation = useNavigation();
 
     //Metodo que es llamado al hacer press en submit
