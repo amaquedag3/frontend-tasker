@@ -24,10 +24,11 @@ export default function PhaseCard(props) {
     useEffect(async() => {
         const data = await getTasksByPhaseId(phase.id)
         if(data){
-            setTime(0)
+            let aux = 0
             data.forEach(task => {
-                setTime(time + task.duration)
+                aux += parseInt(task.duration)
             });
+            setTime(aux)
         }
     }, [])
     

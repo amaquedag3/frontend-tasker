@@ -87,7 +87,6 @@ export default function CustomTimer(props) {
     return (
         <>
         <View style={{alignItems: 'center', justifyContent: 'center'}}>
-        <Text>{selectedTask.title}</Text>
             <Text style={styles.timer}>{timerHours}:{timerMinutes}:{timerSeconds}</Text>
             <View style={{position: 'absolute'}}>
             {isPlaying ?
@@ -105,6 +104,10 @@ export default function CustomTimer(props) {
                 borderWidth={10}/>
             }
             </View>
+            <View style={{ width: '50%'}}>
+                <Text>{selectedTask.title}</Text>
+            </View>
+            
             {isPlaying ? 
                 <>
                 <View style={{flexDirection: 'row'}}>

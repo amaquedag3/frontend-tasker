@@ -1,25 +1,27 @@
 import { View, Text, StyleSheet, ImageBackground, FlatList, RefreshControl } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import ButtonAdd from '../../components/ButtonAdd';
+import useAuth from '../../hooks/useAuth';
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from 'react-native-safe-area-context';import NoteCard from '../../components/Notes/NoteCard';
-import { getUserReminders } from '../../utils/sqliteDb';
+import { getReminders, insertReminder } from '../../utils/sqliteDb';
 
 export default function NotesScreen() {
   const [reminders, setReminders] = useState()
   const [refreshing, setRefreshing] = useState(false);
 
+  const { userData } = useAuth()
   const navigation = useNavigation();
   
   const loadReminders = async() => {
-    const data = await getUserReminders()
+    const data = await getReminders(userData.id)
     console.log('Reminders:', data)
     setReminders(data)
   }
 
   const onRefresh = React.useCallback(async() =>{
     setRefreshing(true)
-    const data = await loadReminders();
+    await loadReminders();
     setRefreshing(false);
   })
 

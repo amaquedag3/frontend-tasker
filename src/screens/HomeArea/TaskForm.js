@@ -12,29 +12,33 @@ import CustomDateTimePicker from '../../components/CustomDateTimePicker';
 import CustomSliderDuration from '../../components/CustomSliderDuration';
 
 
-
+//Pantalla de formulario de Tareas
 export default function TaskForm() {
-    const [error, setError] = useState('')
+    //Estados de la tarea
     const [title, setTitle] = useState('')
     const [date, setDate] = useState(new Date())
     const [expectedDuration, setDuration] = useState(0)
     const [priority, setPriority] = useState(0)
 
+    //Estados secundarios
     const [projects, setProjects] = useState()
     const [project, setProject] = useState()
     const [phases, setPhases] = useState([])
     const [phase, setPhase] = useState()
 
+    //Estados de los componentes del formulario
+    const [error, setError] = useState('')
     const [modalVisible, setModalVisible] = useState("");
     const [modalText, setModalText] = useState("");
+    
     const navigation = useNavigation();
     const { userData } = useAuth();
-    const idUser = userData.id;
 
     const wait = (timeout) => {
         return new Promise(resolve => setTimeout(resolve, timeout));
     }
 
+    //Función que se activa al pulsar el botón de guardar tarea
     const handleSubmit = () => {
         if(validateInput()){
             saveTask()
@@ -44,11 +48,14 @@ export default function TaskForm() {
         }
     }
 
+    //Función que se activa al pulsar el botón de desvincular
+    //la tarea de una fase de proyecto
     const handleCleanSubmit = () => {
         setProject(undefined)
         setPhases([])
     }
 
+    //Functión que guarda la tarea en la API
     const saveTask = async () => {
         const newTask ={   
             'title': title, 
@@ -56,18 +63,22 @@ export default function TaskForm() {
             'expectedDuration': expectedDuration,  
             'projectPhase': phase,
             'priority': priority,
-            'idUser': idUser
+            'idUser': userData.id
         }
         await createTask(newTask)
     }
     
 
+    //Función que valida la entra de datos de la tarea
     const validateInput = () => {
         setError('')
-        setDuration(0)
         if(title == ''){
             setError('Introduce un título')
             return false;
+        }
+        if(title.length > 40){
+            setError('Titulo demasiado largo')
+            return false
         }
         if(date == undefined){
             setError('Introduce una fecha')
@@ -85,15 +96,16 @@ export default function TaskForm() {
         return true;
     }
 
+    //Función que lee los proyectos de la API
     const loadProjects = async() => {
-        const data = await getUserProjects(idUser)
+        const data = await getUserProjects(userData.id)
         if(data)
             setProjects(data)
     }
 
+     //Función que lee los fase de un proyecto de la API
     const loadPhases = async() => {
         const data = await getPhasesByProjectId(project)
-
         if(data)
             setPhases(data)
     }

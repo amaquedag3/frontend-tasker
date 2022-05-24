@@ -6,8 +6,9 @@ import CustomModal from '../../components/CustomModal';
 import { useNavigation } from "@react-navigation/native";
 import { wait } from '../../utils/wait';
 
-
+//Pantalla de Formulario de fase
 export default function PhaseForm(props) {
+    //Datos obtenidos por props de
     let phase;
     let project;
     if(props.route.params != undefined){

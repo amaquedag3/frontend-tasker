@@ -6,23 +6,30 @@ import ButtonAdd from '../../components/ButtonAdd';
 import PhaseCard from '../../components/Projects/PhaseCard';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-
+//Pantalla que carga los datos de un proyecto 
 export default function ProjectDetailsScreen(props) {
+    //Proyecto en cuestión
     const {project} = props.route.params;
 
+    //Estados definidos en la vista
     const [phases, setPhases] = useState()
-    const [refreshing, setRefreshing] = useState(false);
     const [ended, setEnded] = useState(false)
     const [time, setTime] = useState(0)
 
+    //Estados para recargar los datos
+    const [refreshing, setRefreshing] = useState(false);
+
     const navigation = useNavigation();
 
+    //Función que recarga las fases de la API cuando
+    //Se añade o se elimina de una fase
     const onRefresh = React.useCallback(async() =>{
         setRefreshing(true)
         await getPhases();
         setRefreshing(false);
     })
 
+    //Función que verifica que todas las fases estan acabadas
     function isEnded(){
         if(phases){
             for (var i=0; i < phases.length; i++){
@@ -37,6 +44,7 @@ export default function ProjectDetailsScreen(props) {
     }
     
 
+    //Función que obtiene las fases del proyecto de la API
     const getPhases = async() => {
         const result = await getPhasesByProjectId(project.id)
         if(result){
@@ -48,10 +56,14 @@ export default function ProjectDetailsScreen(props) {
         }
     }
 
+    //Función que obtiene el tiempo total de proyecto
     const computeTime = async() => {
         const data = await getProjectTime(project.id)
-        setTime(JSON.stringify(data).split('":"')[1].slice(0, -2))
-    }
+        console.log(data)
+        if(data != undefined){
+            setTime(JSON.stringify(data).split('":"')[1].slice(0, -2))
+        }
+        }
 
     useEffect(async()=> {
         await getPhases()

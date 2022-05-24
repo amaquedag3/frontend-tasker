@@ -45,16 +45,15 @@ const styles = StyleSheet.create({
     container: {
         height: '8%',
         width: '100%',
-        margin: '3%',
     },
     card: {
-        width: '90%',
+        width: '95%',
         padding: '3%',
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
         borderRadius: 10,
         alignSelf: 'center',
         marginHorizontal: 10,
-        marginTop: 4,
+        marginTop: 5,
         borderWidth: 0.8
     },
     titleContainter: {

@@ -81,7 +81,7 @@ export default function ToDoTaskCard(props) {
         <TouchableWithoutFeedback onLongPress={handleSelection}>
             <View style={styles.card}>
                 <View style={styles.spacing}>
-                    <Text style={styles.hour}> {date.split('T')[1].slice(0, 5)}</Text>
+                    <Text style={styles.hour}> {date.split('T')[0]}</Text>
                     <Text style={styles.title}>{task.title}</Text>
                     
                 </View>

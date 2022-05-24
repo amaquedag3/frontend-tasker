@@ -12,6 +12,7 @@ import { orderBy, remove } from "lodash";
 
 
 export default function TaskScreen() {
+  //Estados
   const [tasks, setTasks] = useState(undefined)
   const [selectedTask, setSelectedTask] = useState(undefined)
   const [isPlaying, setPlay] = useState(false)
@@ -20,6 +21,7 @@ export default function TaskScreen() {
   const { userData } = useAuth()
   const navigation = useNavigation();
   
+  //Función que carga las tareas por hacer de la API y las ordena por prioridad
   const loadTasks = async(task) => {
     const data = await getUserTodoTasks(userData.id)
     if(data){

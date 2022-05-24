@@ -5,18 +5,21 @@ import { createProject, updateProject } from '../../../api';
 import useAuth from '../../hooks/useAuth';
 import CustomModal from '../../components/CustomModal'
 
-
-
+//Formulario de proyecto que puede ser llamado
+// para crear o editar un proyecto
 export default function ProjectForm(props) {
+    //Si se edita un proyecto, se recibe su información por props
     let project;
     if(props.route.params != undefined){
       project = props.route.params.project
     }
 
+    //Estados del proyecto
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [started, setStared] = useState(new Date())
 
+    //Estados de la vista
     const [error, setError] = useState('')
     const [modalVisible, setModalVisible] = useState("");
     const [modalText, setModalText] = useState("");
@@ -26,12 +29,14 @@ export default function ProjectForm(props) {
 
     const navigation = useNavigation();
 
+    //Función que se activa al pulsar el botón de guardar
     const handleSubmit = () => {
         if(validateInputs()){
             saveProject()
         }
     }
 
+    //Función que valida la entrada de datos
     const validateInputs = () => {
       setError('')
       if(title == ''){
@@ -45,42 +50,42 @@ export default function ProjectForm(props) {
       return true;
   }
 
-
-    const saveProject = async () => {
-      let res;
-      if(project){
-        project.title = title
-        project.description = description
-        res = await updateProject(project)
-      }else {
-        const newProject = {title, description, started, idUser}
-        res = await createProject(newProject)
-      }
-
-      console.log(res)
-
-      if(res.status != 200){
-          setError(res.message)
-      }else{
-          setModalText('!Proyecto guardado!')
-          setModalVisible(true)
-          cleanInputs()
-          navigation.navigate('ProjectsList')
-      }
+  //Función que guarda los datos del formulario
+    //UPDATE o SAVE
+  const saveProject = async () => {
+    let res;
+    if(project){
+      project.title = title
+      project.description = description
+      res = await updateProject(project)
+    }else {
+      const newProject = {title, description, started, idUser}
+      res = await createProject(newProject)
     }
 
-    function cleanInputs(){
-      setTitle('')
-      setDescription('')
+    if(res.status != 200){
+      setError(res.message)
+    }else{
+      setModalText('!Proyecto guardado!')
+      setModalVisible(true)
+      cleanInputs()
+      navigation.navigate('ProjectsList')
     }
+  }
 
-    useEffect(() => {
-      if(project){
-        setTitle(project.title)
-        setDescription(project.description)
-      }
+  //Función que limpia los inputs del formulario
+  function cleanInputs(){
+    setTitle('')
+    setDescription('')
+  }
 
-    }, [])
+  //Función de carga los datos del proyecto a editar
+  useEffect(() => {
+    if(project){
+      setTitle(project.title)
+      setDescription(project.description)
+    }
+  }, [])
     
 
     return (

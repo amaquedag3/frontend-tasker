@@ -4,7 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import IdentificationNavigation from './src/navigations/IdentificationNavigation';
 import useFonts from './src/hooks/useFonts';
 import { AuthProvider } from './src/context/AuthContext';
-import { initDataBase } from './src/utils/sqliteDb';
+import { initDatabase } from './src/utils/sqliteDb';
+
 
 
 //Funcion principal de la aplicación
@@ -13,7 +14,7 @@ export default function App() {
 
   useEffect(async()=>{
     //Inicio de base de datos SQLite
-    initDataBase()
+    await initDatabase()
   }, [])
 
   const onStart = async() => {

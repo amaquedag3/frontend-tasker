@@ -5,10 +5,12 @@ import { getUserEndedTasks } from '../../../api';
 import { orderBy } from "lodash";
 import EndedTaskList from '../../components/Tasks/EndedTaskList';
 
+//Pantalla de tareas acabadas
 export default function EndedTasksScreen() {
     const [tasks, setTasks] = useState()
     const { userData } = useAuth()
 
+    //Función que carga las tareas acabadas de la API
     const loadTasks = async() => {
         const data = await getUserEndedTasks(userData.id)
         if(data){

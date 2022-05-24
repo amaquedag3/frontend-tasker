@@ -1,17 +1,30 @@
 import { View, Text, StyleSheet,ImageBackground, TouchableWithoutFeedback , TextInput, Alert} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import CustomDateTimePicker from '../../components/CustomDateTimePicker';
-import { insertReminder } from '../../utils/sqliteDb';
 import useAuth from '../../hooks/useAuth';
+import { useNavigation } from '@react-navigation/native';
+import { insertReminder } from '../../utils/sqliteDb';
+import CustomModal from '../../components/CustomModal';
 
 
 export default function NoteForm(props) {
     const {reminder} = props;
     const { userData } = useAuth()
 
-    const [error, setError] = useState();
     const [content, setContent] = useState('' );
     const [date, setDate] = useState(new Date())
+
+    const [error, setError] = useState();
+    const [modalVisible, setModalVisible] = useState("");
+    const [modalText, setModalText] = useState("");
+
+    const navigation = useNavigation();
+
+    
+    const wait = (timeout) => {
+        return new Promise(resolve => setTimeout(resolve, timeout));
+    }
+
 
     const handleSubmit = async() => {
         if(validateInput()){
@@ -21,15 +34,11 @@ export default function NoteForm(props) {
                 active: false,
                 idUser: userData.id
             })
+            setModalText('!Recordatorio guardado!')
+            setModalVisible(true)
+            wait(1000).then(() => navigation.goBack());
         }
     }
-    useEffect(()=> {
-        if(reminder){
-            console.log(reminder)
-            setContent(reminder.content)
-            setDate(reminder.date)
-        }
-    }, [reminder])
 
     function validateInput(){
         setError('')
@@ -38,7 +47,7 @@ export default function NoteForm(props) {
             return false
         }
 
-        if(date < new Date(0)){
+        if(date < new Date()){
             setError('No puedes introducir una fecha pasada')
             return false
         }
@@ -46,31 +55,42 @@ export default function NoteForm(props) {
     }
 
     return (
-        <ImageBackground style={styles.background} source={require('../../../assets/medusa.jpg')} >
-            <View style={styles.container}>
-                <Text style={styles.title}>Formulario de Recordatorio</Text>
-                <TextInput  
-                    placeholder='Contenido'
-                    value={content}
-                    onChangeText={(text) => setContent(text)}
-                    style={styles.input}/>
-                
-                <View>
-                    <CustomDateTimePicker inputDate={date}/>
-                </View>
+        <>
+            {
+                modalVisible ?
+                <CustomModal
+                    modalVisible={modalVisible} 
+                    setModalVisible={setModalVisible} 
+                    modalText={modalText}
+                    setModalText={setModalText}/>
+                : <View/>
+            }
+            <ImageBackground style={styles.background} source={require('../../../assets/medusa.jpg')} >
+                <View style={styles.container}>
+                    <Text style={styles.title}>Formulario de Recordatorio</Text>
+                    <TextInput  
+                        placeholder='Contenido'
+                        value={content}
+                        onChangeText={(text) => setContent(text)}
+                        style={styles.input}/>
+                    
+                    <View>
+                        <CustomDateTimePicker inputDate={date} setInputDate={setDate}/>
+                    </View>
 
-                {
-                    error ? <Text style={styles.error}>{error}</Text> : <View/> 
-                }
-                
+                    {
+                        error ? <Text style={styles.error}>{error}</Text> : <View/> 
+                    }
+                    
 
-                <View style={styles.btn}>
-                    <TouchableWithoutFeedback onPress={handleSubmit}>
-                        <Text style={styles.buttonText}> Guardar </Text>
-                    </TouchableWithoutFeedback>
+                    <View style={styles.btn}>
+                        <TouchableWithoutFeedback onPress={handleSubmit}>
+                            <Text style={styles.buttonText}> Guardar </Text>
+                        </TouchableWithoutFeedback>
+                    </View>
                 </View>
-            </View>
-        </ImageBackground>
+            </ImageBackground>
+        </>
     )
 }
 

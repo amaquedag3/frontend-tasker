@@ -7,10 +7,12 @@ import ButtonAdd from '../../components/ButtonAdd';
 import useAuth from '../../hooks/useAuth';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+//Pantalla principal de proyectos
 export default function ProjectsScreen() {
   const [projects, setProjects] = useState(undefined);
   const { userData } = useAuth();
 
+  //Funcion que carga los proyectos del usuario ed la API
   const loadProjects = async() => {
     const data = await getUserProjects(userData.id)
     if(data)
@@ -22,7 +24,6 @@ export default function ProjectsScreen() {
 
   const navigation = useNavigation();
     
-
   return (
     <ImageBackground source={require('../../../assets/night-landscape.jpg')} style={styles.background}>
       <View>
