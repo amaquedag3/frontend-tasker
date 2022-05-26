@@ -1,26 +1,25 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import React, {useState, useEffect} from 'react';
-import { deletePhase, updatePhase, getTasksByPhaseId } from '../../../api';
+import { deletePhase, updatePhase, getTasksByPhaseId, deleteTask } from '../../../api';
 import CustomModal from '../CustomModal';
 import { wait } from '../../utils/wait';
 
+//Carta de Fase
 export default function PhaseCard(props) {
     const {phase, getPhases, project} = props;
+    const [time, setTime] = useState(0)
     const [modalVisible, setModalVisible] = useState("");
     const [modalText, setModalText] = useState("");
-    const [time, setTime] = useState(0)
-
     const navigation = useNavigation();
     
-
     const setFinished = async() => {
         phase.finished = new Date()
         await updatePhase(phase)
         await getPhases()
     }
-
+    //Calculo de tiempo de fase
     useEffect(async() => {
         const data = await getTasksByPhaseId(phase.id)
         if(data){
@@ -31,14 +30,41 @@ export default function PhaseCard(props) {
             setTime(aux)
         }
     }, [])
-    
-
+    //función que elimina tarea
     const handleDelete = async() => {
-        await deletePhase(phase.id)
-        setModalText('Fase borrada.')
-        setModalVisible(true)
-        await wait(1200)
-        await getPhases()
+        const tasks = await getTasksByPhaseId(phase.id)
+        console.log('tasks', tasks)
+        if(tasks.length > 0){
+            return Alert.alert(
+                "Eliminando fase de proyecto...",
+                "¿Estas seguro de que quieres eliminar esta fase de proyecto?\nSe eliminaran todas las tareas vinculadas a esta fase",
+                [
+                    {
+                        text: "Sí",
+                        onPress: async () => { 
+                            tasks.forEach(async task => {
+                                await deleteTask(task.id)
+                            });
+                            await deletePhase(phase.id)
+                            setModalText('Fase borrada.')
+                            setModalVisible(true)
+                            await wait(1200)
+                            await getPhases()
+                        },
+                    },
+                    {
+                        text: "No",
+                    },
+                ]
+            );
+        }else{
+            await deletePhase(phase.id)
+            setModalText('Fase borrada.')
+            setModalVisible(true)
+            await wait(1200)
+            await getPhases()
+        }
+        
     }
 
     return (
@@ -59,7 +85,8 @@ export default function PhaseCard(props) {
                         : <Ionicons onPress={setFinished} name="checkmark-circle-outline"  size={23} style={styles.icon} color='green'/> 
                     }
                     <Ionicons onPress={() => navigation.navigate('PhaseForm', {phase: phase, project: project})} name="pencil"  size={23} style={styles.icon} color='#FFBD33'/> 
-                    <Ionicons onPress={handleDelete} name="trash-outline"  size={23} style={styles.icon} color='red' /> 
+                    <Ionicons onPress={handleDelete} name="trash-outline"  size={23} style={styles.icon} color='red'/>
+    
                 </View>
             </View>
         </>

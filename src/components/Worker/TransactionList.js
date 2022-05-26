@@ -1,7 +1,7 @@
 import { FlatList, RefreshControl } from 'react-native'
 import React, {useState} from 'react'
 import TransactionCard from './TransactionCard';
-
+//Lista de transacciones (ingresos o gastos)
 export default function TransactionList(props) {
     const {transactions, getUserTransactions} = props;
     const [refreshing, setRefreshing] = useState(false);

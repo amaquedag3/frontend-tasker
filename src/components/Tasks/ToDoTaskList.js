@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import ToDoTaskCard from './ToDoTaskCard';
 import ChangerButton from './ChangerButton';
 
+//Lista de las tareas por hacer
 export default function ToDoTaskList(props) {
   const {tasks, setTasks, loadTasks, duration, setDuration, selectedTask, setSelectedTask, range, setRange, isPlaying, setPlay} = props;
   const [refreshing, setRefreshing] = useState(false);
@@ -31,7 +32,6 @@ export default function ToDoTaskList(props) {
           setDuration={setDuration}
           isPlaying={isPlaying}
           setPlay={setPlay}/>}
-        
         keyExtractor={(item, index) => {return index.toString()}}
         horizontal={true}
         refreshControl={

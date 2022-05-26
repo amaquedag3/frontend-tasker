@@ -5,11 +5,11 @@ import { deleteExam } from '../../../api';
 
 export default function ExamCard(props) {
   const {exam, getExams} = props;
-
+  //color de la nota
   const [pillColor, setPillColor] = useState();
 
   const pill = { backgroundColor: pillColor, ...styles.pill };
-
+  //funcion que limina el examen
   const handleDeleteExam = () => {
     return Alert.alert(
         "Eliminando examen...",

@@ -1,58 +1,51 @@
-import { generateINSERTQuery } from './queryGenerator';
-const SQlite = require('expo-sqlite')
+var SQLite = require('react-native-sqlite-storage')
 
 
-const DATABASE_NAME = 'tasker.reminders'
+export const databaseConnection = {
+    getConnection: () => SQLite.openDatabase("tasker.db"),
+};
 
-
-function getConnection(){
-    let db = SQlite.openDatabase(
-        {name: DATABASE_NAME, location: 'default'},
-        () => {},
-        error => { console.log(error) }
-    )
-    return db;
+export  function createTableReminders(db){
+    const query = "CREATE TABLE IF NOT EXISTS reminders(id INTEGER PRIMARY KEY NOT NULL AUTOINCREMENT, content VARCHAR(100) NOT NULL)";
+    db.transaction(tx => {
+        tx.executeSql(query, [])
+    })
 }
 
-export const initDatabase = async() => {
-    const db = getConnection()
-    console.log('SQLITE DATABASE:', db._db._name.name)
-    await createTableReminders(db)
-}
-
-
-export async function createTableReminders(db){
-    const query = "CREATE TABLE `reminders` (`id` int(11) NOT NULL AUTO_INCREMENT,`content` varchar(100) NOT NULL,`date` datetime NOT NULL,`active` tinyint(4) NOT NULL, `idUser` varchar(50)) ";
-    await db.transaction(tx => {
-        tx.executeSql(query)
+export  function checkTableExists(db){
+    const query = "SELECT name FROM sqlite_master WHERE type='table' AND name='reminders'";
+    db.transaction(tx => {
+        tx.executeSql(query, [], (tx, results) => {
+        })
     })
 }
 
 
-export async function getReminders(idUser){
-    const query = "SELECT * FROM `reminders`"
-    const db = getConnection()
-    db.transaction(tx => {
-        tx.executeSql(query, null, // passing sql query and parameters:null
-          // success callback which sends two things Transaction object and ResultSet Object
-            (txObj, { rows: { _array } }) => console.log(_array), 
-          // failure callback which sends two things Transaction object and Error
-            (txObj, error) => console.log('Error ', error)
-          ) // end executeSQL
-      }) // end tra
+
+export  function getReminders(db){
+    db.transaction((tx) => {
+        tx.executeSql(
+          'SELECT * FROM `reminders`',
+          [],
+          (tx, results) => {
+            //console.log(results)
+          }
+        );
+      });
 }
 
-export async function insertReminder(reminder){
-    console.log(reminder)
+export  function insertReminder(db){
     //const query = "INSERT INTO `usuarios` VALUES (" + reminder.content + "', '" + reminder.date + "', '" + reminder.active + "', '" + reminder.idUser + "');"
-    const query = "INSERT INTO `reminders` VALUES (" + "example" + "', '" + new Date() + "', '" + 1 + "', '" + 1 + "');"
-    const db = getConnection()
-
-    db.transaction(tx => {
-        tx.executeSql(query, ['example', new Date, 1, 1],
-            (txObj, resultSet) => console.log('insert'),
-            (txObj, error) => console.log('Error', error))
-    })
+    const query = "INSERT INTO `reminders` (`id`, `content`) VALUES (NULL, 'asd');"
+    db.transaction((tx) => {
+        tx.executeSql(
+            query,
+            [],
+            (tx, results) => {
+                //console.log('Results', results.rowsAffected);
+            }
+        );
+    });
 }
 
 

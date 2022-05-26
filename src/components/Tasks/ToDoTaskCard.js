@@ -5,9 +5,9 @@ import { deleteTask } from "../../../api";
 import CustomModal from '../CustomModal';
 
 export default function ToDoTaskCard(props) {
-    const {task, setTasks, tasks, loadTasks, selectedTask, setSelectedTask, isPlaying, setPlay, duration, setDuration} = props;
+    const {task, tasks, loadTasks, selectedTask, setSelectedTask, setPlay, setDuration} = props;
     const {date} = task;
-
+    //Estados de la tarea en la vista
     const [textPriority, setTextPriority] = useState('')
     const [colorPriority, setColorPriority] = useState('')
     const [modalVisible, setModalVisible] = useState("");
@@ -18,7 +18,7 @@ export default function ToDoTaskCard(props) {
     useEffect(async() => {
         setCardPriority()
     }, [tasks])
-
+    //Función que elimina una tarea
     const handleDeleteTask = () => {
         return Alert.alert(
             "Eliminando tarea...",
@@ -34,7 +34,7 @@ export default function ToDoTaskCard(props) {
             ]
         );
     }
-
+    //Función que envía la tarea al progreso
     const handleSelection = async() => {
         if(selectedTask === undefined){
             setSelectedTask(task)
@@ -48,7 +48,7 @@ export default function ToDoTaskCard(props) {
         
     }
     
-    
+    //Función que da text y color en funcion de la prioridad 
     const setCardPriority = () => {
         switch (task.priority) {
             case 0:
@@ -70,7 +70,6 @@ export default function ToDoTaskCard(props) {
         }
     }
 
-    
     return (
         <>
         <CustomModal 

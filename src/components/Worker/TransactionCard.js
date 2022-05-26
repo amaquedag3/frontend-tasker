@@ -3,10 +3,10 @@ import React from 'react'
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { deleteTransaction } from '../../../api';
-
+//Card de la transacción
 export default function TransactionCard(props) {    
     const {transaction, getUserTransactions} = props;
-
+    //funcón que elimina una transacción
     function handleDeleteSubject(){
         return Alert.alert(
             "Eliminando Transacción...",

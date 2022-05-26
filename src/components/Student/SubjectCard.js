@@ -4,11 +4,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from "@react-navigation/native";
 import { deleteSubject } from '../../../api';
 
-
+//Carta de Asignatura
 export default function SubjectCard(props) {
     const {subject, loadSubjects} = props;
     const navigation = useNavigation();
-
+    //funcion que elimina lasinatura
     function handleDeleteSubject(){
         return Alert.alert(
             "Eliminando Asignatura...",

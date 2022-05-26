@@ -10,7 +10,7 @@ export default function DayPicker(props) {
     const [selectedDay, setSelectedDay] = useState()
 
     useEffect(() => {
-        console.log(schedule)
+        
     }, [selectedDay])
 
 

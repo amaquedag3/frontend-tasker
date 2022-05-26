@@ -5,11 +5,12 @@ import { capitalize } from "lodash";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { deleteProject } from '../../../api';
 
+//Carta de proyecto
 export default function ProjectCard(props) {
     const {project, loadProjects} = props;
     const navigation = useNavigation();
 
-
+    //función que alimina un proyecto
     const handleDeleteProject = () => {
         return Alert.alert(
             "Eliminando proyecto...",
@@ -18,7 +19,6 @@ export default function ProjectCard(props) {
                 {
                     text: "Sí",
                     onPress: async () => { 
-                        console.log('Eliminando proyecto ...', project.id)
                         await deleteProject(project.id)
                         await loadProjects()
                     },

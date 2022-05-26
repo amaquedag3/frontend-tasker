@@ -35,7 +35,6 @@ export default function TaskScreen() {
         setTasks(orderBy(data,['priority'], ['desc']))
       }
     }
-      
   }
 
   useEffect(()=> {

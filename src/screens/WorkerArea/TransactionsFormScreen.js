@@ -9,17 +9,18 @@ import { saveTransaction } from '../../../api';
 
 export default function TransactionsFormScreen(props) {
     const {type} = props.route.params;
-
+    //estados
     const [reason, setReason] = useState('')
     const [amount, setAmount] = useState()
     const [date, setDate] = useState(new Date())
-
-    const navigation = useNavigation();
-    const { userData } = useAuth();
+    //estados del formulario
     const [modalVisible, setModalVisible] = useState(false);
     const [modalText, setModalText] = useState("");
     const [error, setError] = useState('')
 
+    const navigation = useNavigation();
+    const { userData } = useAuth();
+    //funcion que se activa cuando pulsa el botoón
     async function handleSubmit(){
         if(validateInput()){
             const newTransaction = {
@@ -36,7 +37,7 @@ export default function TransactionsFormScreen(props) {
             navigation.goBack()
         }
     }
-
+    //función que valida la entrada de datos
     async function validateInput(){
         setError('')
         if(reason == ''){
@@ -47,7 +48,6 @@ export default function TransactionsFormScreen(props) {
             setError('Introduce un importe válido')
             return false;
         }
-
         return true
     }
 

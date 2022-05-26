@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Image } from 'react-native'
 import React from 'react'
 import CustomTimer from './CustomTimer';
 
+//Componente central de TaskScreen, donde se ponen las tareas en proceso
 export default function ToDoProgress(props) {
   const {tasks, setTasks, loadTasks, selectedTask, setSelectedTask, isPlaying, setPlay, duration, setDuration} = props
 

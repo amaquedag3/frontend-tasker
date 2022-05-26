@@ -3,19 +3,20 @@ import { View, Text, StyleSheet, Image, Alert } from 'react-native'
 import * as Progress from 'react-native-progress';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
-import { orderBy } from "lodash";
 import { updateTask } from '../../../api';
 
+//Componente que contiene la funcionalidad del cronometro
 export default function CustomTimer(props) {
+    //Estados
     const {loadTasks, selectedTask, setSelectedTask, isPlaying, setPlay, duration, setDuration} = props;
     const [seconds, setSeconds] = useState(0);
     const [minutes, setMinutes] = useState(0);
     const [hours, setHours] = useState(0);;
-
+    //Formato de las horas, minutos y segundos del cronometro
     const timerSeconds = seconds < 10 ? `0${seconds}` : seconds;
     const timerMinutes = minutes < 10 ? `0${minutes}` : minutes;
     const timerHours = hours < 10 ? `0${hours}` : hours
-
+    //Funcionamiento del cronometro
     useEffect(() => {
         if(isPlaying){
             let interval = setInterval(() => {
@@ -36,10 +37,11 @@ export default function CustomTimer(props) {
         }
     }, [seconds, isPlaying])
 
+    //Función que activa el cronometro
     const handlePlay = () => {
         setPlay(true)
     }
-
+    //Funcion que cambia la tarea en progreso
     const handleSwitch = () => {
         setDuration(0)
         setSeconds(0)
@@ -48,7 +50,7 @@ export default function CustomTimer(props) {
         setSelectedTask()
         loadTasks()
     }
-
+    //Función que fguarda la tarea
     const handleSave = () => {
         selectedTask.finished = new Date()
         selectedTask.duration = duration
@@ -60,9 +62,8 @@ export default function CustomTimer(props) {
         setMinutes(0)
         setHours(0)
     }
-
+    //Función que finaliza la tarea
     const handleEnd = () => {
-        console.log('Fin de tarea')
         return Alert.alert(
             selectedTask.title,
             "¿Dar por finalizada la tarea?",
@@ -77,12 +78,12 @@ export default function CustomTimer(props) {
             ]
         );
     }
-
+    //Función que pausa la tarea
     const handlePause = () => {
         setPlay(false)
     }
+    //Colores cambiantes del circulo 
     const colors = ['#f94144', '#f3722c', '#f8961e', '#f9844a', '#f9c74f', '#f9c74f', '#90be6d', '#43aa8b', '#4d908e', '#577590', '#277da1' ]
-
 
     return (
         <>

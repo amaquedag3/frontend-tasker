@@ -577,3 +577,37 @@ export const deleteTransaction = async(id) => {
         body: JSON.stringify({'id': id})
     });
 }
+
+
+//---------------------RECORDATORIOS---------------------
+
+
+export const saveReminder= async(newReminder) => {
+    try {
+        const res = await fetch(API + '/notes', {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                'content': newReminder.content,
+                'idUser': newReminder.idUser
+            }),
+        });
+        return await res.json();
+    } catch (error) {
+        console.log(error)
+    }
+};
+
+export const deletereminder = async(id) => {
+    await fetch(API + '/expenotesnses', {
+        method: "DELETE",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({'id': id})
+    });
+}

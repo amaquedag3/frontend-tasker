@@ -6,14 +6,14 @@ import ButtonAdd from '../../components/ButtonAdd';
 import { getSubjectsByUserId } from '../../../api';
 import { FlatList } from 'react-native-gesture-handler';
 import SubjectCard from '../../components/Student/SubjectCard';
-
+//Pantala de Estudiante
 export default function StudentScreen() {
-
   const navigation = useNavigation();
   const { userData } = useAuth()
+  //estados
   const [subjects, setSubjects] = useState([])
   const [refreshing, setRefreshing] = useState(false);
-
+  //metodo que recarga ñas asignaturas
   const loadSubjects = async() =>{
     const data = await getSubjectsByUserId(userData.id)
     setSubjects(data)   
@@ -29,7 +29,6 @@ export default function StudentScreen() {
     loadSubjects()
   }, [])
   
-
   return (
     <ImageBackground source={require('../../../assets/moon.jpg')} style={styles.background}> 
       <View style={styles.container}>

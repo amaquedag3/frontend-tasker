@@ -2,8 +2,9 @@ import { View, Text, FlatList, StyleSheet, RefreshControl } from 'react-native'
 import React, {useState, useEffect} from 'react';
 import EndedTaskCard from './EndedTaskCard';
 
+//Lista de tareas acabadas
 export default function EndedTaskList(props) {
-    const {tasks, setTasks, loadTasks} = props;
+    const {tasks, loadTasks} = props;
     const [refreshing, setRefreshing] = useState(false);
 
     const onRefresh = React.useCallback(async() =>{

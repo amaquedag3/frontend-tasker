@@ -12,7 +12,7 @@ export default function ProjectDetailsScreen(props) {
     const {project} = props.route.params;
 
     //Estados definidos en la vista
-    const [phases, setPhases] = useState()
+    const [phases, setPhases] = useState([])
     const [ended, setEnded] = useState(false)
     const [time, setTime] = useState(0)
 
@@ -31,7 +31,7 @@ export default function ProjectDetailsScreen(props) {
 
     //Función que verifica que todas las fases estan acabadas
     function isEnded(){
-        if(phases){
+        if(phases.length > 0){
             for (var i=0; i < phases.length; i++){
                 if(phases[i].finished == null){
                     return false
@@ -47,7 +47,7 @@ export default function ProjectDetailsScreen(props) {
     //Función que obtiene las fases del proyecto de la API
     const getPhases = async() => {
         const result = await getPhasesByProjectId(project.id)
-        if(result){
+        if(result.length > 0){
             setPhases(result)
             if(isEnded()){
                 setEnded(true)
@@ -58,12 +58,14 @@ export default function ProjectDetailsScreen(props) {
 
     //Función que obtiene el tiempo total de proyecto
     const computeTime = async() => {
-        const data = await getProjectTime(project.id)
-        console.log(data)
-        if(data != undefined){
+        try{
+            const data = await getProjectTime(project.id)
             setTime(JSON.stringify(data).split('":"')[1].slice(0, -2))
+            
+        }catch(error){
+            setTime(0)
         }
-        }
+    }
 
     useEffect(async()=> {
         await getPhases()
@@ -94,19 +96,23 @@ export default function ProjectDetailsScreen(props) {
                 <Text style={styles.subTitle}>Estado: {ended ? <Text style={{fontWeight: 'normal'}}>Acabado</Text> : <Text style={{fontWeight: 'normal'}}>En proceso</Text>}</Text>
                 <Text>{project.finished}</Text>
                 <Text style={styles.subTitle}>Fases creadas: </Text>
-                <View style={styles.list}>
+                    <View style={styles.list}>
+                    {
+                        phases.length == 0 ?
+                        <View style={styles.pill}><Text style={styles.text}>No tienes fases asignadas</Text></View>
+                        : <View/>
+                    }
                     <FlatList 
-                        data={phases}
-                        renderItem={({ item }) => <PhaseCard phase={item} getPhases={getPhases} project={project}/> }
-                        keyExtractor={(item, index) => {return index.toString()}}
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={refreshing}
-                                onRefresh={onRefresh}/>
-                        }
-                    />
-                </View>
-                
+                            data={phases}
+                            renderItem={({ item }) => <PhaseCard phase={item} getPhases={getPhases} project={project}/> }
+                            keyExtractor={(item, index) => {return index.toString()}}
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={refreshing}
+                                    onRefresh={onRefresh}/>
+                            }
+                        />
+                    </View>
             </View>
             <View style={styles.button}>
                 <ButtonAdd size={50} action={() => {navigation.navigate('PhaseForm', {project: project})}}/>
@@ -151,7 +157,19 @@ const styles =  StyleSheet.create({
         borderWidth: 0.8,
         borderRadius: 20
     },
-
+    text:{
+        fontSize: 16, 
+        fontWeight: 'bold',
+        alignSelf: 'center',
+    },
+    pill:{
+        backgroundColor: 'rgba(255, 255, 255, 0.7)',
+        padding: 8,
+        marginTop: '25%',
+        alignSelf: 'center', 
+        borderRadius: 30,
+        justifyContent: 'center'
+    },
     button: {
         position: 'absolute',
         bottom: 0, 

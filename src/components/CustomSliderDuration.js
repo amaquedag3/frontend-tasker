@@ -11,7 +11,6 @@ export default function CustomSliderDuration(props) {
     
     useEffect(() => {
         setDuration(60 * hours + minutes)
-        console.log()
     }, [hours, minutes])
     
     return (

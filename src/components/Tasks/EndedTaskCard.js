@@ -3,11 +3,13 @@ import React, { useEffect, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { deleteTask, getPhaseById, getProjectById } from '../../../api';
 
+//Card de tarea acabada
 export default function EndedTaskCard(props) {
     const {task, loadTasks} = props;
     const [projectName, setProjectName] = useState();
     const [phaseName, setPhaseName] = useState()
 
+    //Función que limina una tarea acabada
     const handleDeleteTask = () => {
         return Alert.alert(
             "Eliminando tarea...",
@@ -23,7 +25,7 @@ export default function EndedTaskCard(props) {
             ]
         );
     }
-
+    //Función que obtiene el nombre del proyecto en funcion de su fase
     const setProjectNameByPhaseId =async() => {
         let phase = await getPhaseById(task.idPhase)
         let project = await getProjectById(phase[0].idProject)
@@ -34,13 +36,10 @@ export default function EndedTaskCard(props) {
     useEffect( () => {
         if(task.idPhase)
             setProjectNameByPhaseId()
-        
     }, [])
-    
     
 
     return (
-        
             <View style={styles.card}>
                 <View style={styles.spacing}>
                     <Text style={styles.title}>{task.title}</Text>

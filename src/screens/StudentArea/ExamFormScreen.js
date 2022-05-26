@@ -6,19 +6,20 @@ import Slider from '@react-native-community/slider';
 import { saveExam } from '../../../api';
 import { useNavigation } from "@react-navigation/native";
 
+//Formulario de Examen
 export default function ExamFormScreen(props) {
     const {subject} = props.route.params;
-
+    //estados del examen
     const [title, setTitle] = useState('')
     const [date, setDate] = useState(new Date())
     const [calification, setCalification] = useState(5)
-    
+    //estados del formulario
     const [error, setError] = useState('')
     const [modalVisible, setModalVisible] = useState("");
     const [modalText, setModalText] = useState("");
 
     const navigation = useNavigation();
-
+    //función que valida la entrada de datos
     function validateInput(){
         setError('')
         if(title == ''){
@@ -31,7 +32,7 @@ export default function ExamFormScreen(props) {
     const wait = (timeout) => {
         return new Promise(resolve => setTimeout(resolve, timeout));
     }
-
+    //función que se activa cuando se preciona el boton
     async function handleSubmit(){
         if(validateInput()){
             const newExam = {

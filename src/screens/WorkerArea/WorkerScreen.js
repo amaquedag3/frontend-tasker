@@ -6,10 +6,10 @@ import ButtonAdd from '../../components/ButtonAdd';
 import { getTransactionsByUserId } from '../../../api';
 import useAuth from '../../hooks/useAuth';
 import TransactionList from '../../components/Worker/TransactionList';
-import { wait } from '../../utils/wait';
 
-
+//Pantalla de transacciones
 export default function WorkerScreen() {
+  //estados
   const [transactions, setTransacctions] = useState()
   const [wastes, setWastes] = useState([])
   const [incomes, setIncomes] = useState([])
@@ -19,12 +19,12 @@ export default function WorkerScreen() {
 
   const { userData } = useAuth();
   const navigation = useNavigation()
-
+//Funcion que obteiene las transacciones del usuarios
   const getUserTransactions = async() => {
     const data = await getTransactionsByUserId(userData.id)
     setTransacctions(data)
   }
-
+  //Funcion que separa las tansaccioes en funcion de si son gastos o ingresos
   function separeTransactions(){
     if(transactions){
       let auxWastes = []
@@ -40,7 +40,7 @@ export default function WorkerScreen() {
       setIncomes(auxIncomes)
     }
   }
-
+  //función que separa los importes y los suma en función de sus tipo
   function separeAmounts(){
     if(wastes){
       let sum = 0
@@ -58,7 +58,7 @@ export default function WorkerScreen() {
     }
     calculatePercentage()
   }
-
+  //función que calcula indice para represnetar en el diagrama
   function calculatePercentage(){
     if(amountIncomes > 0 && amountWastes > 0){
       setPercentageIncomes(amountIncomes / (amountIncomes + amountWastes))
@@ -70,12 +70,12 @@ export default function WorkerScreen() {
       setPercentageIncomes(1)
     }
   }
-
+   // se activa vuando hay cambios en los gastos y los ingresos
   useEffect(() => {
     separeAmounts()
     calculatePercentage()
   }, [wastes, incomes])
-
+  // se activa vuando hay cambios en las transcciones
   useEffect(async() => {
     separeTransactions()
     separeAmounts()

@@ -4,29 +4,21 @@ import { useNavigation } from '@react-navigation/native';
 import ButtonAdd from '../../components/ButtonAdd';
 import { getExamsBySubjectId } from '../../../api';
 import ExamCard from '../../components/Student/ExamCard';
-
+//Pantalla de detalles de Asignatura
 export default function SubjectDetailsScreen(props) {
     const {subject} = props.route.params
-
+    //estados de las asignaturas
     const [exams, setExams] = useState([])
     const [average, setAverage] = useState([])
+
     const [refreshing, setRefreshing] = useState(false);
-
     const navigation = useNavigation();
-
-    
+    //Funcion que obtiene los examenes del usuario
     const getExams = async() => {
         const result = await getExamsBySubjectId(subject.id)
         setExams(result)
     }
-
-    const onRefresh = React.useCallback(async() =>{
-        setRefreshing(true)
-        await getExams();
-        calculateAverage()
-        setRefreshing(false);
-    })
-
+    //función que calcula la media de las asignaturas
     function calculateAverage(){
         if(exams.length == 0){
             setAverage(0)
@@ -39,6 +31,13 @@ export default function SubjectDetailsScreen(props) {
             setAverage(sum / exams.length)
         }
     }
+
+    const onRefresh = React.useCallback(async() =>{
+        setRefreshing(true)
+        await getExams();
+        calculateAverage()
+        setRefreshing(false);
+    })
 
     useEffect(()=>{
         calculateAverage()

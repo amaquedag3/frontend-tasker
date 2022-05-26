@@ -6,23 +6,24 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import CustomModal from '../../components/CustomModal';
 
 export default function RegisterScreen() {
-    const [error, setError] = useState("");
+    //Estados del usuario
     const [firstname, setFirstname] = useState("");
     const [lastname, setLasttname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("")
-
+   //Estados del formulario
+    const [error, setError] = useState("");
     const [modalVisible, setModalVisible] = useState("");
     const [modalText, setModalText] = useState("");
-
+    //Variable que permite la navegación entre pantallas
     const navigation = useNavigation();
 
-    
     const goToLogin = () => {
         navigation.navigate("Login");
     }
 
+    //Validación de entrada de campos
     function validateInput(){
         setError('')
         if(firstname == '' || lastname == '' || email == '' || password == '' || password2 == ''){
@@ -36,6 +37,7 @@ export default function RegisterScreen() {
         return true
     }
 
+     //Metodo que maneja la respuesta de la API
     const registerResponse = async () => {
         const newUser = {firstname, lastname, email, password}
         const res = await APIregister(newUser)
@@ -48,6 +50,7 @@ export default function RegisterScreen() {
         }
     }
 
+    //Metodo que limpia los inputs
     function cleanInputs(){
         setFirstname('')
         setLasttname('')
@@ -56,6 +59,7 @@ export default function RegisterScreen() {
         setPassword2('')
     }
 
+    //Metodo que se activa al presionar el botón
     function handleSubmit(){
         if(validateInput()){
             registerResponse();

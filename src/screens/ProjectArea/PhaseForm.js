@@ -4,30 +4,29 @@ import DatePicker from '../../components/DatePicker';
 import { savePhase, updatePhase } from '../../../api';
 import CustomModal from '../../components/CustomModal';
 import { useNavigation } from "@react-navigation/native";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { wait } from '../../utils/wait';
 
 //Pantalla de Formulario de fase
 export default function PhaseForm(props) {
-    //Datos obtenidos por props de
+    //Datos obtenidos por props 
     let phase;
     let project;
     if(props.route.params != undefined){
-        console.log(props.route.params)
         phase = props.route.params.phase
         project = props.route.params.project
     }
-
-    const [error, setError] = useState('')
+   //estados de la fase del proyecto
     const [title, setTitle] = useState('')
-
     const [description, setDescription] = useState()
-    const [date, setDate] = useState(undefined)
+    const [date, setDate] = useState(Date())
+    const [finished, setFinished] = useState()
+    //estados del formulaio
     const [modalVisible, setModalVisible] = useState("");
     const [modalText, setModalText] = useState("");
-
+    const [error, setError] = useState('')
     const navigation = useNavigation();
-
-
+    //Funcion que guarda o edita la tarea
     const handleSubmit = async() => {
         if(validateInput()){
             setError('')
@@ -53,13 +52,13 @@ export default function PhaseForm(props) {
             navigation.goBack()
         }
     }
-    
+    //funcion que limpia los inputs
     function cleanInputs() {
         setTitle('')
         setDescription('')
         setDate('')
     }
-
+    //funcion que valida la entrada de taos
     function validateInput() {
         setError('')
         if(title == ''){
@@ -71,15 +70,21 @@ export default function PhaseForm(props) {
             return false;
         }
         
-        if(new Date(date) > project.started || date < new Date(0)){
+      
+        let today = new Date()
+        today.setHours(0, 0, 0, 0)
+        if(new Date(date) < today){
             setError('Selecciona una fecha valida')
             return false
         }
         return true
     }
 
+    const handleChangeFinished = () => {
+        
+    }
 
-    useEffect(()=> {
+    useEffect(async()=> {
         if(phase){
             setTitle(phase.title)
             setDescription(phase.description)
@@ -121,12 +126,28 @@ export default function PhaseForm(props) {
                             style={styles.inputDate}
                             autoCapitalize="none"
                             editable={false}>   
-                            {date}                             
+                            {date.split('T')[0]}                             
                         </TextInput>
                         <DatePicker setDate={setDate}/>
                     </View>
                     {
                         error ? <Text style={styles.error}>{error}</Text> : <View/>
+                    }
+                    {
+                        phase ?
+                        <View style={{alignSelf: 'center', paddingVertical: 10}}>
+                            <BouncyCheckbox
+                                size={25}
+                                fillColor="red"
+                                unfillColor="#FFFFFF"
+                                text="Proyecto acabado"
+                                isChecked={project.finished}
+                                onPress={handleChangeFinished}
+                                textStyle={{textDecorationLine: "none"}}
+                                />
+                        </View>
+                        :<View/>
+                        
                     }
                     
                     <View style={styles.btn}>

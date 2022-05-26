@@ -7,23 +7,23 @@ import useAuth from '../../hooks/useAuth';
 import CustomModal from '../../components/CustomModal';
 import { useNavigation } from '@react-navigation/native';
 
-
-export default function SubjectFormScreen(props) {
+//Formulario de Asignatura
+export default function SubjectFormScreen() {
+  //Estado de la asignatura
   const [name, setName] = useState()
-  const [schedule, setSchedule] = useState([])
   const [duration, setDuration] = useState()
   const { userData } = useAuth();
   const idUser = userData.id;
-
+  //estadi del formulario
   const [error, setError] = useState()
-  const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState("");
   const [modalText, setModalText] = useState("");
+  const navigation = useNavigation();
 
   const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   }
-
+  //Funcino que se activa cuando se presina el boton
   const handleSubmit = () => {
     if(validateInput()){
       createSubject()
@@ -32,7 +32,7 @@ export default function SubjectFormScreen(props) {
       wait(1500).then(() => navigation.navigate('StudentHome'));
     }
   }
-
+  //Funcion que guarda una asignatura
   const createSubject = async () => {
     const newSubject ={   
         'name': name, 
@@ -40,10 +40,10 @@ export default function SubjectFormScreen(props) {
         'duration': duration, 
         'idUser': idUser
     }
-    
     await saveSubject(newSubject)
   }
 
+  //Función que valida los campos 
   function validateInput(){
     if(name == ''){
       setError('Introduce un nombre de asignatura')
@@ -56,17 +56,6 @@ export default function SubjectFormScreen(props) {
     }
     return true
   }
-
-  useEffect(() => {
-    /*
-    for (let x=0; x < 7; x++){
-      let aux = schedule;
-      aux = aux.push({id: x,time: '', duration: ''})
-      setSchedule(aux)
-    }
-    */
-  }, [])
-  
 
   return (
     <>
