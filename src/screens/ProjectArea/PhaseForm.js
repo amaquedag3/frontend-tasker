@@ -70,7 +70,7 @@ export default function PhaseForm(props) {
             return false;
         }
         
-      
+
         let today = new Date()
         today.setHours(0, 0, 0, 0)
         if(new Date(date) < today){
@@ -80,15 +80,17 @@ export default function PhaseForm(props) {
         return true
     }
 
-    const handleChangeFinished = () => {
-        
-    }
+
 
     useEffect(async()=> {
         if(phase){
             setTitle(phase.title)
             setDescription(phase.description)
-            setDate(phase.started.split('T')[0])
+            if(phase.started){
+                setDate(phase.started.split('T')[0])
+            }else{
+                setDate(new Date)
+            }
         }
     }, [])
 
@@ -126,28 +128,12 @@ export default function PhaseForm(props) {
                             style={styles.inputDate}
                             autoCapitalize="none"
                             editable={false}>   
-                            {date.split('T')[0]}                             
+                            {date.toString().split('GMT')[0]}                             
                         </TextInput>
                         <DatePicker setDate={setDate}/>
                     </View>
                     {
                         error ? <Text style={styles.error}>{error}</Text> : <View/>
-                    }
-                    {
-                        phase ?
-                        <View style={{alignSelf: 'center', paddingVertical: 10}}>
-                            <BouncyCheckbox
-                                size={25}
-                                fillColor="red"
-                                unfillColor="#FFFFFF"
-                                text="Proyecto acabado"
-                                isChecked={project.finished}
-                                onPress={handleChangeFinished}
-                                textStyle={{textDecorationLine: "none"}}
-                                />
-                        </View>
-                        :<View/>
-                        
                     }
                     
                     <View style={styles.btn}>

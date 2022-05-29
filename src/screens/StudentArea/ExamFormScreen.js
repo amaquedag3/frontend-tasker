@@ -26,6 +26,14 @@ export default function ExamFormScreen(props) {
             setError('Introduce un titulo')
             return false
         }
+        if(date == undefined){
+            setError('Introduce una fecha válida')
+            return false
+        }
+        if(calification < 0 || calification > 10){
+            setError('Introduce una calificación valida')
+            return false
+        }
         return true
     }
 
@@ -54,10 +62,10 @@ export default function ExamFormScreen(props) {
             {
                 modalVisible ?
                 <CustomModal 
-                modalVisible={modalVisible} 
-                setModalVisible={setModalVisible} 
-                modalText={modalText}
-                setModalText={setModalText}/> 
+                    modalVisible={modalVisible} 
+                    setModalVisible={setModalVisible} 
+                    modalText={modalText}
+                    setModalText={setModalText}/> 
                 :<View/>
             }
             <View style={styles.container}>
@@ -69,22 +77,26 @@ export default function ExamFormScreen(props) {
                         placeholder='Titulo'
                         value={title}
                         onChangeText={(text) => setTitle(text)}/>
-                    <CustomDateTimePicker inputDate={date}/>
+
+                    <CustomDateTimePicker inputDate={date} setInputDate={setDate}/>
+                    
                     <View>
                         
-                    <View style={styles.calification}>
-                        <Text>{(Math.round(calification * 100) / 100).toFixed(2)}</Text>
+                    <View style={styles.caificationBox}>
+                        <Text style={{fontWeight: 'bold'}}>Calificación:  
+                            <Text style={{fontWeight: 'normal'}}>{calification.toFixed(2)}</Text>
+                        </Text>
                     </View>
                     
                     <Slider
-                        style={{width: '90%', height: 30, alignSelf: 'center'}}
                         minimumValue={0}
                         maximumValue={10}
-                        minimumTrackTintColor="black"
-                        maximumTrackTintColor="#000000"
                         step={0.1}
                         value={calification}
                         onValueChange={(value)=>{setCalification(value)}}
+                        style={{width: '90%', height: 30, alignSelf: 'center'}}
+                        minimumTrackTintColor="black"
+                        maximumTrackTintColor="gray"
                     />
                     </View>
 
@@ -96,7 +108,7 @@ export default function ExamFormScreen(props) {
                 
                 <View style={styles.btn}>
                     <TouchableWithoutFeedback onPress={handleSubmit}>
-                    <Text style={styles.buttonText}> Guardar </Text>
+                        <Text style={styles.buttonText}> Guardar </Text>
                     </TouchableWithoutFeedback>
                 </View>
 
@@ -138,9 +150,10 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: 'black',
         paddingVertical: 10,
+        textAlign: 'center'
     },
-    caification: {
-        alignContent: 'center'
+    caificationBox: {
+        alignItems: 'center'
     },
     error: {
         textAlign: "center",

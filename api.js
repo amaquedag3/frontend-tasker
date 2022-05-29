@@ -1,4 +1,3 @@
-import { stringify } from "json5"
 
 const API = 'http://192.168.1.39:3000'
 
@@ -503,7 +502,6 @@ export const deleteExam = async(id) => {
 
 
 export const saveExam= async(newExam) => {
-    console.log(newExam)
     try {
         const res = await fetch(API + '/exams', {
             method: "POST",

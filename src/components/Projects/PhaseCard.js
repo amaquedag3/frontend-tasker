@@ -75,7 +75,7 @@ export default function PhaseCard(props) {
                     modalText={modalText}
                     setModalText={setModalText}/>
             <View style={styles.container}>
-                <Text style={styles.title}>{phase.title}  <Text style={styles.date}>{phase.started.split('T')[0]}</Text></Text>
+                <Text style={styles.title}>{phase.title} </Text>
                 <Text>{phase.description}</Text>
                 <Text style={styles.subtitle}>Tiempo dedicado: <Text style={{fontWeight:'normal'}}>{time} minutos</Text></Text>
                 <View style={styles.iconBox}>

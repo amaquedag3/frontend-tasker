@@ -1,10 +1,11 @@
 import { View, Text, StyleSheet, ImageBackground, RefreshControl } from 'react-native';
+
+import { FlatList } from 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import useAuth from '../../hooks/useAuth';
 import ButtonAdd from '../../components/ButtonAdd';
 import { getSubjectsByUserId } from '../../../api';
-import { FlatList } from 'react-native-gesture-handler';
 import SubjectCard from '../../components/Student/SubjectCard';
 //Pantala de Estudiante
 export default function StudentScreen() {
@@ -25,7 +26,7 @@ export default function StudentScreen() {
     setRefreshing(false);
   })
 
-  useEffect(async() => {
+  useEffect(() => {
     loadSubjects()
   }, [])
   
